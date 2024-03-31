@@ -1,0 +1,900 @@
+{
+  "dependencies": {
+    "com.alephvault.unity.backpack": {
+      "version": "file:../../unity-backpack",
+      "depth": 0,
+      "source": "local",
+      "dependencies": {
+        "com.alephvault.unity.support": "0.0.1",
+        "com.alephvault.unity.layout": "0.0.1",
+        "com.alephvault.unity.menuactions": "0.0.2"
+      }
+    },
+    "com.alephvault.unity.binary": {
+      "version": "file:../../unity-binary",
+      "depth": 0,
+      "source": "local",
+      "dependencies": {
+        "com.alephvault.unity.support": "0.0.1"
+      }
+    },
+    "com.alephvault.unity.boilerplates": {
+      "version": "file:../../unity-boilerplates",
+      "depth": 0,
+      "source": "local",
+      "dependencies": {}
+    },
+    "com.alephvault.unity.deeplinks": {
+      "version": "file:../../unity-deeplinks",
+      "depth": 0,
+      "source": "local",
+      "dependencies": {}
+    },
+    "com.alephvault.unity.evmgames.auth": {
+      "version": "file:../../unity-evmgames-auth",
+      "depth": 0,
+      "source": "local",
+      "dependencies": {
+        "com.alephvault.unity.meetgard.auth": "0.0.3",
+        "com.nethereum.unity": "4.19.2"
+      }
+    },
+    "com.alephvault.unity.evmgames.contracts": {
+      "version": "file:../../unity-evmgames-contracts",
+      "depth": 0,
+      "source": "local",
+      "dependencies": {
+        "com.alephvault.unity.menuactions": "0.0.2",
+        "com.alephvault.unity.boilerplates": "0.0.2",
+        "com.nethereum.unity": "4.19.2",
+        "com.unity.nuget.newtonsoft-json": "2.0.0"
+      }
+    },
+    "com.alephvault.unity.evmgames.contracts.bridge": {
+      "version": "file:../../unity-evmgames-bridge-contract",
+      "depth": 0,
+      "source": "local",
+      "dependencies": {
+        "com.alephvault.unity.evmgames.contracts": "0.0.2"
+      }
+    },
+    "com.alephvault.unity.evmgames.deeplinks": {
+      "version": "file:../../unity-evmgames-deeplinks",
+      "depth": 0,
+      "source": "local",
+      "dependencies": {
+        "com.alephvault.unity.deeplinks": "0.0.1",
+        "com.nethereum.unity": "4.19.2"
+      }
+    },
+    "com.alephvault.unity.evmgames.livecache": {
+      "version": "file:../../unity-evmgames-livecache",
+      "depth": 0,
+      "source": "local",
+      "dependencies": {
+        "com.alephvault.unity.remotestorage": "0.0.2",
+        "com.nethereum.unity": "4.19.2"
+      }
+    },
+    "com.alephvault.unity.evmgames.localstorage": {
+      "version": "file:../../unity-evmgames-localstorage",
+      "depth": 0,
+      "source": "local",
+      "dependencies": {
+        "com.nethereum.unity": "4.19.2"
+      }
+    },
+    "com.alephvault.unity.evmgames.wallets": {
+      "version": "file:../../unity-evmgames-wallets",
+      "depth": 0,
+      "source": "local",
+      "dependencies": {
+        "com.alephvault.unity.support": "0.0.2",
+        "com.unity.nuget.newtonsoft-json": "2.0.0",
+        "com.nethereum.unity": "4.19.2"
+      }
+    },
+    "com.alephvault.unity.gabtab": {
+      "version": "file:../../unity-gabtab",
+      "depth": 0,
+      "source": "local",
+      "dependencies": {
+        "com.alephvault.unity.support": "0.0.1",
+        "com.alephvault.unity.support.generic": "0.0.1",
+        "com.alephvault.unity.layout": "0.0.1",
+        "com.alephvault.unity.menuactions": "0.0.2"
+      }
+    },
+    "com.alephvault.unity.ipfs": {
+      "version": "file:../../unity-ipfs",
+      "depth": 0,
+      "source": "local",
+      "dependencies": {
+        "com.alephvault.unity.support": "0.0.1"
+      }
+    },
+    "com.alephvault.unity.layout": {
+      "version": "file:../../unity-layout",
+      "depth": 0,
+      "source": "local",
+      "dependencies": {
+        "com.alephvault.unity.support": "0.0.1"
+      }
+    },
+    "com.alephvault.unity.meetgard": {
+      "version": "file:../../unity-meetgard",
+      "depth": 0,
+      "source": "local",
+      "dependencies": {
+        "com.alephvault.unity.support": "0.0.3",
+        "com.alephvault.unity.layout": "0.0.1",
+        "com.alephvault.unity.menuactions": "0.0.2",
+        "com.alephvault.unity.boilerplates": "0.0.1",
+        "com.alephvault.unity.binary": "0.0.1"
+      }
+    },
+    "com.alephvault.unity.meetgard.auth": {
+      "version": "file:../../unity-meetgard-auth",
+      "depth": 0,
+      "source": "local",
+      "dependencies": {
+        "com.alephvault.unity.meetgard": "0.0.6",
+        "com.alephvault.unity.support.generic": "0.0.1"
+      }
+    },
+    "com.alephvault.unity.meetgard.scopes": {
+      "version": "file:../../unity-meetgard-scopes",
+      "depth": 0,
+      "source": "local",
+      "dependencies": {
+        "com.alephvault.unity.meetgard": "0.0.3",
+        "com.alephvault.unity.support.generic": "0.0.1"
+      }
+    },
+    "com.alephvault.unity.menuactions": {
+      "version": "file:../../unity-menu-actions",
+      "depth": 0,
+      "source": "local",
+      "dependencies": {
+        "com.alephvault.unity.layout": "0.0.1"
+      }
+    },
+    "com.alephvault.unity.netrose": {
+      "version": "file:../../unity-netrose",
+      "depth": 0,
+      "source": "local",
+      "dependencies": {
+        "com.alephvault.unity.windrose": "0.0.8",
+        "com.alephvault.unity.meetgard.scopes": "0.0.3",
+        "com.alephvault.unity.meetgard": "0.0.6"
+      }
+    },
+    "com.alephvault.unity.netrose.refmapchars": {
+      "version": "file:../../unity-netrose-refmapchars",
+      "depth": 0,
+      "source": "local",
+      "dependencies": {
+        "com.alephvault.unity.netrose": "0.0.6",
+        "com.alephvault.unity.windrose.refmapchars": "0.0.4",
+        "com.alephvault.unity.binary": "0.0.2"
+      }
+    },
+    "com.alephvault.unity.netrose.storage": {
+      "version": "file:../../unity-netrose-storage",
+      "depth": 0,
+      "source": "local",
+      "dependencies": {
+        "com.alephvault.unity.netrose": "0.0.3",
+        "com.alephvault.unity.remotestorage": "0.0.2"
+      }
+    },
+    "com.alephvault.unity.remotestorage": {
+      "version": "file:../../unity-remotestorage",
+      "depth": 0,
+      "source": "local",
+      "dependencies": {
+        "com.alephvault.unity.support": "0.0.2",
+        "com.alephvault.unity.support.generic": "0.0.1",
+        "com.unity.nuget.newtonsoft-json": "2.0.0"
+      }
+    },
+    "com.alephvault.unity.soundaround": {
+      "version": "file:../../unity-soundaround",
+      "depth": 0,
+      "source": "local",
+      "dependencies": {}
+    },
+    "com.alephvault.unity.spriteutils": {
+      "version": "file:../../unity-spriteutils",
+      "depth": 0,
+      "source": "local",
+      "dependencies": {
+        "com.alephvault.unity.support": "0.0.2"
+      }
+    },
+    "com.alephvault.unity.support": {
+      "version": "file:../../unity-support",
+      "depth": 0,
+      "source": "local",
+      "dependencies": {}
+    },
+    "com.alephvault.unity.support.generic": {
+      "version": "file:../../unity-support-generic",
+      "depth": 0,
+      "source": "local",
+      "dependencies": {
+        "com.alephvault.unity.support": "0.0.1"
+      }
+    },
+    "com.alephvault.unity.textureutils": {
+      "version": "file:../../unity-textureutils",
+      "depth": 0,
+      "source": "local",
+      "dependencies": {
+        "com.alephvault.unity.support.generic": "0.0.1"
+      }
+    },
+    "com.alephvault.unity.windrose": {
+      "version": "file:../../unity-windrose",
+      "depth": 0,
+      "source": "local",
+      "dependencies": {
+        "com.alephvault.unity.support": "0.0.2",
+        "com.alephvault.unity.layout": "0.0.1",
+        "com.alephvault.unity.menuactions": "0.0.2",
+        "com.alephvault.unity.boilerplates": "0.0.1"
+      }
+    },
+    "com.alephvault.unity.windrose-backpack": {
+      "version": "file:../../unity-windrose-backpack-plugin",
+      "depth": 0,
+      "source": "local",
+      "dependencies": {
+        "com.alephvault.unity.support": "0.0.1",
+        "com.alephvault.unity.support.generic": "0.0.1",
+        "com.alephvault.unity.layout": "0.0.1",
+        "com.alephvault.unity.windrose": "0.0.8",
+        "com.alephvault.unity.backpack": "0.0.2"
+      }
+    },
+    "com.alephvault.unity.windrose-gabtab": {
+      "version": "file:../../unity-windrose-gabtab-plugin",
+      "depth": 0,
+      "source": "local",
+      "dependencies": {
+        "com.alephvault.unity.support": "0.0.1",
+        "com.alephvault.unity.layout": "0.0.1",
+        "com.alephvault.unity.windrose": "0.0.8",
+        "com.alephvault.unity.gabtab": "0.0.2"
+      }
+    },
+    "com.alephvault.unity.windrose.biomes": {
+      "version": "file:../../unity-windrose-biomes",
+      "depth": 0,
+      "source": "local",
+      "dependencies": {
+        "com.alephvault.unity.windrose": "0.0.6"
+      }
+    },
+    "com.alephvault.unity.windrose.cubeworlds": {
+      "version": "file:../../unity-windrose-cubeworlds",
+      "depth": 0,
+      "source": "local",
+      "dependencies": {
+        "com.alephvault.unity.windrose": "0.0.3",
+        "com.alephvault.unity.windrose.neighbourteleports": "0.0.2"
+      }
+    },
+    "com.alephvault.unity.windrose.lpcbiomes": {
+      "version": "file:../../unity-windrose-lpcbiomes",
+      "depth": 0,
+      "source": "local",
+      "dependencies": {
+        "com.alephvault.unity.windrose": "0.0.3"
+      }
+    },
+    "com.alephvault.unity.windrose.neighbourteleports": {
+      "version": "file:../../unity-windrose-neighbourteleports",
+      "depth": 0,
+      "source": "local",
+      "dependencies": {
+        "com.alephvault.unity.windrose": "0.0.6"
+      }
+    },
+    "com.alephvault.unity.windrose.refmapchars": {
+      "version": "file:../../unity-windrose-refmapchars",
+      "depth": 0,
+      "source": "local",
+      "dependencies": {
+        "com.alephvault.unity.windrose.spriteutils": "0.0.4",
+        "com.alephvault.unity.textureutils": "0.0.1"
+      }
+    },
+    "com.alephvault.unity.windrose.spriteutils": {
+      "version": "file:../../unity-windrose-spriteutils",
+      "depth": 0,
+      "source": "local",
+      "dependencies": {
+        "com.alephvault.unity.support": "0.0.2",
+        "com.alephvault.unity.layout": "0.0.1",
+        "com.alephvault.unity.spriteutils": "0.0.4",
+        "com.alephvault.unity.windrose": "0.0.4"
+      }
+    },
+    "com.nethereum.unity": {
+      "version": "file:../../Nethereum.Unity",
+      "depth": 0,
+      "source": "local",
+      "dependencies": {}
+    },
+    "com.nethereum.unity.walletconnect": {
+      "version": "file:../../Nethereum.Unity.WalletConnect",
+      "depth": 0,
+      "source": "local",
+      "dependencies": {
+        "com.nethereum.unity": "4.19.2",
+        "com.walletconnect.core": "3.0.6"
+      }
+    },
+    "com.unity.2d.animation": {
+      "version": "10.0.2",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.2d.common": "9.0.1",
+        "com.unity.2d.sprite": "1.0.0",
+        "com.unity.collections": "1.2.4",
+        "com.unity.modules.animation": "1.0.0",
+        "com.unity.modules.uielements": "1.0.0"
+      },
+      "url": "https://packages.unity.com"
+    },
+    "com.unity.2d.common": {
+      "version": "9.0.1",
+      "depth": 1,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.2d.sprite": "1.0.0",
+        "com.unity.mathematics": "1.1.0",
+        "com.unity.modules.uielements": "1.0.0",
+        "com.unity.modules.animation": "1.0.0",
+        "com.unity.burst": "1.8.3"
+      },
+      "url": "https://packages.unity.com"
+    },
+    "com.unity.2d.pixel-perfect": {
+      "version": "5.0.3",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {},
+      "url": "https://packages.unity.com"
+    },
+    "com.unity.2d.psdimporter": {
+      "version": "9.0.0",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.2d.common": "9.0.0",
+        "com.unity.2d.sprite": "1.0.0"
+      },
+      "url": "https://packages.unity.com"
+    },
+    "com.unity.2d.sprite": {
+      "version": "1.0.0",
+      "depth": 0,
+      "source": "builtin",
+      "dependencies": {}
+    },
+    "com.unity.2d.spriteshape": {
+      "version": "10.0.1",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.mathematics": "1.1.0",
+        "com.unity.2d.common": "9.0.1",
+        "com.unity.modules.physics2d": "1.0.0"
+      },
+      "url": "https://packages.unity.com"
+    },
+    "com.unity.2d.tilemap": {
+      "version": "1.0.0",
+      "depth": 0,
+      "source": "builtin",
+      "dependencies": {
+        "com.unity.modules.tilemap": "1.0.0",
+        "com.unity.modules.uielements": "1.0.0"
+      }
+    },
+    "com.unity.2d.tilemap.extras": {
+      "version": "4.0.1",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.modules.tilemap": "1.0.0",
+        "com.unity.2d.tilemap": "1.0.0",
+        "com.unity.ugui": "1.0.0",
+        "com.unity.modules.jsonserialize": "1.0.0"
+      },
+      "url": "https://packages.unity.com"
+    },
+    "com.unity.ads": {
+      "version": "4.4.2",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.ugui": "1.0.0"
+      },
+      "url": "https://packages.unity.com"
+    },
+    "com.unity.ai.navigation": {
+      "version": "1.1.4",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.modules.ai": "1.0.0"
+      },
+      "url": "https://packages.unity.com"
+    },
+    "com.unity.analytics": {
+      "version": "3.8.1",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.services.analytics": "1.0.4",
+        "com.unity.ugui": "1.0.0"
+      },
+      "url": "https://packages.unity.com"
+    },
+    "com.unity.burst": {
+      "version": "1.8.8",
+      "depth": 2,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.mathematics": "1.2.1"
+      },
+      "url": "https://packages.unity.com"
+    },
+    "com.unity.collab-proxy": {
+      "version": "2.0.7",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {},
+      "url": "https://packages.unity.com"
+    },
+    "com.unity.collections": {
+      "version": "1.2.4",
+      "depth": 1,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.burst": "1.6.6",
+        "com.unity.test-framework": "1.1.31"
+      },
+      "url": "https://packages.unity.com"
+    },
+    "com.unity.ext.nunit": {
+      "version": "2.0.3",
+      "depth": 1,
+      "source": "registry",
+      "dependencies": {},
+      "url": "https://packages.unity.com"
+    },
+    "com.unity.ide.rider": {
+      "version": "3.0.24",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.ext.nunit": "1.0.6"
+      },
+      "url": "https://packages.unity.com"
+    },
+    "com.unity.ide.visualstudio": {
+      "version": "2.0.18",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.test-framework": "1.1.9"
+      },
+      "url": "https://packages.unity.com"
+    },
+    "com.unity.mathematics": {
+      "version": "1.2.6",
+      "depth": 1,
+      "source": "registry",
+      "dependencies": {},
+      "url": "https://packages.unity.com"
+    },
+    "com.unity.nuget.newtonsoft-json": {
+      "version": "3.2.1",
+      "depth": 1,
+      "source": "registry",
+      "dependencies": {},
+      "url": "https://packages.unity.com"
+    },
+    "com.unity.purchasing": {
+      "version": "4.9.3",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.ugui": "1.0.0",
+        "com.unity.modules.unityanalytics": "1.0.0",
+        "com.unity.modules.unitywebrequest": "1.0.0",
+        "com.unity.modules.jsonserialize": "1.0.0",
+        "com.unity.modules.androidjni": "1.0.0",
+        "com.unity.services.core": "1.8.1"
+      },
+      "url": "https://packages.unity.com"
+    },
+    "com.unity.services.analytics": {
+      "version": "5.0.0",
+      "depth": 1,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.ugui": "1.0.0",
+        "com.unity.modules.jsonserialize": "1.0.0",
+        "com.unity.services.core": "1.10.1"
+      },
+      "url": "https://packages.unity.com"
+    },
+    "com.unity.services.core": {
+      "version": "1.11.0",
+      "depth": 1,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.modules.unitywebrequest": "1.0.0",
+        "com.unity.nuget.newtonsoft-json": "3.2.1",
+        "com.unity.modules.androidjni": "1.0.0"
+      },
+      "url": "https://packages.unity.com"
+    },
+    "com.unity.sysroot": {
+      "version": "2.0.5",
+      "depth": 1,
+      "source": "registry",
+      "dependencies": {},
+      "url": "https://packages.unity.com"
+    },
+    "com.unity.sysroot.linux-x86_64": {
+      "version": "2.0.4",
+      "depth": 1,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.sysroot": "2.0.5"
+      },
+      "url": "https://packages.unity.com"
+    },
+    "com.unity.test-framework": {
+      "version": "1.3.7",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.ext.nunit": "2.0.3",
+        "com.unity.modules.imgui": "1.0.0",
+        "com.unity.modules.jsonserialize": "1.0.0"
+      },
+      "url": "https://packages.unity.com"
+    },
+    "com.unity.textmeshpro": {
+      "version": "3.0.6",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.ugui": "1.0.0"
+      },
+      "url": "https://packages.unity.com"
+    },
+    "com.unity.timeline": {
+      "version": "1.8.2",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.modules.director": "1.0.0",
+        "com.unity.modules.animation": "1.0.0",
+        "com.unity.modules.audio": "1.0.0",
+        "com.unity.modules.particlesystem": "1.0.0"
+      },
+      "url": "https://packages.unity.com"
+    },
+    "com.unity.toolchain.linux-x86_64": {
+      "version": "2.0.4",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.sysroot": "2.0.5",
+        "com.unity.sysroot.linux-x86_64": "2.0.4"
+      },
+      "url": "https://packages.unity.com"
+    },
+    "com.unity.ugui": {
+      "version": "1.0.0",
+      "depth": 0,
+      "source": "builtin",
+      "dependencies": {
+        "com.unity.modules.ui": "1.0.0",
+        "com.unity.modules.imgui": "1.0.0"
+      }
+    },
+    "com.unity.xr.legacyinputhelpers": {
+      "version": "2.1.10",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.modules.vr": "1.0.0",
+        "com.unity.modules.xr": "1.0.0"
+      },
+      "url": "https://packages.unity.com"
+    },
+    "com.walletconnect.core": {
+      "version": "3.0.6",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.nuget.newtonsoft-json": "3.0.0"
+      },
+      "url": "https://package.openupm.com"
+    },
+    "com.walletconnect.modal": {
+      "version": "1.0.6",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.walletconnect.core": "3.0.6",
+        "com.walletconnect.ui": "1.0.6"
+      },
+      "url": "https://package.openupm.com"
+    },
+    "com.walletconnect.ui": {
+      "version": "1.0.6",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.walletconnect.core": "3.0.6",
+        "com.unity.textmeshpro": "3.0.0",
+        "com.unity.ugui": "1.0.0"
+      },
+      "url": "https://package.openupm.com"
+    },
+    "com.unity.modules.ai": {
+      "version": "1.0.0",
+      "depth": 0,
+      "source": "builtin",
+      "dependencies": {}
+    },
+    "com.unity.modules.androidjni": {
+      "version": "1.0.0",
+      "depth": 0,
+      "source": "builtin",
+      "dependencies": {}
+    },
+    "com.unity.modules.animation": {
+      "version": "1.0.0",
+      "depth": 0,
+      "source": "builtin",
+      "dependencies": {}
+    },
+    "com.unity.modules.assetbundle": {
+      "version": "1.0.0",
+      "depth": 0,
+      "source": "builtin",
+      "dependencies": {}
+    },
+    "com.unity.modules.audio": {
+      "version": "1.0.0",
+      "depth": 0,
+      "source": "builtin",
+      "dependencies": {}
+    },
+    "com.unity.modules.cloth": {
+      "version": "1.0.0",
+      "depth": 0,
+      "source": "builtin",
+      "dependencies": {
+        "com.unity.modules.physics": "1.0.0"
+      }
+    },
+    "com.unity.modules.director": {
+      "version": "1.0.0",
+      "depth": 0,
+      "source": "builtin",
+      "dependencies": {
+        "com.unity.modules.audio": "1.0.0",
+        "com.unity.modules.animation": "1.0.0"
+      }
+    },
+    "com.unity.modules.imageconversion": {
+      "version": "1.0.0",
+      "depth": 0,
+      "source": "builtin",
+      "dependencies": {}
+    },
+    "com.unity.modules.imgui": {
+      "version": "1.0.0",
+      "depth": 0,
+      "source": "builtin",
+      "dependencies": {}
+    },
+    "com.unity.modules.jsonserialize": {
+      "version": "1.0.0",
+      "depth": 0,
+      "source": "builtin",
+      "dependencies": {}
+    },
+    "com.unity.modules.particlesystem": {
+      "version": "1.0.0",
+      "depth": 0,
+      "source": "builtin",
+      "dependencies": {}
+    },
+    "com.unity.modules.physics": {
+      "version": "1.0.0",
+      "depth": 0,
+      "source": "builtin",
+      "dependencies": {}
+    },
+    "com.unity.modules.physics2d": {
+      "version": "1.0.0",
+      "depth": 0,
+      "source": "builtin",
+      "dependencies": {}
+    },
+    "com.unity.modules.screencapture": {
+      "version": "1.0.0",
+      "depth": 0,
+      "source": "builtin",
+      "dependencies": {
+        "com.unity.modules.imageconversion": "1.0.0"
+      }
+    },
+    "com.unity.modules.subsystems": {
+      "version": "1.0.0",
+      "depth": 1,
+      "source": "builtin",
+      "dependencies": {
+        "com.unity.modules.jsonserialize": "1.0.0"
+      }
+    },
+    "com.unity.modules.terrain": {
+      "version": "1.0.0",
+      "depth": 0,
+      "source": "builtin",
+      "dependencies": {}
+    },
+    "com.unity.modules.terrainphysics": {
+      "version": "1.0.0",
+      "depth": 0,
+      "source": "builtin",
+      "dependencies": {
+        "com.unity.modules.physics": "1.0.0",
+        "com.unity.modules.terrain": "1.0.0"
+      }
+    },
+    "com.unity.modules.tilemap": {
+      "version": "1.0.0",
+      "depth": 0,
+      "source": "builtin",
+      "dependencies": {
+        "com.unity.modules.physics2d": "1.0.0"
+      }
+    },
+    "com.unity.modules.ui": {
+      "version": "1.0.0",
+      "depth": 0,
+      "source": "builtin",
+      "dependencies": {}
+    },
+    "com.unity.modules.uielements": {
+      "version": "1.0.0",
+      "depth": 0,
+      "source": "builtin",
+      "dependencies": {
+        "com.unity.modules.ui": "1.0.0",
+        "com.unity.modules.imgui": "1.0.0",
+        "com.unity.modules.jsonserialize": "1.0.0"
+      }
+    },
+    "com.unity.modules.umbra": {
+      "version": "1.0.0",
+      "depth": 0,
+      "source": "builtin",
+      "dependencies": {}
+    },
+    "com.unity.modules.unityanalytics": {
+      "version": "1.0.0",
+      "depth": 0,
+      "source": "builtin",
+      "dependencies": {
+        "com.unity.modules.unitywebrequest": "1.0.0",
+        "com.unity.modules.jsonserialize": "1.0.0"
+      }
+    },
+    "com.unity.modules.unitywebrequest": {
+      "version": "1.0.0",
+      "depth": 0,
+      "source": "builtin",
+      "dependencies": {}
+    },
+    "com.unity.modules.unitywebrequestassetbundle": {
+      "version": "1.0.0",
+      "depth": 0,
+      "source": "builtin",
+      "dependencies": {
+        "com.unity.modules.assetbundle": "1.0.0",
+        "com.unity.modules.unitywebrequest": "1.0.0"
+      }
+    },
+    "com.unity.modules.unitywebrequestaudio": {
+      "version": "1.0.0",
+      "depth": 0,
+      "source": "builtin",
+      "dependencies": {
+        "com.unity.modules.unitywebrequest": "1.0.0",
+        "com.unity.modules.audio": "1.0.0"
+      }
+    },
+    "com.unity.modules.unitywebrequesttexture": {
+      "version": "1.0.0",
+      "depth": 0,
+      "source": "builtin",
+      "dependencies": {
+        "com.unity.modules.unitywebrequest": "1.0.0",
+        "com.unity.modules.imageconversion": "1.0.0"
+      }
+    },
+    "com.unity.modules.unitywebrequestwww": {
+      "version": "1.0.0",
+      "depth": 0,
+      "source": "builtin",
+      "dependencies": {
+        "com.unity.modules.unitywebrequest": "1.0.0",
+        "com.unity.modules.unitywebrequestassetbundle": "1.0.0",
+        "com.unity.modules.unitywebrequestaudio": "1.0.0",
+        "com.unity.modules.audio": "1.0.0",
+        "com.unity.modules.assetbundle": "1.0.0",
+        "com.unity.modules.imageconversion": "1.0.0"
+      }
+    },
+    "com.unity.modules.vehicles": {
+      "version": "1.0.0",
+      "depth": 0,
+      "source": "builtin",
+      "dependencies": {
+        "com.unity.modules.physics": "1.0.0"
+      }
+    },
+    "com.unity.modules.video": {
+      "version": "1.0.0",
+      "depth": 0,
+      "source": "builtin",
+      "dependencies": {
+        "com.unity.modules.audio": "1.0.0",
+        "com.unity.modules.ui": "1.0.0",
+        "com.unity.modules.unitywebrequest": "1.0.0"
+      }
+    },
+    "com.unity.modules.vr": {
+      "version": "1.0.0",
+      "depth": 0,
+      "source": "builtin",
+      "dependencies": {
+        "com.unity.modules.jsonserialize": "1.0.0",
+        "com.unity.modules.physics": "1.0.0",
+        "com.unity.modules.xr": "1.0.0"
+      }
+    },
+    "com.unity.modules.wind": {
+      "version": "1.0.0",
+      "depth": 0,
+      "source": "builtin",
+      "dependencies": {}
+    },
+    "com.unity.modules.xr": {
+      "version": "1.0.0",
+      "depth": 0,
+      "source": "builtin",
+      "dependencies": {
+        "com.unity.modules.physics": "1.0.0",
+        "com.unity.modules.jsonserialize": "1.0.0",
+        "com.unity.modules.subsystems": "1.0.0"
+      }
+    }
+  }
+}

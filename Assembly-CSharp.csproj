@@ -1,0 +1,146 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <LangVersion>9.0</LangVersion>
+    <_TargetFrameworkDirectories>non_empty_path_generated_by_unity.rider.package</_TargetFrameworkDirectories>
+    <_FullFrameworkReferenceAssemblyPaths>non_empty_path_generated_by_unity.rider.package</_FullFrameworkReferenceAssemblyPaths>
+    <DisableHandlePackageFileConflicts>true</DisableHandlePackageFileConflicts>
+  </PropertyGroup>
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>10.0.20506</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <RootNamespace></RootNamespace>
+    <ProjectGuid>{853f21c8-d991-75b6-8ded-a1745657e10e}</ProjectGuid>
+    <ProjectTypeGuids>{E097FAD1-6243-4DAD-9C02-E9B9EFC3FFC1};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <AssemblyName>Assembly-CSharp</AssemblyName>
+    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <BaseDirectory>.</BaseDirectory>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>Temp\Bin\Debug\Unity.Rider.Editor\</OutputPath>
+    <DefineConstants>UNITY_EDITOR</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <NoWarn>0169,0649</NoWarn>
+    <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup>
+    <NoConfig>true</NoConfig>
+    <NoStdLib>true</NoStdLib>
+    <AddAdditionalExplicitAssemblyReferences>false</AddAdditionalExplicitAssemblyReferences>
+    <ImplicitlyExpandNETStandardFacades>false</ImplicitlyExpandNETStandardFacades>
+    <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
+  </PropertyGroup>
+  <ItemGroup>
+     <Folder Include="Assets" />
+     <Folder Include="Library/BuildInstructions" />
+     <None Include="/home/luis/Projects/AlephVault/unity-boilerplates/package.json" />
+     <None Include="/home/luis/Projects/AlephVault/unity-soundaround/package.json" />
+     <None Include="/home/luis/Projects/AlephVault/unity-windrose-gabtab-plugin/package.json" />
+     <Folder Include="/home/luis/Projects/AlephVault/unity-evmgames-deeplinks" />
+     <Folder Include="Assets/Scripts" />
+     <Folder Include="/home/luis/Projects/AlephVault/unity-windrose-neighbourteleports" />
+     <Folder Include="/home/luis/Projects/AlephVault/unity-meetgard-scopes" />
+     <None Include="/home/luis/Projects/AlephVault/unity-menu-actions/package.json" />
+     <None Include="/home/luis/Projects/AlephVault/unity-textureutils/package.json" />
+     <None Include="/home/luis/Projects/AlephVault/unity-meetgard-scopes/package.json" />
+     <Folder Include="/home/luis/Projects/AlephVault/unity-ipfs" />
+     <None Include="/home/luis/Projects/AlephVault/unity-windrose-spriteutils/package.json" />
+     <Folder Include="/home/luis/Projects/AlephVault/unity-deeplinks" />
+     <Folder Include="/home/luis/Projects/AlephVault/unity-support" />
+     <Folder Include="/home/luis/Projects/AlephVault/unity-windrose-spriteutils" />
+     <Folder Include="/home/luis/Projects/AlephVault/unity-spriteutils" />
+     <Folder Include="Assets/WalletConnectUnity" />
+     <None Include="/home/luis/Projects/AlephVault/unity-windrose-backpack-plugin/package.json" />
+     <Folder Include="/home/luis/Projects/AlephVault/unity-gabtab" />
+     <None Include="/home/luis/Projects/AlephVault/unity-evmgames-livecache/package.json" />
+     <Folder Include="/home/luis/Projects/AlephVault/unity-windrose-gabtab-plugin" />
+     <Folder Include="/home/luis/Projects/AlephVault/unity-menu-actions" />
+     <Folder Include="/home/luis/Projects/AlephVault/unity-meetgard-auth" />
+     <None Include="/home/luis/Projects/AlephVault/unity-ipfs/package.json" />
+     <None Include="/home/luis/Projects/AlephVault/unity-evmgames-localstorage/package.json" />
+     <Folder Include="/home/luis/Projects/AlephVault/unity-evmgames-auth" />
+     <None Include="/home/luis/Projects/AlephVault/unity-evmgames-contracts/package.json" />
+     <Folder Include="/home/luis/Projects/AlephVault/unity-windrose-cubeworlds" />
+     <None Include="/home/luis/Projects/AlephVault/unity-layout/package.json" />
+     <None Include="/home/luis/Projects/AlephVault/unity-binary/package.json" />
+     <None Include="/home/luis/Projects/AlephVault/unity-windrose-cubeworlds/package.json" />
+     <Folder Include="/home/luis/Projects/AlephVault/unity-evmgames-bridge-contract" />
+     <None Include="Assets/Resources/BillingMode.json" />
+     <Folder Include="/home/luis/Projects/AlephVault/unity-windrose" />
+     <Folder Include="/home/luis/Projects/AlephVault/unity-netrose" />
+     <None Include="/home/luis/Projects/AlephVault/unity-windrose-biomes/package.json" />
+     <Folder Include="Assets/Scenes" />
+     <Folder Include="/home/luis/Projects/AlephVault/unity-windrose-refmapchars" />
+     <Folder Include="/home/luis/Projects/AlephVault/Nethereum.Unity.WalletConnect" />
+     <None Include="/home/luis/Projects/AlephVault/unity-gabtab/package.json" />
+     <None Include="/home/luis/Projects/AlephVault/Nethereum.Unity/package.json" />
+     <None Include="/home/luis/Projects/AlephVault/unity-deeplinks/package.json" />
+     <None Include="/home/luis/Projects/AlephVault/unity-windrose-refmapchars/package.json" />
+     <Folder Include="/home/luis/Projects/AlephVault/unity-binary" />
+     <None Include="/home/luis/Projects/AlephVault/unity-evmgames-wallets/package.json" />
+     <Folder Include="/home/luis/Projects/AlephVault/unity-remotestorage" />
+     <None Include="/home/luis/Projects/AlephVault/unity-support-generic/package.json" />
+     <Folder Include="Assets/Resources" />
+     <None Include="/home/luis/Projects/AlephVault/unity-netrose-refmapchars/package.json" />
+     <Folder Include="/home/luis/Projects/AlephVault/unity-soundaround" />
+     <Folder Include="/home/luis/Projects/AlephVault/unity-boilerplates" />
+     <None Include="/home/luis/Projects/AlephVault/unity-netrose/package.json" />
+     <Folder Include="/home/luis/Projects/AlephVault/unity-windrose-backpack-plugin" />
+     <None Include="/home/luis/Projects/AlephVault/unity-meetgard-auth/package.json" />
+     <Folder Include="/home/luis/Projects/AlephVault/unity-netrose-refmapchars" />
+     <Folder Include="/home/luis/Projects/AlephVault/unity-netrose-storage" />
+     <Folder Include="/home/luis/Projects/AlephVault/unity-meetgard" />
+     <None Include="/home/luis/Projects/AlephVault/unity-netrose-storage/package.json" />
+     <None Include="/home/luis/Projects/AlephVault/Nethereum.Unity.WalletConnect/package.json" />
+     <Folder Include="/home/luis/Projects/AlephVault/unity-evmgames-livecache" />
+     <Folder Include="/home/luis/Projects/AlephVault/unity-support-generic" />
+     <Folder Include="/home/luis/Projects/AlephVault/unity-evmgames-localstorage" />
+     <None Include="/home/luis/Projects/AlephVault/unity-windrose-neighbourteleports/package.json" />
+     <None Include="/home/luis/Projects/AlephVault/unity-evmgames-bridge-contract/package.json" />
+     <None Include="/home/luis/Projects/AlephVault/unity-spriteutils/package.json" />
+     <Folder Include="/home/luis/Projects/AlephVault/unity-windrose-biomes" />
+     <None Include="/home/luis/Projects/AlephVault/unity-support/package.json" />
+     <None Include="/home/luis/Projects/AlephVault/unity-backpack/package.json" />
+     <Folder Include="/home/luis/Projects/AlephVault/unity-textureutils" />
+     <Folder Include="/home/luis/Projects/AlephVault/Nethereum.Unity" />
+     <None Include="/home/luis/Projects/AlephVault/unity-remotestorage/package.json" />
+     <Folder Include="/home/luis/Projects/AlephVault/unity-evmgames-contracts" />
+     <Folder Include="/home/luis/Projects/AlephVault/unity-layout" />
+     <None Include="/home/luis/Projects/AlephVault/unity-evmgames-deeplinks/package.json" />
+     <Folder Include="/home/luis/Projects/AlephVault/unity-evmgames-wallets" />
+     <Folder Include="/home/luis/Projects/AlephVault/unity-backpack" />
+     <None Include="/home/luis/Projects/AlephVault/unity-meetgard/package.json" />
+     <Folder Include="/home/luis/Projects/AlephVault/unity-windrose-lpcbiomes" />
+     <None Include="/home/luis/Projects/AlephVault/unity-windrose/package.json" />
+     <Folder Include="Assets/WalletConnectUnity/Resources" />
+     <None Include="/home/luis/Projects/AlephVault/unity-evmgames-auth/package.json" />
+     <None Include="/home/luis/Projects/AlephVault/unity-windrose-lpcbiomes/package.json" />
+     <Reference Include="UnityEngine">
+     <HintPath>/home/luis/Unity/Hub/Editor/2023.1.13f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
+     </Reference>
+     <Reference Include="UnityEngine.CoreModule">
+     <HintPath>/home/luis/Unity/Hub/Editor/2023.1.13f1/Editor/Data/Managed/UnityEngine/UnityEngine.CoreModule.dll</HintPath>
+     </Reference>
+     <Reference Include="UnityEditor">
+     <HintPath>/home/luis/Unity/Hub/Editor/2023.1.13f1/Editor/Data/Managed/UnityEngine/UnityEditor.dll</HintPath>
+     </Reference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
