@@ -11,7 +11,7 @@ namespace Client.Authoring.Behaviours.UI
     using UnityEngine.UI;
 
     [RequireComponent(typeof(Image))]
-    public class RegisterAccountUI : MonoBehaviour
+    public class EGRegisterUI : MonoBehaviour
     {
         /// <summary>
         ///   The involved network client.
@@ -74,7 +74,7 @@ namespace Client.Authoring.Behaviours.UI
         private Button submit;
         
         // The client's register protocol.
-        private RegisterAccountProtocolClientSide protocol;
+        private EGRegisterProtocolClientSide protocol;
                  
         private void Awake()
         {
@@ -82,11 +82,11 @@ namespace Client.Authoring.Behaviours.UI
             {
                 throw new Exception("No network client is referenced in this object!");
             }
-            protocol = client.GetComponent<RegisterAccountProtocolClientSide>();
+            protocol = client.GetComponent<EGRegisterProtocolClientSide>();
             if (!protocol)
             {
                 throw new Exception("The network protocol does not have a behaviour of instance " +
-                                    "RegisterAccountProtocolClientSide attached to it");
+                                    "EVRegisterProtocolClientSide attached to it");
             }
             
             // Remove the comment on the displayName variable if it is used by this form.

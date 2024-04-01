@@ -11,7 +11,7 @@ namespace Client.Authoring.Behaviours.UI
     using UnityEngine.UI;
 
     [RequireComponent(typeof(Image))]
-    public class AuthenticateUI : MonoBehaviour
+    public class EGAuthUI : MonoBehaviour
     {
         /// <summary>
         ///   The involved network client.
@@ -68,7 +68,7 @@ namespace Client.Authoring.Behaviours.UI
         private GameObject offlineUI;
         
         // The client's register protocol.
-        private AuthenticateProtocolClientSide protocol;
+        private EGAuthProtocolClientSide protocol;
                  
         private void Awake()
         {
@@ -76,11 +76,11 @@ namespace Client.Authoring.Behaviours.UI
             {
                 throw new Exception("No network client is referenced in this object!");
             }
-            protocol = client.GetComponent<AuthenticateProtocolClientSide>();
+            protocol = client.GetComponent<EGAuthProtocolClientSide>();
             if (!protocol)
             {
                 throw new Exception("The network protocol does not have a behaviour of instance " +
-                                    "AuthenticateProtocolClientSide attached to it");
+                                    "EGAuthProtocolClientSide attached to it");
             }
             
             if (!username || !password)

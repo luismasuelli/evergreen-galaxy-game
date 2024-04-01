@@ -10,11 +10,11 @@ namespace Client.Authoring.Behaviours.Protocols
     using AlephVault.Unity.Binary.Wrappers;
     using AlephVault.Unity.Meetgard.Types;
 
-    public class RegisterAccountProtocolClientSide : SimpleRegisterProtocolClientSide<RegisterAccountProtocolDefinition, Nothing, RegisterFailed>
+    public class EGRegisterProtocolClientSide : SimpleRegisterProtocolClientSide<EGRegisterProtocolDefinition, Nothing, RegisterFailed>
     {
         // Please note: The Nothing type is used when no data is needed.
         // This means that by default there is no need for any content
-        // in the successful register response. See the RegisterAccountProtocolDefinition
+        // in the successful register response. See the EVRegisterProtocolDefinition
         // type for more details.
 
         // A default register sender.

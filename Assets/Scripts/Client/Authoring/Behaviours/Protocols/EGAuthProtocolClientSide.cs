@@ -10,11 +10,11 @@ namespace Client.Authoring.Behaviours.Protocols
     using AlephVault.Unity.Binary.Wrappers;
     using AlephVault.Unity.Meetgard.Types;
 
-    public class AuthenticateProtocolClientSide : SimpleAuthProtocolClientSide<AuthenticateProtocolDefinition, Nothing, LoginFailed, Kicked>
+    public class EGAuthProtocolClientSide : SimpleAuthProtocolClientSide<EGAuthProtocolDefinition, Nothing, LoginFailed, Kicked>
     {
         // Please note: The Nothing type is used when no data is needed.
         // This means that by default there is no need for any content
-        // in the successful login response. See the AuthenticateProtocolDefinition
+        // in the successful login response. See the EGAuthProtocolDefinition
         // type for more details.
 
         // A default login sender.
