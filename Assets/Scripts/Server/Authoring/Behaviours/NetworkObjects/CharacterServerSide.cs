@@ -2,7 +2,6 @@ using AlephVault.Unity.Meetgard.Types;
 using AlephVault.Unity.Binary.Wrappers;
 using AlephVault.Unity.NetRose.Authoring.Behaviours.Server;
 using AlephVault.Unity.NetRose.Types.Models;
-using Protocols.Messages;
 using Models;
 
 namespace Server.Authoring.Behaviours.NetworkObjects
