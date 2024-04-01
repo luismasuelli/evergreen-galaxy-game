@@ -12,7 +12,7 @@ namespace Client.Authoring.Behaviours.Protocols
 {
     // Uncomment this line if this class should use throttling.
     // [RequireComponent(typeof(ClientSideThrottler))]
-    public class MainProtocolClientSide : ProtocolClientSide<MainProtocolDefinition>
+    public class EVGameProtocolClientSide : ProtocolClientSide<EVGameProtocolDefinition>
     {
         // Uncomment these lines if this class should use throttling.
         // Also, ensure the throttler has at least 3 throttling indices.
@@ -50,14 +50,14 @@ namespace Client.Authoring.Behaviours.Protocols
         {
             // Typically, one of these games involves the ability
             // to move in any of the 4 directions:
-            SendMoveDown = MakeSender(MainProtocolDefinition.MoveDown);
-            SendMoveLeft = MakeSender(MainProtocolDefinition.MoveLeft);
-            SendMoveRight = MakeSender(MainProtocolDefinition.MoveRight);
-            SendMoveUp = MakeSender(MainProtocolDefinition.MoveUp);
+            SendMoveDown = MakeSender(EVGameProtocolDefinition.MoveDown);
+            SendMoveLeft = MakeSender(EVGameProtocolDefinition.MoveLeft);
+            SendMoveRight = MakeSender(EVGameProtocolDefinition.MoveRight);
+            SendMoveUp = MakeSender(EVGameProtocolDefinition.MoveUp);
             // It might also involve simple commands:
-            SendSomeSimpleCommand = MakeSender(MainProtocolDefinition.SomeSimpleCommand);
+            SendSomeSimpleCommand = MakeSender(EVGameProtocolDefinition.SomeSimpleCommand);
             // It might also involve commands in certain map & position:
-            SendSomeAimedCommand = MakeSender<AimType>(MainProtocolDefinition.SomeAimedCommand);
+            SendSomeAimedCommand = MakeSender<AimType>(EVGameProtocolDefinition.SomeAimedCommand);
 
             // Finally, if using throttler, these lines might be more desirable:
             //
