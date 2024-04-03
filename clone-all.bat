@@ -20,7 +20,7 @@ call git clone --branch 0.0.2 git@github.com:AlephVault/unity-windrose-gabtab-pl
 call git clone --branch 0.0.4 git@github.com:AlephVault/unity-windrose-spriteutils.git ..\unity-windrose-spriteutils
 call git clone --branch 0.0.3 git@github.com:AlephVault/unity-windrose-neighbourteleports.git ..\unity-windrose-neighbourteleports
 call git clone --branch 0.0.1 git@github.com:AlephVault/unity-windrose-cubeworlds.git ..\unity-windrose-cubeworlds
-call git clone --branch 0.0.4 git@github.com:AlephVault/unity-windrose-refmapchars.git ..\unity-windrose-refmapchars
+call git clone --branch 0.0.5 git@github.com:AlephVault/unity-windrose-refmapchars.git ..\unity-windrose-refmapchars
 call git clone --branch 0.0.1 git@github.com:AlephVault/unity-windrose-lpcbiomes.git ..\unity-windrose-lpcbiomes
 call git clone --branch 0.0.6 git@github.com:AlephVault/unity-netrose.git ..\unity-netrose
 call git clone --branch 0.0.2 git@github.com:AlephVault/unity-netrose-storage.git ..\unity-netrose-storage
