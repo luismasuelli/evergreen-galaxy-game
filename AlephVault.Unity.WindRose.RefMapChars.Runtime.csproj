@@ -55,6 +55,7 @@
     <Compile Include="/home/luis/Projects/Mine/Games/unity-windrose-refmapchars/Runtime/Authoring/ScriptableObjects/RefMapAddOn.cs" />
     <Compile Include="/home/luis/Projects/Mine/Games/unity-windrose-refmapchars/Runtime/Types/Traits/Standard/LongShirtTrait.cs" />
     <Compile Include="/home/luis/Projects/Mine/Games/unity-windrose-refmapchars/Runtime/Types/Traits/Simple/ClothTrait.cs" />
+    <Compile Include="/home/luis/Projects/Mine/Games/unity-windrose-refmapchars/Runtime/Types/Selections/RefMapStatueSelection.cs" />
     <Compile Include="/home/luis/Projects/Mine/Games/unity-windrose-refmapchars/Runtime/Authoring/ScriptableObjects/RefMapBody.cs" />
     <Compile Include="/home/luis/Projects/Mine/Games/unity-windrose-refmapchars/Runtime/Types/Traits/Standard/ShirtTrait.cs" />
     <Compile Include="/home/luis/Projects/Mine/Games/unity-windrose-refmapchars/Runtime/Types/Traits/BodyTrait.cs" />
@@ -66,7 +67,6 @@
     <Compile Include="/home/luis/Projects/Mine/Games/unity-windrose-refmapchars/Runtime/Types/Traits/Standard/PantsTrait.cs" />
     <Compile Include="/home/luis/Projects/Mine/Games/unity-windrose-refmapchars/Runtime/Types/Traits/DualTrait.cs" />
     <Compile Include="/home/luis/Projects/Mine/Games/unity-windrose-refmapchars/Runtime/Core/RefMapUtils.cs" />
-    <Compile Include="/home/luis/Projects/Mine/Games/unity-windrose-refmapchars/Runtime/Types/Selectors/RefMapCharacterSelector.cs" />
     <Compile Include="/home/luis/Projects/Mine/Games/unity-windrose-refmapchars/Runtime/Types/Traits/Standard/CloakTrait.cs" />
     <Compile Include="/home/luis/Projects/Mine/Games/unity-windrose-refmapchars/Runtime/Types/Traits/SkilledHandItemTrait.cs" />
     <Compile Include="/home/luis/Projects/Mine/Games/unity-windrose-refmapchars/Runtime/Authoring/Behaviours/RefMapBaseApplier.cs" />
@@ -84,7 +84,7 @@
     <Compile Include="/home/luis/Projects/Mine/Games/unity-windrose-refmapchars/Runtime/Types/Traits/HairTrait.cs" />
     <Compile Include="/home/luis/Projects/Mine/Games/unity-windrose-refmapchars/Runtime/Types/IRefMapBaseComposite.cs" />
     <Compile Include="/home/luis/Projects/Mine/Games/unity-windrose-refmapchars/Runtime/Types/Traits/Standard/WaistTrait.cs" />
-    <Compile Include="/home/luis/Projects/Mine/Games/unity-windrose-refmapchars/Runtime/Types/Selectors/RefMapStatueSelector.cs" />
+    <Compile Include="/home/luis/Projects/Mine/Games/unity-windrose-refmapchars/Runtime/Types/Selections/RefMapCharacterSelection.cs" />
     <Compile Include="/home/luis/Projects/Mine/Games/unity-windrose-refmapchars/Runtime/Types/IRefMapBaseModel.cs" />
     <Compile Include="/home/luis/Projects/Mine/Games/unity-windrose-refmapchars/Runtime/Types/Traits/Standard/ArmsTrait.cs" />
     <Compile Include="/home/luis/Projects/Mine/Games/unity-windrose-refmapchars/Runtime/Types/IRefMapSimpleModel.cs" />
