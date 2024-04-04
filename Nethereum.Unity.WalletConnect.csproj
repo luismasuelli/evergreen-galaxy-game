@@ -12,7 +12,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{55afa26c-ca07-8fb2-a362-bc50aa4517e2}</ProjectGuid>
+    <ProjectGuid>{3f874096-5f6a-9e2c-4d1e-0617f8baa7ef}</ProjectGuid>
     <ProjectTypeGuids>{E097FAD1-6243-4DAD-9C02-E9B9EFC3FFC1};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -41,17 +41,16 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
-     <Folder Include="/home/luis/Projects/AlephVault/Nethereum.Unity.WalletConnect/Runtime" />
-     <None Include="/home/luis/Projects/AlephVault/Nethereum.Unity.WalletConnect/Runtime/Nethereum.Unity.WalletConnect.asmdef" />
-     <Reference Include="UnityEngine">
-     <HintPath>/home/luis/Unity/Hub/Editor/2023.1.13f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
-     </Reference>
-     <Reference Include="UnityEngine.CoreModule">
-     <HintPath>/home/luis/Unity/Hub/Editor/2023.1.13f1/Editor/Data/Managed/UnityEngine/UnityEngine.CoreModule.dll</HintPath>
-     </Reference>
-     <Reference Include="UnityEditor">
-     <HintPath>/home/luis/Unity/Hub/Editor/2023.1.13f1/Editor/Data/Managed/UnityEngine/UnityEditor.dll</HintPath>
-     </Reference>
+    <None Include="/home/luis/Projects/Mine/Games/Nethereum.Unity.WalletConnect/Runtime/Nethereum.Unity.WalletConnect.asmdef" />
+    <Reference Include="UnityEngine">
+      <HintPath>/home/luis/Unity/Hub/Editor/2023.2.8f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.CoreModule">
+      <HintPath>/home/luis/Unity/Hub/Editor/2023.2.8f1/Editor/Data/Managed/UnityEngine/UnityEngine.CoreModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor">
+      <HintPath>/home/luis/Unity/Hub/Editor/2023.2.8f1/Editor/Data/Managed/UnityEngine/UnityEditor.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
