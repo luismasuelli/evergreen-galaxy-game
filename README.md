@@ -5,7 +5,7 @@ This is a boilerplate project. It includes EVMGames/NetRose and all the required
 Unity version
 -------------
 
-The current status is meant to be used in Unity 2023.1.13f1 due to issues in previous versions.
+The current status is meant to be used in Unity 2023.2.8f1 due to issues in previous versions.
 
 Dependencies versioning and status
 ----------------------------------
