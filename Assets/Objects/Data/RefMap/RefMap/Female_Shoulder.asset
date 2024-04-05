@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 337e6c51b8fb45f0a912f114be7d7290, type: 3}
+  m_Name: Female_Shoulder
+  m_EditorClassIdentifier: 
+  addOns:
+    m_keys: 0100020003000400050006000700
+    m_values:
+    - {fileID: 11400000, guid: 98f62846a7e13656f9deca5d116e82d5, type: 2}
+    - {fileID: 11400000, guid: 251a658c56b672ae990284a9c1656764, type: 2}
+    - {fileID: 11400000, guid: 34db7caad745043ef9f15f2f588d43fd, type: 2}
+    - {fileID: 11400000, guid: 87993d8084ff835fbac9cf95f3f3f001, type: 2}
+    - {fileID: 11400000, guid: d00113f693423da90a3095af3b066161, type: 2}
+    - {fileID: 11400000, guid: 828db3b2d9850e58b88a86fbddb47c8b, type: 2}
+    - {fileID: 11400000, guid: 98c88d46abf7f102aaef1baa150acac8, type: 2}

@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 337e6c51b8fb45f0a912f114be7d7290, type: 3}
+  m_Name: Female_Hat
+  m_EditorClassIdentifier: 
+  addOns:
+    m_keys: 01000200030004000500060007000800
+    m_values:
+    - {fileID: 11400000, guid: 473bd6a465d98e73292621f02a22d277, type: 2}
+    - {fileID: 11400000, guid: 5c37146a6475dc708886b74caa3a4a90, type: 2}
+    - {fileID: 11400000, guid: 16fad72f13207e15f9790b77834b65bd, type: 2}
+    - {fileID: 11400000, guid: 01a3ad3616ed232319da2bf6985ed565, type: 2}
+    - {fileID: 11400000, guid: d83e082cf4b5513b3a22e33b2d813a54, type: 2}
+    - {fileID: 11400000, guid: 35297f13e59bc4788ac3abac8c207e92, type: 2}
+    - {fileID: 11400000, guid: ad8dbd1c0f9c0e22db8d35da43fbf7f9, type: 2}
+    - {fileID: 11400000, guid: 23bc096cdc36edfbf98f4e413be58c7e, type: 2}
