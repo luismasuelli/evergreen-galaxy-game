@@ -2,9 +2,11 @@ using System;
 using System.Threading.Tasks;
 using AlephVault.Unity.Meetgard.Auth.Types;
 using AlephVault.Unity.Meetgard.Auth.Protocols.Simple;
+using AlephVault.Unity.RemoteStorage.Types.Results;
 using Protocols;
 using Protocols.Messages;
 using Server.Authoring.Behaviours.External;
+using Server.Authoring.Behaviours.External.Models;
 using Server.Authoring.Types;
 
 namespace Server.Authoring.Behaviours.Protocols
@@ -36,29 +38,31 @@ namespace Server.Authoring.Behaviours.Protocols
             // the handler must be created in this method. Since one login
             // message was defined in the protocol definition, one handler
             // is being created in this method.
-            AddLoginMessageHandler<Login>("Default", async (login) => {
-                // This method requires a totally custom implementation
-                // from the user.
-                //
-                // Given the login details, they are either valid or
-                // invalid. If the login is valid, then it must return:
-                // - A successful response. By default, the successful
-                //   response is defined of type Nothing, so the value
-                //   will be Nothing.Instance.
-                // - The account id, of type: string.
-                // 
-                // return AcceptLogin(successfulReason, accountId);
-                //
-                // Otherwise, for invalid login attempts, a rejection
-                // reason must be generated, of type: LoginFailed.
-                //
-                // return RejectLogin(unsuccessfulReason);
-
-                // WARNING: EVERY CALL TO AN EXTERNAL API OR USING A GAME OBJECT
-                //          OR BEHAVIOUR MUST BE DONE IN THE CONTEXT OF A CALL TO
-                //          RunInMainThread OR IT WILL SILENTLY FAIL.
-                
-                return RejectLogin(new LoginFailed().WithNotImplementedReason());
+            AddLoginMessageHandler<Login>("Default", async login => {
+                Result<MultiCharAccount, string> result = await RunInMainThread(() => client.FindAccountByLogin(login.Username));
+                if (result.Code == ResultCode.Ok)
+                {
+                    // This is not a proper way to compare a user's
+                    // password. Passwords should be encrypted in
+                    // production environments, and the storage is
+                    // not the appropriate place to do this.
+                    //
+                    // Otherwise, modify the by-login method in the
+                    // storage instead of retrieving the account and
+                    // performing the logic here.
+                    if (login.Password == result.Element.Password)
+                    {
+                        return AcceptLogin(Nothing.Instance, result.Element.Id);
+                    }
+                    return RejectLogin(new LoginFailed { Reason = "mismatch" });
+                }
+                if (result.Code == ResultCode.DoesNotExist)
+                {
+                    // Here, fake a check of an encrypted password
+                    // when moving this to a production environment.
+                    return RejectLogin(new LoginFailed { Reason = "mismatch" });
+                }
+                return RejectLogin(new LoginFailed() { Reason = "server_error" });
             });
         }
         
