@@ -71,20 +71,18 @@ namespace Server.Authoring.Behaviours.Protocols
         /// </summary>
         protected override async Task<AccountData> FindAccount(string id)
         {
-            // This doesn't mean that the returned data is actually the FULL
-            // data of an account, but at least some sort of "long" representation
-            // of the data that is sensible to retrieve when successfully doing
-            // a login operation.
-            //
-            // This requires a mandatory implementation, for returning the default
-            // value will cause the protocol to raise an exception and terminate
-            // the session (& connection) abruptly and without even starting.
-
-            // WARNING: EVERY CALL TO AN EXTERNAL API OR USING A GAME OBJECT
-            //          OR BEHAVIOUR MUST BE DONE IN THE CONTEXT OF A CALL TO
-            //          RunInMainThread OR IT WILL SILENTLY FAIL.
-
-            return default(AccountData);
+            Result<MultiCharAccount, string> result = await RunInMainThread(
+                () => client.GetAccount(id)
+            );
+            if (result.Code == ResultCode.Ok)
+            {
+                return new AccountData { Account = result.Element };
+            }
+            if (result.Code == ResultCode.DoesNotExist)
+            {
+                return null;
+            }
+            throw new Exception("auth_lookup_error");
         }
         
         /// <summary>
