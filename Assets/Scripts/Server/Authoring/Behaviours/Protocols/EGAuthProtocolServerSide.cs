@@ -4,6 +4,7 @@ using AlephVault.Unity.Meetgard.Auth.Types;
 using AlephVault.Unity.Meetgard.Auth.Protocols.Simple;
 using Protocols;
 using Protocols.Messages;
+using Server.Authoring.Behaviours.External;
 using Server.Authoring.Types;
 
 namespace Server.Authoring.Behaviours.Protocols
@@ -17,6 +18,10 @@ namespace Server.Authoring.Behaviours.Protocols
         string, AccountPreviewData, AccountData
     >
     {
+        private MultiCharAccountAPIClient client = new MultiCharAccountAPIClient(
+            "http://localhost:8080"
+        );
+        
         // Please note: The Nothing type is used when no data is needed.
         // This means that by default there is no need for any content
         // in the successful login response. See the EGAuthProtocolDefinition
