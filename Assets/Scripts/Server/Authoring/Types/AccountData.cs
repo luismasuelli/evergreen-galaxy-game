@@ -1,7 +1,7 @@
+using Server.Authoring.Behaviours.External.Models;
+
 namespace Server.Authoring.Types
 {
-    using AlephVault.Unity.Binary;
-    using AlephVault.Unity.Binary.Wrappers;
     using AlephVault.Unity.Meetgard.Auth.Types;
     using Protocols.Messages;
 
@@ -17,19 +17,28 @@ namespace Server.Authoring.Types
          * sort of external storage.
          */
          
-        public string Username;
+        /// <summary>
+        ///   The account.
+        /// </summary>
+        public MultiCharAccount Account;
 
+        /// <summary>
+        ///   Gets the id of the stored account.
+        /// </summary>
+        /// <returns></returns>
         public string GetID()
         {
-            // This method NEEDS to be implemented!
-            return default(string);
+            // The id of the account.
+            return Account.Id;
         }
 
         public AccountPreviewData GetProfileDisplayData()
         {
             // This method can be changed (actually, it must depending
             // on the changes applied to AccountPreviewData.
-            return new AccountPreviewData() { Username = Username };
+            return new AccountPreviewData {
+                Username = Account.Login
+            };
         }
     }
 }
