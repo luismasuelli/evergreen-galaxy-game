@@ -36,6 +36,12 @@ namespace Protocols.Messages
             return this;
         }
 
+        public RegisterFailed WithAccountAlreadyExistsError()
+        {
+            Reason = "The account already exists";
+            return this;
+        }
+
         public RegisterFailed WithNotImplementedReason()
         {
             Reason = "Register is not yet implemented";

@@ -1,8 +1,11 @@
 using System;
 using System.Threading.Tasks;
 using AlephVault.Unity.Meetgard.Auth.Protocols.Simple;
+using AlephVault.Unity.RemoteStorage.Types.Results;
 using Protocols;
 using Protocols.Messages;
+using Server.Authoring.Behaviours.External;
+using Server.Authoring.Behaviours.External.Models;
 
 namespace Server.Authoring.Behaviours.Protocols
 {
@@ -12,6 +15,10 @@ namespace Server.Authoring.Behaviours.Protocols
 
     public class EGRegisterProtocolServerSide : SimpleRegisterProtocolServerSide<EGRegisterProtocolDefinition, Nothing, RegisterFailed>
     {
+        private MultiCharAccountAPIClient client = new MultiCharAccountAPIClient(
+            "http://localhost:8080"
+        );
+
         /// <summary>
         ///   Makes the handlers for the register messages.
         /// </summary>
@@ -28,32 +35,31 @@ namespace Server.Authoring.Behaviours.Protocols
             // authentication protocol, you might want to wrap this handler
             // using .LogoutRequired from that component.
             AddRegisterMessageHandler<Register>("Default", async (register) => {
-                // This method requires a totally custom implementation
-                // from the user.
-                //
-                // Given the login details, they are either valid or
-                // invalid. If the register is valid, then it must return:
-                // - A successful response. By default, the successful
-                //   response is defined of type Nothing, so the value
-                //   will be Nothing.Instance.
-                // 
-                // return AcceptRegister(successfulReason);
-                //
-                // Otherwise, for invalid register attempts, a rejection
-                // reason must be generated, of type: RegisterFailed.
-                //
-                // return RejectRegister(unsuccessfulReason);
-                
-                // WARNING: EVERY CALL TO AN EXTERNAL API OR USING A GAME OBJECT
-                //          OR BEHAVIOUR MUST BE DONE IN THE CONTEXT OF A CALL TO
-                //          RunInMainThread OR IT WILL SILENTLY FAIL.
-
                 if (register.Password != register.PasswordConfirm)
                 {
                     return RejectRegister(new RegisterFailed().WithPasswordMismatchError());
                 }
 
-                return RejectRegister(new RegisterFailed().WithNotImplementedReason());
+                Result<MultiCharAccount, string> result = await RunInMainThread(() =>
+                    client.RegisterAccount(new MultiCharAccount
+                    {
+                        Login = register.Username.ToLower().Trim(),
+                        Password = register.Password
+                    })
+                );
+                if (result.Code == ResultCode.Ok)
+                {
+                    return AcceptRegister(Nothing.Instance);
+                }
+                if (result.Code == ResultCode.ValidationError)
+                {
+                    return RejectRegister(new RegisterFailed().WithValidationError());
+                }
+                if (result.Code == ResultCode.DuplicateKey)
+                {
+                    return RejectRegister(new RegisterFailed().WithAccountAlreadyExistsError());
+                }
+                return RejectRegister(new RegisterFailed().WithUnknownError());
             });
         }
     }
