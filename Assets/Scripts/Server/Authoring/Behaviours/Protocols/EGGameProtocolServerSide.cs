@@ -13,7 +13,7 @@ namespace Server.Authoring.Behaviours.Protocols
     [RequireComponent(typeof(PlayerProtocolServerSide))]
     // Uncomment this line if this class should use throttling.
     // [RequireComponent(typeof(ServerSideThrottler))]
-    public class EVGameProtocolServerSide : ProtocolServerSide<EVGameProtocolDefinition>
+    public class EGGameProtocolServerSide : ProtocolServerSide<EGGameProtocolDefinition>
     {
         // Define variables to hold senders, one for each defined
         // client message. For this generated boilerplate examples,
@@ -85,7 +85,7 @@ namespace Server.Authoring.Behaviours.Protocols
         {
             // Typically, one of these games involves the ability
             // to move in any of the 4 directions:
-            AddIncomingMessageHandler(EVGameProtocolDefinition.MoveDown, async (proto, connId) => {
+            AddIncomingMessageHandler(EGGameProtocolDefinition.MoveDown, async (proto, connId) => {
                 // Uncomment the //-commented lines if using throttle:
                 //
                 // await throttler.DoThrottled(clientId, async () => {
@@ -96,7 +96,7 @@ namespace Server.Authoring.Behaviours.Protocols
                     catch(Exception e) { /* Handle this */ }
                 // }, (ulong clientId, DateTime when, int throttlesCount) => { /* handle this */ }, WalkThrottle);
             });
-            AddIncomingMessageHandler(EVGameProtocolDefinition.MoveLeft, async (proto, connId) => {
+            AddIncomingMessageHandler(EGGameProtocolDefinition.MoveLeft, async (proto, connId) => {
                 // Uncomment the //-commented lines if using throttle:
                 //
                 // await throttler.DoThrottled(clientId, async () => {
@@ -107,7 +107,7 @@ namespace Server.Authoring.Behaviours.Protocols
                     catch(Exception e) { /* Handle this */ }
                 // }, (ulong clientId, DateTime when, int throttlesCount) => { /* handle this */ }, WalkThrottle);
             });
-            AddIncomingMessageHandler(EVGameProtocolDefinition.MoveRight, async (proto, connId) => {
+            AddIncomingMessageHandler(EGGameProtocolDefinition.MoveRight, async (proto, connId) => {
                 // Uncomment the //-commented lines if using throttle:
                 //
                 // await throttler.DoThrottled(clientId, async () => {
@@ -118,7 +118,7 @@ namespace Server.Authoring.Behaviours.Protocols
                     catch(Exception e) { /* Handle this */ }
                 // }, (ulong clientId, DateTime when, int throttlesCount) => { /* handle this */ }, WalkThrottle);
             });
-            AddIncomingMessageHandler(EVGameProtocolDefinition.MoveUp, async (proto, connId) => {
+            AddIncomingMessageHandler(EGGameProtocolDefinition.MoveUp, async (proto, connId) => {
                 // Uncomment the //-commented lines if using throttle:
                 //
                 // await throttler.DoThrottled(clientId, async () => {
@@ -129,7 +129,7 @@ namespace Server.Authoring.Behaviours.Protocols
                     catch(Exception e) { /* Handle this */ }
                 // }, (ulong clientId, DateTime when, int throttlesCount) => { /* handle this */ }, WalkThrottle);
             });
-            AddIncomingMessageHandler(EVGameProtocolDefinition.SomeSimpleCommand, async (proto, connId) => {
+            AddIncomingMessageHandler(EGGameProtocolDefinition.SomeSimpleCommand, async (proto, connId) => {
                 // Uncomment the //-commented lines if using throttle:
                 //
                 // await throttler.DoThrottled(clientId, async () => {
@@ -151,7 +151,7 @@ namespace Server.Authoring.Behaviours.Protocols
                     catch(Exception e) { /* Handle this */ }
                 // }, (ulong clientId, DateTime when, int throttlesCount) => { /* handle this */ }, SimpleCommandThrottle);                
             });
-            AddIncomingMessageHandler<AimType>(EVGameProtocolDefinition.SomeAimedCommand, async (proto, connId, aim) => {
+            AddIncomingMessageHandler<AimType>(EGGameProtocolDefinition.SomeAimedCommand, async (proto, connId, aim) => {
                 // Uncomment the //-commented lines if using throttle:
                 //
                 // await throttler.DoThrottled(clientId, async () => {

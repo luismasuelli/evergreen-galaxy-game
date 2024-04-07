@@ -4,7 +4,7 @@ namespace Protocols
 {
     using Messages;
     
-    public class EVGameProtocolDefinition : ProtocolDefinition
+    public class EGGameProtocolDefinition : ProtocolDefinition
     {
         // Typically, one of these games involves the ability
         // to move in any of the 4 directions:
