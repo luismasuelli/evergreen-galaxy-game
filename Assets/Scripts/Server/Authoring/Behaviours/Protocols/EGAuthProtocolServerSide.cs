@@ -39,7 +39,7 @@ namespace Server.Authoring.Behaviours.Protocols
             // message was defined in the protocol definition, one handler
             // is being created in this method.
             AddLoginMessageHandler<Login>("Default", async login => {
-                Result<MultiCharAccount, string> result = await RunInMainThread(() => client.FindAccountByLogin(login.Username));
+                Result<MultiCharAccount, string> result = await RunInMainThread(() => client.FindAccountByLogin(login.Username.ToLower().Trim()));
                 if (result.Code == ResultCode.Ok)
                 {
                     // This is not a proper way to compare a user's
