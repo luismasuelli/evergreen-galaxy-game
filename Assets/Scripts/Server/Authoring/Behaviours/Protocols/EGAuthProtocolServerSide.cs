@@ -3,11 +3,13 @@ using System.Threading.Tasks;
 using AlephVault.Unity.Meetgard.Auth.Types;
 using AlephVault.Unity.Meetgard.Auth.Protocols.Simple;
 using AlephVault.Unity.RemoteStorage.Types.Results;
+using Newtonsoft.Json.Linq;
 using Protocols;
 using Protocols.Messages;
 using Server.Authoring.Behaviours.External;
 using Server.Authoring.Behaviours.External.Models;
 using Server.Authoring.Types;
+using UnityEngine;
 
 namespace Server.Authoring.Behaviours.Protocols
 {
@@ -28,6 +30,13 @@ namespace Server.Authoring.Behaviours.Protocols
         // This means that by default there is no need for any content
         // in the successful login response. See the EGAuthProtocolDefinition
         // type for more details.
+
+        protected override void Setup()
+        {
+            base.Setup();
+            OnSessionStarting += HandleSessionStarted;
+            OnSessionTerminating += HandleSessionTerminating;
+        }
     
         /// <summary>
         ///   Makes the handlers for the login messages.
@@ -113,7 +122,75 @@ namespace Server.Authoring.Behaviours.Protocols
             //          OR BEHAVIOUR MUST BE DONE IN THE CONTEXT OF A CALL TO
             //          RunInMainThread OR IT WILL SILENTLY FAIL.
         }
-        
+
+        /// <summary>
+        ///   Sets the currently selected character into the session.
+        /// </summary>
+        /// <param name="clientId">The id of the client to set the character to</param>
+        /// <param name="character">The character</param>
+        public void SetCharacter(ulong clientId, Character character)
+        {
+            SetSessionData(clientId, "character", character);
+        }
+
+        /// <summary>
+        ///   Gets the currently selected character from the session.
+        /// </summary>
+        /// <param name="clientId">The id of the client to get the character from</param>
+        /// <returns></returns>
+        public Character GetCharacter(ulong clientId)
+        {
+            return (Character)GetSessionData(clientId, "character");
+        }
+
+        /// <summary>
+        ///   Clears the currently selected character from the session.
+        /// </summary>
+        /// <param name="clientId">The id of the client to clear the character from</param>
+        public void ClearCharacter(ulong clientId)
+        {
+            SetCharacter(clientId, default);
+        }
+
+        private async Task HandleSessionStarted(ulong clientId, AccountData data)
+        {
+            SetSessionData(clientId, "account", data);
+        }
+
+        private async Task HandleSessionTerminating(ulong clientId, Kicked reason)
+        {
+            AccountData account = (AccountData)GetSessionData(clientId, "account");
+            Result<MultiCharAccount, string> result = await RunInMainThread(() => 
+                client.UpdateAccount(account.GetID(), new JObject
+                {
+                    { "$set", new JObject(account) }
+                })
+            );
+            if (result.Code != ResultCode.Ok)
+            {
+                Debug.LogWarning(
+                    $"WARNING: Session for user {account.Account.Login} ({clientId}) " +
+                    $"could not be stored because of an error code: {result.Code}"
+                );
+                return;
+            }
+            Character character = (Character)GetSessionData(clientId, "character");
+            if (character == default) return;
+            Result<Character, string> result2 = await RunInMainThread(() => 
+                client.UpdateCharacter(character.Id, new JObject
+                {
+                    { "$set", new JObject(character) }
+                })
+            );
+            if (result2.Code != ResultCode.Ok)
+            {
+                Debug.LogWarning(
+                    $"WARNING: Session for user {account.Account.Login} ({clientId}) " +
+                    $"could not store the character {character.Id} of an error code: {result2.Code}"
+                );
+            }
+        }
+
         /**
          * This class has the following events that can be listened for. They are:
          *
