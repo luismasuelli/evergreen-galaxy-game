@@ -1,9 +1,9 @@
 using System.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.UI;
 using AlephVault.Unity.Meetgard.Authoring.Behaviours.Client;
 using AlephVault.Unity.Meetgard.Types;
 using Protocols.Messages;
+using TMPro;
 
 namespace Client.Authoring.Behaviours.UI
 {
@@ -35,19 +35,19 @@ namespace Client.Authoring.Behaviours.UI
         ///   The username field.
         /// </summary>
         [SerializeField]
-        private InputField username;
+        private TMP_InputField username;
 
         /// <summary>
         ///   The password field.
         /// </summary>
         [SerializeField]
-        private InputField password;
+        private TMP_InputField password;
         
         /// <summary>
         ///   A status label.
         /// </summary>
         [SerializeField]
-        private Text statusLabel;
+        private TMP_Text statusLabel;
         
         /// <summary>
         ///   The submit button.
@@ -60,12 +60,6 @@ namespace Client.Authoring.Behaviours.UI
         /// </summary>
         [SerializeField]
         private GameObject onlineUI;
-        
-        /// <summary>
-        ///   The UI to show when offline.
-        /// </summary>
-        [SerializeField]
-        private GameObject offlineUI;
         
         // The client's register protocol.
         private EGAuthProtocolClientSide protocol;
@@ -98,7 +92,8 @@ namespace Client.Authoring.Behaviours.UI
         {
             return protocol.RunInMainThread(() => {
                 onlineUI.SetActive(online);
-                offlineUI.SetActive(!online);
+                // Please note: I changed the offlineUI for this same object.
+                gameObject.SetActive(!online);
             });
         }
         
