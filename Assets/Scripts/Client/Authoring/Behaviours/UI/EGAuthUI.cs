@@ -1,9 +1,11 @@
+using System;
 using System.Threading.Tasks;
 using UnityEngine;
 using AlephVault.Unity.Meetgard.Authoring.Behaviours.Client;
 using AlephVault.Unity.Meetgard.Types;
 using Protocols.Messages;
 using TMPro;
+using Exception = AlephVault.Unity.Meetgard.Types.Exception;
 
 namespace Client.Authoring.Behaviours.UI
 {
@@ -105,7 +107,12 @@ namespace Client.Authoring.Behaviours.UI
             protocol.OnLoginOK += OnLoginOK;
             protocol.OnLoginFailed += OnLoginFailed;
         }
-        
+
+        private void OnEnable()
+        {
+            SetStatus("Press \"Sign In\" to continue...");
+        }
+
         private void OnDestroy()
         {
             submit.onClick.RemoveListener(OnSubmitClick);
