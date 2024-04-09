@@ -1153,7 +1153,7 @@ GameObject:
   - component: {fileID: 320727545}
   - component: {fileID: 320727544}
   m_Layer: 5
-  m_Name: Signin_GoButton
+  m_Name: Login_GoButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4377,7 +4377,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1497379000
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4425,6 +4425,8 @@ MonoBehaviour:
   statusLabel: {fileID: 1668803895}
   submit: {fileID: 941638372}
   onlineUI: {fileID: 1060402653}
+  buttonToRegister: {fileID: 1617329004}
+  registerUI: {fileID: 1797620821}
 --- !u!114 &1497379002
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5282,7 +5284,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1797620822
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5370,6 +5372,8 @@ MonoBehaviour:
   passwordConfirm: {fileID: 208463275}
   statusLabel: {fileID: 0}
   submit: {fileID: 79929517}
+  buttonToAuthenticate: {fileID: 320727544}
+  authenticateUI: {fileID: 1497378999}
 --- !u!1 &1828073299
 GameObject:
   m_ObjectHideFlags: 0
