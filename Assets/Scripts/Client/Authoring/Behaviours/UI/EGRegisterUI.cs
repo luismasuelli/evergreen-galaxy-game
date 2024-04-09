@@ -4,6 +4,7 @@ using UnityEngine.UI;
 using AlephVault.Unity.Meetgard.Authoring.Behaviours.Client;
 using AlephVault.Unity.Meetgard.Types;
 using Protocols.Messages;
+using TMPro;
 
 namespace Client.Authoring.Behaviours.UI
 {
@@ -35,25 +36,25 @@ namespace Client.Authoring.Behaviours.UI
         ///   The username field.
         /// </summary>
         [SerializeField]
-        private InputField username;
+        private TMP_InputField username;
 
         /// <summary>
         ///   The password field.
         /// </summary>
         [SerializeField]
-        private InputField password;
+        private TMP_InputField password;
 
         /// <summary>
         ///   The password confirm field.
         /// </summary>
         [SerializeField]
-        private InputField passwordConfirm;
+        private TMP_InputField passwordConfirm;
         
         /// <summary>
         ///   A status label.
         /// </summary>
         [SerializeField]
-        private Text statusLabel;
+        private TMP_Text statusLabel;
 
         /**
          * Uncomment this field if the register involves some sort
