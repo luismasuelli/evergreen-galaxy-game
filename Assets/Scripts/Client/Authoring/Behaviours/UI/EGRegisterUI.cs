@@ -120,6 +120,11 @@ namespace Client.Authoring.Behaviours.UI
             protocol.OnRegisterFailed -= OnRegisterFailed;
         }
         
+        private void OnEnable()
+        {
+            SetStatus("Press \"Register\" to continue...");
+        }
+        
         private void OnClientConnected()
         {
             submit.interactable = false;
