@@ -62,6 +62,18 @@ namespace Client.Authoring.Behaviours.UI
         /// </summary>
         [SerializeField]
         private GameObject onlineUI;
+
+        /// <summary>
+        ///   The button to redirect to the register UI.
+        /// </summary>
+        [SerializeField]
+        private Button buttonToRegister;
+
+        /// <summary>
+        ///   The register UI.
+        /// </summary>
+        [SerializeField]
+        private GameObject registerUI;
         
         // The client's register protocol.
         private EGAuthProtocolClientSide protocol;
@@ -101,6 +113,12 @@ namespace Client.Authoring.Behaviours.UI
         
         private void Start()
         {
+            if (buttonToRegister && registerUI) {
+                buttonToRegister.onClick.AddListener(() => {
+                    gameObject.SetActive(false);
+                    registerUI.SetActive(true);
+                });
+            }
             submit.onClick.AddListener(OnSubmitClick);
             client.OnConnected += OnClientConnected;
             client.OnDisconnected += OnClientDisconnected;            

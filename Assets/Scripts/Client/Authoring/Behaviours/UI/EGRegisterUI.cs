@@ -74,6 +74,18 @@ namespace Client.Authoring.Behaviours.UI
         [SerializeField]
         private Button submit;
         
+        /// <summary>
+        ///   The button to redirect to the authenticate UI.
+        /// </summary>
+        [SerializeField]
+        private Button buttonToAuthenticate;
+
+        /// <summary>
+        ///   The authenticate UI.
+        /// </summary>
+        [SerializeField]
+        private GameObject authenticateUI;
+
         // The client's register protocol.
         private EGRegisterProtocolClientSide protocol;
                  
@@ -104,6 +116,12 @@ namespace Client.Authoring.Behaviours.UI
         
         private void Start()
         {
+            if (buttonToAuthenticate && authenticateUI) {
+                buttonToAuthenticate.onClick.AddListener(() => {
+                    gameObject.SetActive(false);
+                    authenticateUI.SetActive(true);
+                });
+            }
             submit.onClick.AddListener(OnSubmitClick);
             client.OnConnected += OnClientConnected;
             client.OnDisconnected += OnClientDisconnected;            
