@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using AlephVault.Unity.Meetgard.Authoring.Behaviours.Client;
 using AlephVault.Unity.Meetgard.Types;
+using AlephVault.Unity.Support.Utils;
 using Protocols.Messages;
 using TMPro;
 
@@ -88,6 +89,12 @@ namespace Client.Authoring.Behaviours.UI
 
         // The client's register protocol.
         private EGRegisterProtocolClientSide protocol;
+
+        // Flag to tell whether a registration was successful.
+        // This prevents immediately restoring the buttons in
+        // that case, immediately, but will be done later, in
+        // a delayed manner.
+        private bool wasSuccessfulRegistration = false;
                  
         private void Awake()
         {
@@ -145,20 +152,57 @@ namespace Client.Authoring.Behaviours.UI
         
         private void OnClientConnected()
         {
-            submit.interactable = false;
+            protocol.RunInMainThread(() =>
+            {
+                submit.interactable = false;
+                buttonToAuthenticate.interactable = false;
+            });
         }
         
         private void OnClientDisconnected()
         {
-            protocol.Handshake.OnWelcome -= OnWelcome;
-            protocol.Handshake.OnTimeout -= OnTimeout;
-            submit.interactable = true;
+            protocol.RunInMainThread(() =>
+            {
+                protocol.Handshake.OnWelcome -= OnWelcome;
+                protocol.Handshake.OnTimeout -= OnTimeout;
+                if (wasSuccessfulRegistration)
+                {
+                    wasSuccessfulRegistration = false;
+                }
+                else
+                {
+                    submit.interactable = true;
+                    buttonToAuthenticate.interactable = true;
+                }
+            });
         }
         
         private async Task OnRegisterOK(Nothing _)
         {
             // Please note: The argument type must match the Register protocol definition!
             SetStatus("Register was successful!");
+            await protocol.RunInMainThread(async () =>
+            {
+                if (buttonToAuthenticate) buttonToAuthenticate.interactable = false;
+                if (submit) submit.interactable = false;
+                float timeout = 0;
+                while (timeout < 2f)
+                {
+                    await Tasks.Blink();
+                    timeout += Time.deltaTime;
+                }
+                gameObject.SetActive(false);
+                if (authenticateUI)
+                {
+                    authenticateUI.SetActive(true);
+                    authenticateUI.GetComponent<EGAuthUI>().PrepopulateCredentials(
+                        username.text,
+                        password.text
+                    );
+                }
+                if (buttonToAuthenticate) buttonToAuthenticate.interactable = true;
+                if (submit) submit.interactable = true;
+            });
         }
         
         private async Task OnRegisterFailed(RegisterFailed reason)

@@ -142,17 +142,23 @@ namespace Client.Authoring.Behaviours.UI
         
         private void OnClientConnected()
         {
-            submit.interactable = false;
-            buttonToRegister.interactable = false;
+            protocol.RunInMainThread(() =>
+            {
+                submit.interactable = false;
+                buttonToRegister.interactable = false;
+            });
         }
         
         private void OnClientDisconnected()
         {
-            protocol.Handshake.OnWelcome -= OnWelcome;
-            protocol.Handshake.OnTimeout -= OnTimeout;
-            submit.interactable = true;
-            buttonToRegister.interactable = true;
-            UseCanvas(false);
+            protocol.RunInMainThread(() =>
+            {
+                protocol.Handshake.OnWelcome -= OnWelcome;
+                protocol.Handshake.OnTimeout -= OnTimeout;
+                submit.interactable = true;
+                buttonToRegister.interactable = true;
+                UseCanvas(false);
+            });
         }
         
         private async Task OnLoginOK(Nothing _)
