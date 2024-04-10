@@ -208,5 +208,16 @@ namespace Client.Authoring.Behaviours.UI
                 });
             }
         }
+
+        /// <summary>
+        ///   Pre-populates the form, making it ready for signup.
+        /// </summary>
+        /// <param name="newUsername">The username to set</param>
+        /// <param name="newPassword">The password to set</param>
+        public void PrepopulateCredentials(string newUsername, string newPassword)
+        {
+            username.text = newUsername;
+            password.text = newPassword;
+        }
     }
 }
