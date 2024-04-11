@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: Male_Cloth
   m_EditorClassIdentifier: 
   addOns:
-    m_keys: 
-    m_values: []
+    m_keys: 0100
+    m_values:
+    - {fileID: 11400000, guid: 6d2c80bdbc1cd64df96ac5c203bbf5c0, type: 2}

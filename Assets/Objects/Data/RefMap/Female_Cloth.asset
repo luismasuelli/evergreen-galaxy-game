@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: Female_Cloth
   m_EditorClassIdentifier: 
   addOns:
-    m_keys: 
-    m_values: []
+    m_keys: 0100
+    m_values:
+    - {fileID: 11400000, guid: 98eb21734b3a72b899def68dfcc8529e, type: 2}
