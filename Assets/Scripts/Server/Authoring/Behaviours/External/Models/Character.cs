@@ -1,36 +1,10 @@
+using Core.Types.Characters;
 using Newtonsoft.Json;
 
 namespace Server.Authoring.Behaviours.External.Models
 {
     public class Character
     {
-        public enum SexType
-        {
-            Male = 0,
-            Female = 1
-        }
-
-        public enum RaceType
-        {
-            White = 0,
-            Brown = 1,
-            Black = 2
-        }
-
-        public enum HairType
-        {
-            Short = 0,
-            Middle = 1,
-            Long = 2
-        }
-
-        public enum HairColorType
-        {
-            Brunette,
-            Brown,
-            Blonde
-        }
-        
         [JsonProperty("_id")]
         public string Id;
         
