@@ -28,5 +28,8 @@ namespace Server.Authoring.Behaviours.External.Models
 
         [JsonProperty("hair_color")]
         public HairColorType HairColor;
+
+        [JsonProperty("cloth_color")]
+        public ClothColorType ClothColor;
     }
 }
