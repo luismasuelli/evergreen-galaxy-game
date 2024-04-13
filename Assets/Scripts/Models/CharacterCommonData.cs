@@ -9,6 +9,10 @@ using Core.Types.Characters;
 
 namespace Models
 {
+    /// <summary>
+    ///   This is common data for both messages.
+    ///   It includes a definition of the cloth.
+    /// </summary>
     public abstract class CharacterCommonData : ISerializable, IRefMapSimpleModel
     {
         /// <summary>
