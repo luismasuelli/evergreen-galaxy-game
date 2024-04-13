@@ -1,67 +1,164 @@
 using System;
 using AlephVault.Unity.Binary;
-using AlephVault.Unity.NetRose.RefMapChars.Types.Models;
-using AlephVault.Unity.WindRose.Authoring.Behaviours.Entities.Objects;
-using AlephVault.Unity.WindRose.Authoring.Behaviours.Entities.Visuals;
-using AlephVault.Unity.WindRose.RefMapChars.Authoring.Behaviours;
 using AlephVault.Unity.WindRose.RefMapChars.Authoring.ScriptableObjects;
-using AlephVault.Unity.WindRose.RefMapChars.Types;
+using Core.Types.Characters;
 
 namespace Models
 {
-    public class CharacterSpawnData : ISerializable, IRefMapSimpleModel
+    /// <summary>
+    ///   This is the spawn message for the characters.
+    ///   It includes all the visual data, and the name.
+    /// </summary>
+    public class CharacterSpawnData : CharacterCommonData
     {
-        // This file is just a suggestion. Edit it at your convenience, but
-        // always keep all the properties and methods defined, even if they
-        // just return some sort of default values (e.g. you might want to
-        // leave the skilled and dumb hand items out of your game: just
-        // remove the SkilledHandItemIndex and DumbHandItemIndex and also
-        // return null in the SkilledHandItem and DumbHandItem properties).
+        /// <summary>
+        ///   The short haircut for male.
+        /// </summary>
+        public ushort MaleShort = 3;
 
-        // Finally, you might want to use this class by composition rather
-        // than by inheritance. In this case, take this class as-is and,
-        // in the wrapping class, have a field of this type and implement
-        // the IRefMapSimpleModel by delegation (and also the ISerializable
-        // would typically invoke this class' Serialize method as well).
+        /// <summary>
+        ///   The middle haircut for male.
+        /// </summary>
+        public ushort MaleMiddle = 1;
+
+        /// <summary>
+        ///   The long haircut for male.
+        /// </summary>
+        public ushort MaleLong = 7;
         
-        public RefMapBody.ColorCode BodyColorCode;
-        public RefMapBundle.SexCode SexCode;
-        public ItemPair HairPair;
-        public ItemPair HatPair;
-        public ushort? NecklaceIndex;
-        public ushort? SkilledHandItemIndex;
-        public ushort? DumbHandItemIndex;
-        public ItemPair ClothPair;
+        /// <summary>
+        ///   The short haircut for female.
+        /// </summary>
+        public ushort FemaleShort = 1;
+
+        /// <summary>
+        ///   The middle haircut for female.
+        /// </summary>
+        public ushort FemaleMiddle = 4;
+
+        /// <summary>
+        ///   The long haircut for female.
+        /// </summary>
+        public ushort FemaleLong = 3;
         
-        public RefMapBody.ColorCode? BodyColor => BodyColorCode;
-        public RefMapBundle.SexCode? Sex => SexCode;
-        public Tuple<ushort, RefMapAddOn.ColorCode> Hair => HairPair;
-        public Tuple<ushort, RefMapAddOn.ColorCode> Hat => HatPair;
-        public ushort? Necklace => NecklaceIndex;
-        public ushort? SkilledHandItem => SkilledHandItemIndex;
-        public ushort? DumbHandItem => DumbHandItemIndex;
-        public Tuple<ushort, RefMapAddOn.ColorCode> Cloth => ClothPair;
+        /// <summary>
+        ///   The display name.
+        /// </summary>
+        public string DisplayName;
+
+        /// <summary>
+        ///   The sex.
+        /// </summary>
+        public SexType SexValue;
+
+        /// <summary>
+        ///   The race.
+        /// </summary>
+        public RaceType RaceValue;
+
+        /// <summary>
+        ///   The hairstyle.
+        /// </summary>
+        public HairType HairValue;
+
+        /// <summary>
+        ///   The hair color.
+        /// </summary>
+        public HairColorType HairColorValue;
         
-        public void Serialize(Serializer serializer)
+        /// <summary>
+        ///   Properly converts the sex code to a RefMap
+        ///   sex code.
+        /// </summary>
+        public override RefMapBundle.SexCode? Sex
         {
-            serializer.Serialize(ref BodyColorCode);
-            serializer.Serialize(ref SexCode);
-            serializer.Serialize(ref HairPair);
-            serializer.Serialize(ref HatPair);
-            serializer.Serialize(ref NecklaceIndex);
-            serializer.Serialize(ref SkilledHandItemIndex);
-            serializer.Serialize(ref DumbHandItemIndex);
-            serializer.Serialize(ref ClothPair);
+            get
+            {
+                switch (SexValue)
+                {
+                    case SexType.Female:
+                        return RefMapBundle.SexCode.Female;
+                    default:
+                        return RefMapBundle.SexCode.Male;
+                }
+            }
         }
 
-        public void ApplyInto(Visual v)
+        /// <summary>
+        ///   Properly converts the race value to a RefMap
+        ///   body color. Three body colors are supported.
+        /// </summary>
+        public override RefMapBody.ColorCode? BodyColor
         {
-            v.GetComponent<RefMapSimpleModelHolder>().BulkApply(this);
+            get
+            {
+                switch (RaceValue)
+                {
+                    case RaceType.White:
+                        return RefMapBody.ColorCode.White;
+                    case RaceType.Brown:
+                        return RefMapBody.ColorCode.Orange;
+                    default:
+                        return RefMapBody.ColorCode.Black;
+                }
+            }
         }
-        
-        public void ApplyInto(MapObject o)
+
+        /// <summary>
+        ///   Properly mixes the hairstyle and color into a single
+        ///   hair field.
+        /// </summary>
+        public override Tuple<ushort, RefMapAddOn.ColorCode> Hair
         {
-            ApplyInto(o.MainVisual);
+            get
+            {
+                RefMapAddOn.ColorCode hairColor;
+                switch (HairColorValue)
+                {
+                    case HairColorType.Blonde:
+                        hairColor = RefMapAddOn.ColorCode.Yellow;
+                        break;
+                    case HairColorType.Brown:
+                        hairColor = RefMapAddOn.ColorCode.DarkBrown;
+                        break;
+                    default:
+                        hairColor = RefMapAddOn.ColorCode.Black;
+                        break;
+                }
+
+                if (SexValue == SexType.Female)
+                {
+                    switch (HairValue)
+                    {
+                        case HairType.Long:
+                            return new(FemaleLong, hairColor);
+                        case HairType.Middle:
+                            return new(FemaleMiddle, hairColor);
+                        default:
+                            return new(FemaleShort, hairColor);
+                    }
+                }
+                // Male cases here.
+                switch (HairValue)
+                {
+                    case HairType.Long:
+                        return new(MaleLong, hairColor);
+                    case HairType.Middle:
+                        return new(MaleMiddle, hairColor);
+                    default:
+                        return new(MaleShort, hairColor);
+                }
+            }
+        }
+
+        public override void Serialize(Serializer serializer)
+        {
+            serializer.Serialize(ref DisplayName);
+            serializer.Serialize(ref SexValue);
+            serializer.Serialize(ref RaceValue);
+            serializer.Serialize(ref HairValue);
+            serializer.Serialize(ref HairColorValue);
+            serializer.Serialize(ref ClothColorValue);
         }
     }
 }

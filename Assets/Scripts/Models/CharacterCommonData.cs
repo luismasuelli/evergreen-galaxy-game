@@ -23,7 +23,7 @@ namespace Models
         /// <summary>
         ///   The cloth color.
         /// </summary>
-        public ClothColorType ClothColor;
+        public ClothColorType ClothColorValue;
         
         public virtual RefMapBody.ColorCode? BodyColor => null;
         public virtual RefMapBundle.SexCode? Sex => null;
@@ -33,11 +33,15 @@ namespace Models
         public ushort? SkilledHandItem => null;
         public ushort? DumbHandItem => null;
 
+        /// <summary>
+        ///   Properly converts the cloth color to a specific cloth
+        ///   and its color. It also might render no cloth.
+        /// </summary>
         public Tuple<ushort, RefMapAddOn.ColorCode> Cloth
         {
             get
             {
-                switch (ClothColor)
+                switch (ClothColorValue)
                 {
                     case ClothColorType.Black:
                         return new(DemoCloth, RefMapAddOn.ColorCode.Black);

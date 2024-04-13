@@ -8,9 +8,15 @@ namespace Models
     /// </summary>
     public class CharacterRefreshData : CharacterCommonData
     {
+        /// <summary>
+        ///   The text being said.
+        /// </summary>
+        public string Text;
+        
         public override void Serialize(Serializer serializer)
         {
-            serializer.Serialize(ref ClothColor);
+            serializer.Serialize(ref ClothColorValue);
+            serializer.Serialize(ref Text);
         }
     }
 }
