@@ -375,6 +375,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3ca679ed91c4a41b1f95e8915ce3302, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gizmoColor: {r: 0, g: 0, b: 1, a: 1}
   cache: {fileID: 0}
   framesPerSecond: 4
 --- !u!114 &1778555192977112727
@@ -591,6 +592,7 @@ GameObject:
   - component: {fileID: 4114146885422204156}
   - component: {fileID: 4528421356573597772}
   - component: {fileID: 6136314223347422779}
+  - component: {fileID: 5447048658612569353}
   m_Layer: 0
   m_Name: Character
   m_TagString: Untagged
@@ -697,5 +699,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9c86cdb8f375a8c4e9953119597fc921, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5447048658612569353
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8225821443313225042}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9bb2738e82af433c85ebd5cbc22c4dc4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
