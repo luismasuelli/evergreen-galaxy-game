@@ -3,10 +3,10 @@ namespace Core.Types.Characters
     public enum ClothColorType
     {
         None,
-        Green,
+        Black,
         Blue,
+        Green,
         Red,
         White,
-        Black
     }
 }
