@@ -1467,7 +1467,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   defaultScopePrefabs: []
   extraScopePrefabs: []
-  objectPrefabs: []
+  objectPrefabs:
+  - {fileID: 2133472230130861052, guid: 9a53a5d9c271b8fa0a9efc9a165e015e, type: 3}
   InstanceManager:
     ObjectField: {fileID: 0}
     ResultType: 
