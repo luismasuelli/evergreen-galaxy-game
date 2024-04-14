@@ -1,108 +1,103 @@
-using AlephVault.Unity.Meetgard.Types;
-using AlephVault.Unity.Binary.Wrappers;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 using AlephVault.Unity.NetRose.Authoring.Behaviours.Server;
 using AlephVault.Unity.NetRose.Types.Models;
+using Core.Types.Characters;
 using Models;
+using Server.Authoring.Behaviours.External.Models;
 
 namespace Server.Authoring.Behaviours.NetworkObjects
 {
     public class CharacterServerSide : OwnedNetRoseModelServerSide<CharacterSpawnData, CharacterRefreshData>
     {
-        // THIS BEHAVIOUR IS MEANT TO BE ATTACHED TO MAP OBJECTS
-        // THAT ARE MEANT TO BE SYNCHRONIZED THROUGH THE NETWORK.
-        // THIS MEANS: OBJECTS THAT SHOULD SEND REAL-TIME UPDATES
-        // TO THE CONNECTED CLIENTS.
-        //
-        // This is a synchronized model for WindRose (NetRose)
-        // Map Objects. There are two data types involved here:
-        // - The data type used to spawn a new object.
-        //   - CharacterSpawnData, in this case.
-        // - The data type used to refresh the object.
-        //   - CharacterSpawnData, in this case.
-        //
-        // Typically, one maintains two separate instances for
-        // the spawn data type and refresh data type, but it
-        // might happen that those references are the same or
-        // they have common object references in their structure.
-        // Users are totally free to define which instances are
-        // used to set the spawn data or the refresh data here,
-        // as long as non-null instances are used in each case.
-        //
-        // Objects are spawned automatically when added to maps
-        // in scopes that happen to also be networked.
-        //
-        // Please, bear in mind: Updating the properties of this
-        // object never triggers an automatic updated through
-        // the network, but the data is available for the next
-        // connection who requests a spawn of the objects, or
-        // the next time this object is changed to a new scope.
-        // In particular, when the value to be meant as refresh
-        // data happens to represent something different (even
-        // when the direct reference of the full data doesn't
-        // change), a full refresh should be triggered for this
-        // model, so the new data is refreshed.
-        //
-        // Refresh();
-        //
-        // Or, if it involves a specific refresh context, then:
-        //
-        // Refresh("some-context");
-        
-        // It is not forced that two separate instances exist for
-        // the data. Actually, the only thing to care about is to
-        // return the proper data in the following Get*Data methods.
-
-        public readonly CharacterSpawnData SpawnData = new CharacterSpawnData();
+        // The external object holding the character data.
+        private Character characterData;
+        private CharacterSpawnData spawnData = new();
         private OwnedModel<CharacterSpawnData> ownedSpawnData;
         private OwnedModel<CharacterSpawnData> notOwnedSpawnData;
-        public CharacterRefreshData RefreshData = new CharacterRefreshData();
+        private CharacterRefreshData refreshData;
         
         protected void Awake()
         {
             base.Awake();
-            ownedSpawnData = new OwnedModel<CharacterSpawnData>(true, SpawnData);
-            notOwnedSpawnData = new OwnedModel<CharacterSpawnData>(false, SpawnData);
+            ownedSpawnData = new OwnedModel<CharacterSpawnData>(true, spawnData);
+            notOwnedSpawnData = new OwnedModel<CharacterSpawnData>(false, spawnData);
         }
         
         protected override OwnedModel<CharacterSpawnData> GetInnerFullData(ulong connectionId)
         {
-            // The spawn data is typically one instance, changing
-            // but always holding the whole synchronized object
-            // data.
-            //
-            // This spawn data, still, might be different depending
-            // on the target connection (e.g. for owned & private
-            // data), depending on whether the target connection
-            // is the owner or not.
             return GetOwner() == connectionId ? ownedSpawnData : notOwnedSpawnData;
         }
 
         protected override CharacterRefreshData GetInnerRefreshData(ulong connectionId, string context)
         {
-            // In this example, the whole refresh data is sent, but
-            // the implementation might send different data values
-            // depending on the context. Typically, the "" context
-            // means a *full* refresh, but another context may be
-            // chosen (and understood by the client!), and in the
-            // data type a custom logic might exist to allow some
-            // fields to be null (for the refresh records, their
-            // serialization and de-serialization) so partial data
-            // may be serialized, depending on the context being
-            // specified.
-            //
-            // In this implementation, the RefreshData does not
-            // have a custom logic depending on the context. It
-            // is allowed to return different values on different
-            // conditions (being consistent on the structure of
-            // the values being returned on different contexts!)
-            // instead of this full instance for all the contexts.
-            //
-            // The refresh data, also, might be different depending
-            // on the target connection (e.g. for owned & private
-            // data), depending on whether the target connection
-            // is the owner or not.
-            return RefreshData;
+            return refreshData;
+        }
+
+        /// <summary>
+        ///   Sets the whole character data.
+        /// </summary>
+        /// <param name="character">The character data</param>
+        public void Initialize(Character character)
+        {
+            characterData = character;
+            spawnData.DisplayName = character.DisplayName;
+            spawnData.HairValue = character.Hair;
+            spawnData.HairColorValue = character.HairColor;
+            spawnData.RaceValue = character.Race;
+            spawnData.SexValue = character.Sex;
+            spawnData.ClothColorValue = character.ClothColor;
+        }
+
+        // Updates the proper refresh data of the object.
+        private Task RefreshWith(CharacterRefreshData data)
+        {
+            Mutex m = new();
+            try
+            {
+                refreshData = data;
+                return Refresh();
+            }
+            finally
+            {
+                m.ReleaseMutex();
+            }
+        }
+
+        /// <summary>
+        ///   Forces the character to say something.
+        /// </summary>
+        /// <param name="text">The text to say</param>
+        public Task Say(string text)
+        {
+            return RefreshWith(new CharacterRefreshData {
+                Text = text ?? ""
+            });
+        }
+
+        /// <summary>
+        ///   Sets the cloth color.
+        /// </summary>
+        public ClothColorType ClothColor
+        {
+            get => characterData.ClothColor;
+            set
+            {
+                characterData.ClothColor = value;
+                spawnData.ClothColorValue = value;
+                RefreshWith(new CharacterRefreshData {
+                    ClothColorValue = value
+                });
+            }
+        }
+
+        /// <summary>
+        ///   Rotates the cloth color.
+        /// </summary>
+        public void RotateClothColor()
+        {
+            ClothColor = (ClothColorType)(((int)ClothColor + 1) % 6);
         }
     }
 }
-
