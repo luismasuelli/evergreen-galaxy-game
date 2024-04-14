@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: LPC-Biome-Alt-Soils_0
   m_EditorClassIdentifier: 
   sourceTile: {fileID: 11400000, guid: c513c61a255a0e6fe944c6dda7564898, type: 2}
-  strategies: []
+  strategies:
+  - {fileID: 11400000, guid: 2491dc07e690bd941b184067498b8129, type: 2}
