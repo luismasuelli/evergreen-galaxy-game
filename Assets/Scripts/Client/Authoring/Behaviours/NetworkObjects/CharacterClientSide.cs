@@ -1,12 +1,11 @@
-// Using UnityEngine;
-using AlephVault.Unity.Meetgard.Types;
-using AlephVault.Unity.Binary.Wrappers;
+using UnityEngine;
 using AlephVault.Unity.NetRose.Authoring.Behaviours.Client;
-using AlephVault.Unity.NetRose.Types.Models;
+using Core.Authoring.Behaviours.MapObjects;
 using Models;
 
 namespace Client.Authoring.Behaviours.NetworkObjects
 {
+    [RequireComponent(typeof(Character))]
     public class CharacterClientSide : OwnedNetRoseModelClientSide<CharacterSpawnData, CharacterRefreshData>
     {
         /// <summary>
@@ -14,16 +13,18 @@ namespace Client.Authoring.Behaviours.NetworkObjects
         /// </summary>
         public static CharacterClientSide Instance { get; private set; } = null;
         
-        // THIS BEHAVIOUR IS MEANT TO BE ATTACHED TO MAP OBJECTS
-        // THAT ARE MEANT TO BE SYNCHRONIZED THROUGH THE NETWORK.
-        // THIS MEANS: OBJECTS THAT SHOULD RECEIVE REAL-TIME UPDATES
-        // FROM THE CONNECTED SERVER.
-                
+        // The main camera.
+        private static Camera mainCamera = Camera.main;
+
+        // The character model.
+        private Character character;
+        
         protected override void Awake()
         {
             base.Awake();
             OnSpawned += NetRoseModelClientSide_OnSpawned;
             OnDespawned += NetRoseModelClientSide_OnDespawned;
+            character = GetComponent<Character>();
         }
         
         protected override void OnDestroy()
@@ -46,30 +47,24 @@ namespace Client.Authoring.Behaviours.NetworkObjects
 
         protected override void InflateOwnedFrom(CharacterSpawnData fullData)
         {
-            // Implement this method to visually update this object
-            // based on the full spawn data received through the
-            // network update.
             if (isOwned) Instance = this;
+            character.Name = fullData.DisplayName;
+            fullData.ApplyInto(MapObject);
         }
         
         protected override void UpdateFrom(CharacterRefreshData refreshData)
         {
-            // Implement this method to visually update this object
-            // based on the refresh data received through the network
-            // update. Depending on how the game is designed, it can
-            // represent a full refresh data object or a partial one,
-            // so some aspects are only meant to be refreshed.
+            if (refreshData.Text != null) character.SetText(refreshData.Text);
+            refreshData.ApplyInto(MapObject);
         }
         
-        /**
         private void Update()
         {
-            if (CharacterClientSide.Instance) Camera.main.transform.position = new Vector3(
-                CharacterClientSide.Instance.transform.position.x,
-                CharacterClientSide.Instance.transform.position.y,
-                Camera.main.transform.position.z
+            if (Instance == this) mainCamera.transform.position = new Vector3(
+                Instance.transform.position.x,
+                Instance.transform.position.y,
+                mainCamera.transform.position.z
             );
         }
-        */
     }
 }
