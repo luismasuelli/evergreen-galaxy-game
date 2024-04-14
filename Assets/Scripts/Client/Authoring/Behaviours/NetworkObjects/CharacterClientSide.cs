@@ -14,7 +14,7 @@ namespace Client.Authoring.Behaviours.NetworkObjects
         public static CharacterClientSide Instance { get; private set; } = null;
         
         // The main camera.
-        private static Camera mainCamera = Camera.main;
+        private static Camera mainCamera;
 
         // The character model.
         private Character character;
@@ -22,6 +22,7 @@ namespace Client.Authoring.Behaviours.NetworkObjects
         protected override void Awake()
         {
             base.Awake();
+            if (mainCamera == null) mainCamera = Camera.main;
             OnSpawned += NetRoseModelClientSide_OnSpawned;
             OnDespawned += NetRoseModelClientSide_OnDespawned;
             character = GetComponent<Character>();
