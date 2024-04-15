@@ -1465,7 +1465,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d60d690d50dd4104b9c2c73c6b9fa77d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  defaultScopePrefabs: []
+  defaultScopePrefabs:
+  - {fileID: 3776755575858958803, guid: a112d32404054c9b2a1a2f7bebf36a90, type: 3}
   extraScopePrefabs: []
   objectPrefabs:
   - {fileID: 2133472230130861052, guid: 9a53a5d9c271b8fa0a9efc9a165e015e, type: 3}

@@ -220,7 +220,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b101357c322ea6a4dbe7a2e4df94f908, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  defaultScopePrefabs: []
+  defaultScopePrefabs:
+  - {fileID: 9121218491039103910, guid: 5d0058d86dd9cafd8a8398ae2897a284, type: 3}
   extraScopePrefabs: []
   objectPrefabs:
   - {fileID: 3970622893684358750, guid: bcd4fceab5708e829801dbead97e67e5, type: 3}
