@@ -64,9 +64,9 @@ namespace Server.Authoring.Behaviours.NetworkObjects
         ///   Forces the character to say something.
         /// </summary>
         /// <param name="text">The text to say</param>
-        public Task Say(string text)
+        public void Say(string text)
         {
-            return RefreshWith(new CharacterRefreshData {
+            RefreshWith(new CharacterRefreshData {
                 Text = text ?? ""
             });
         }
