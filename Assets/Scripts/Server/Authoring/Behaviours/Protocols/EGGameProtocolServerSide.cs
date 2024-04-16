@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using AlephVault.Unity.Binary;
 using UnityEngine;
 using AlephVault.Unity.WindRose.Authoring.Behaviours.World;
 using AlephVault.Unity.WindRose.Authoring.Behaviours.Entities.Objects;
@@ -10,6 +11,8 @@ using Protocols.Messages;
 
 namespace Server.Authoring.Behaviours.Protocols
 {
+    using String = AlephVault.Unity.Binary.Wrappers.String;
+
     [RequireComponent(typeof(PlayerProtocolServerSide))]
     [RequireComponent(typeof(EGAuthProtocolServerSide))]
     [RequireComponent(typeof(ServerSideThrottler))]
@@ -61,7 +64,14 @@ namespace Server.Authoring.Behaviours.Protocols
             string message, Func<ProtocolServerSide<EGGameProtocolDefinition>, ulong, Task> handler
         )
         {
-            AddIncomingMessageHandler(message, authProtocol.LoginRequired<EGGameProtocolDefinition>(handler));
+            AddIncomingMessageHandler(message, authProtocol.LoginRequired(handler));
+        }
+
+        private void AddAuthenticatedIncomingMessageHandler<T>(
+            string message, Func<ProtocolServerSide<EGGameProtocolDefinition>, ulong, T, Task> handler
+        ) where T : ISerializable, new()
+        {
+            AddIncomingMessageHandler(message, authProtocol.LoginRequired(handler));
         }
 
         private void AddAuthThrottledCommandHandler(
@@ -82,7 +92,26 @@ namespace Server.Authoring.Behaviours.Protocols
                 }, onThrottled, index);
             });
         }
-        
+
+        private void AddAuthThrottledCommandHandler<T>(
+            string message, Func<ulong, T, Task> handler, Func<ulong, DateTime, int, Task> onThrottled = null,
+            int index = WalkThrottle
+        ) where T : ISerializable, new()
+        {
+            onThrottled ??= (_, _, _) => Task.CompletedTask;
+            AddAuthenticatedIncomingMessageHandler<T>(message, async (proto, connId, content) =>
+            {
+                await throttler.DoThrottled(connId, async () =>
+                {
+                    try
+                    {
+                        await handler(connId, content);
+                    }
+                    catch(Exception e) { /* Handle this */ }
+                }, onThrottled, index);
+            });
+        }
+
         /// <summary>
         ///   Initializes the protocol handlers once the server is ready.
         /// </summary>
@@ -99,6 +128,16 @@ namespace Server.Authoring.Behaviours.Protocols
             });
             AddAuthThrottledCommandHandler(EGGameProtocolDefinition.MoveRight, async (connId) => {
                 principalProtocol.MoveRight(connId, true);
+            });
+            AddAuthThrottledCommandHandler(EGGameProtocolDefinition.ClothRotate, async (connId) => {
+                // Get the character. Get its behaviour.
+                // Rotate the cloth.
+                // SAVE the change in the session's character.
+            });
+            AddAuthThrottledCommandHandler<String>(EGGameProtocolDefinition.Say, async (connId, content) =>
+            {
+                // Get the character. Get its behaviour.
+                // Make it say (trim spaces and limit to 200).
             });
         }
         
