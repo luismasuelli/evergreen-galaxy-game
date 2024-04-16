@@ -6,6 +6,7 @@ using AlephVault.Unity.NetRose.Types.Models;
 using Core.Types.Characters;
 using Models;
 using Server.Authoring.Behaviours.External.Models;
+using Position = Server.Authoring.Behaviours.External.Models.Position;
 
 namespace Server.Authoring.Behaviours.NetworkObjects
 {
@@ -48,6 +49,26 @@ namespace Server.Authoring.Behaviours.NetworkObjects
             spawnData.RaceValue = character.Race;
             spawnData.SexValue = character.Sex;
             spawnData.ClothColorValue = character.ClothColor;
+        }
+
+        /// <summary>
+        ///   Saves the whole character data.
+        /// </summary>
+        public void Save()
+        {
+            characterData.DisplayName = spawnData.DisplayName;
+            characterData.Hair = spawnData.HairValue;
+            characterData.HairColor = spawnData.HairColorValue;
+            characterData.Race = spawnData.RaceValue;
+            characterData.Sex = spawnData.SexValue;
+            characterData.ClothColor = characterData.ClothColor;
+            characterData.Position = new Position
+            {
+                Map = (ushort)(MapObject.ParentMap?.GetIndex() ?? 0),
+                Scope = NetRoseScopeServerSide?.DefaultName ?? "",
+                X = MapObject.X,
+                Y = MapObject.Y
+            };
         }
 
         // Updates the proper refresh data of the object.
