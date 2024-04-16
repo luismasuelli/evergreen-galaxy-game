@@ -139,7 +139,7 @@ namespace Server.Authoring.Behaviours.Protocols
             AddAuthThrottledCommandHandler<String>(EGGameProtocolDefinition.Say, async (connId, content) =>
             {
                 CharacterServerSide character = principalProtocol.GetPrincipal(connId);
-                character.Say(content);
+                character.Say(content.Wrapped.Substring(0, EGGameProtocolDefinition.MaxSayLength));
             }, null, SayThrottle);
         }
         

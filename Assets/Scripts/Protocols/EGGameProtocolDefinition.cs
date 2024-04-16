@@ -13,6 +13,7 @@ namespace Protocols
         public const string MoveRight = "Move:Right";
         public const string MoveUp = "Move:Up";
         // Saying something.
+        public const int MaxSayLength = 256;
         public const string Say = "Say";
         // Rotating the cloth.
         public const string ClothRotate = "Cloth:Rotate";

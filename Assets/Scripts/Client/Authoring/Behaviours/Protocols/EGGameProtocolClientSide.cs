@@ -9,6 +9,8 @@ using Protocols.Messages;
 
 namespace Client.Authoring.Behaviours.Protocols
 {
+    using String = AlephVault.Unity.Binary.Wrappers.String;
+
     [RequireComponent(typeof(EGAuthProtocolClientSide))]
     [RequireComponent(typeof(ClientSideThrottler))]
     public class EGGameProtocolClientSide : ProtocolClientSide<EGGameProtocolDefinition>
@@ -16,6 +18,8 @@ namespace Client.Authoring.Behaviours.Protocols
         private ClientSideThrottler throttler;
         private EGAuthProtocolClientSide authProtocol;
         private const int WalkThrottle = 0;
+        private const int SayThrottle = 1;
+        private const int ClothThrottle = 2;
 
         // Typically, one of these games involves the ability
         // to move in any of the 4 directions:
@@ -23,6 +27,8 @@ namespace Client.Authoring.Behaviours.Protocols
         private Func<Task> SendMoveLeft;
         private Func<Task> SendMoveRight;
         private Func<Task> SendMoveUp;
+        private Func<Task> SendClothRotate;
+        private Func<String, Task> SendSay;
         
         /// <summary>
         ///   A Post-Awake hook.
@@ -44,30 +50,46 @@ namespace Client.Authoring.Behaviours.Protocols
             SendMoveLeft = MakeSender(EGGameProtocolDefinition.MoveLeft);
             SendMoveRight = MakeSender(EGGameProtocolDefinition.MoveRight);
             SendMoveUp = MakeSender(EGGameProtocolDefinition.MoveUp);
+            SendClothRotate = MakeSender(EGGameProtocolDefinition.ClothRotate);
+            SendSay = MakeSender<String>(EGGameProtocolDefinition.Say);
             SendMoveDown = throttler.MakeThrottledSender(SendMoveDown);
             SendMoveLeft = throttler.MakeThrottledSender(SendMoveLeft);
             SendMoveRight = throttler.MakeThrottledSender(SendMoveRight);
             SendMoveUp = throttler.MakeThrottledSender(SendMoveUp);
+            SendClothRotate = throttler.MakeThrottledSender(SendClothRotate);
+            SendSay = throttler.MakeThrottledSender(SendSay);
         }
 
-        private Task DoSendMoveDown()
+        public Task MoveDown()
         {
             return authProtocol.LoggedIn ? SendMoveDown() : Task.CompletedTask;
         }
         
-        private Task DoSendMoveUp()
+        public Task MoveUp()
         {
             return authProtocol.LoggedIn ? SendMoveUp() : Task.CompletedTask;
         }
         
-        private Task DoSendMoveLeft()
+        public Task MoveLeft()
         {
             return authProtocol.LoggedIn ? SendMoveLeft() : Task.CompletedTask;
         }
         
-        private Task DoSendMoveRight()
+        public Task MoveRight()
         {
             return authProtocol.LoggedIn ? SendMoveRight() : Task.CompletedTask;
+        }
+
+        public Task Say(string message)
+        {
+            // Yes, trimming before and after.
+            message = message.Trim().Substring(0, EGGameProtocolDefinition.MaxSayLength).Trim();
+            return authProtocol.LoggedIn ? SendSay((String)message) : Task.CompletedTask;
+        }
+
+        public Task ClothRotate()
+        {
+            return authProtocol.LoggedIn ? SendClothRotate() : Task.CompletedTask;
         }
         
         /// <summary>
