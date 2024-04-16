@@ -1,4 +1,5 @@
 using AlephVault.Unity.NetRose.Authoring.Behaviours.Server;
+using Server.Authoring.Behaviours.External.Models;
 using Server.Authoring.Behaviours.NetworkObjects;
 
 namespace Server.Authoring.Behaviours.Protocols
@@ -77,5 +78,37 @@ namespace Server.Authoring.Behaviours.Protocols
          *   If two or more movements are "queued" like this, only the last will be remembered. If the
          *   queue argument is false and the principal is already moving, then this call will do nothing.
          */
+
+        /// <summary>
+        ///   This method is invoked immediately after a character
+        ///   is set in session by the auth protocol.
+        /// </summary>
+        /// <param name="connId">The connection id</param>
+        /// <param name="model">The model to populate this character from</param>
+        public void InstantiateCharacter(ulong connId, Character model)
+        {
+            // Only default scopes are allowed, unless the devs have
+            // a mean to loading extra scopes and them manually calling
+            // RegisterNamedScope in their implementation.
+            InstantiatePrincipal(
+                connId, 0,
+                () => GetMap(model.Position.Scope, model.Position.Map),
+                model.Position.X, model.Position.Y, character => {
+                    character.Initialize(model);
+                }
+            );
+        }
+
+        /// <summary>
+        ///   This method is invoked immediately before the character
+        ///   model is removed from session.
+        /// </summary>
+        /// <param name="connId">The connection id</param>
+        /// <param name="model">The model to populate this character into</param>
+        public void RemoveCharacter(ulong connId, Character model)
+        {
+            GetPrincipal(connId).Save();
+            RemovePrincipal(connId);
+        }
     }
 }
