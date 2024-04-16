@@ -8,6 +8,7 @@ using AlephVault.Unity.WindRose.Authoring.Behaviours.Entities.Objects;
 using AlephVault.Unity.Meetgard.Authoring.Behaviours.Server;
 using Protocols;
 using Protocols.Messages;
+using Server.Authoring.Behaviours.NetworkObjects;
 
 namespace Server.Authoring.Behaviours.Protocols
 {
@@ -129,15 +130,16 @@ namespace Server.Authoring.Behaviours.Protocols
             AddAuthThrottledCommandHandler(EGGameProtocolDefinition.MoveRight, async (connId) => {
                 principalProtocol.MoveRight(connId, true);
             });
-            AddAuthThrottledCommandHandler(EGGameProtocolDefinition.ClothRotate, async (connId) => {
-                // Get the character. Get its behaviour.
-                // Rotate the cloth.
-                // SAVE the change in the session's character.
+            AddAuthThrottledCommandHandler(EGGameProtocolDefinition.ClothRotate, async (connId) =>
+            {
+                CharacterServerSide character = principalProtocol.GetPrincipal(connId);
+                character.RotateClothColor();
+                authProtocol.GetCharacter(connId).ClothColor = character.ClothColor;
             });
             AddAuthThrottledCommandHandler<String>(EGGameProtocolDefinition.Say, async (connId, content) =>
             {
-                // Get the character. Get its behaviour.
-                // Make it say (trim spaces and limit to 200).
+                CharacterServerSide character = principalProtocol.GetPrincipal(connId);
+                character.Say(content);
             });
         }
         
