@@ -15,31 +15,12 @@ namespace Server.Authoring.Behaviours.Protocols
     [RequireComponent(typeof(ServerSideThrottler))]
     public class EGGameProtocolServerSide : ProtocolServerSide<EGGameProtocolDefinition>
     {
-        // Define variables to hold senders, one for each defined
-        // client message. For this generated boilerplate examples,
-        // as per the EVGameProtocolDefinition class, you'll
-        // need these examples. Work analogous to create your own
-        // messages and their senders.
-        //
-        // private Func<ulong, Task> SendIntroduceYourself;
-        // private Func<ulong, MyType, Task> SendSomeTypedMessage;
-        //
-        // NOTES: These function references can be invoked ANYWHERE,
-        // not just in the context of the incoming message handlers
-        // that are defined below, as long as the protocol is ready.
-        //
-        // If it is needed to have a sender that works for multiple
-        // connections simultaneously, declare a BROADCASTER instead:
-        //
-        // private Func<IEnumerable<ulong>, Dictionary<ulong, Task>> BroadcastHello;
-        // private Func<IEnumerable<ulong>, MyType, Dictionary<ulong, Task>> BroadcastSomeTypedMessage;
-
         private PlayerProtocolServerSide principalProtocol;
         private EGAuthProtocolServerSide authProtocol;
         private ServerSideThrottler throttler;
         private const int WalkThrottle = 0;
-        // private const int SimpleCommandThrottle = 1;
-        // private const int AimedCommandThrottle = 2;
+        private const int SayThrottle = 1;
+        private const int ClothThrottle = 2;
                 
         /// <summary>
         ///   A Post-Awake hook.
@@ -83,8 +64,9 @@ namespace Server.Authoring.Behaviours.Protocols
             AddIncomingMessageHandler(message, authProtocol.LoginRequired<EGGameProtocolDefinition>(handler));
         }
 
-        private void AddMovementCommandHandler(
-            string message, Func<ulong, Task> handler, Func<ulong, DateTime, int, Task> onThrottled = null
+        private void AddAuthThrottledCommandHandler(
+            string message, Func<ulong, Task> handler, Func<ulong, DateTime, int, Task> onThrottled = null,
+            int index = WalkThrottle
         )
         {
             onThrottled ??= (_, _, _) => Task.CompletedTask;
@@ -97,7 +79,7 @@ namespace Server.Authoring.Behaviours.Protocols
                         await handler(connId);
                     }
                     catch(Exception e) { /* Handle this */ }
-                }, onThrottled);
+                }, onThrottled, index);
             });
         }
         
@@ -106,16 +88,16 @@ namespace Server.Authoring.Behaviours.Protocols
         /// </summary>
         protected override void SetIncomingMessageHandlers()
         {
-            AddMovementCommandHandler(EGGameProtocolDefinition.MoveDown, async (connId) => {
+            AddAuthThrottledCommandHandler(EGGameProtocolDefinition.MoveDown, async (connId) => {
                 principalProtocol.MoveDown(connId, true);
             });
-            AddMovementCommandHandler(EGGameProtocolDefinition.MoveUp, async (connId) => {
+            AddAuthThrottledCommandHandler(EGGameProtocolDefinition.MoveUp, async (connId) => {
                 principalProtocol.MoveUp(connId, true);
             });
-            AddMovementCommandHandler(EGGameProtocolDefinition.MoveLeft, async (connId) => {
+            AddAuthThrottledCommandHandler(EGGameProtocolDefinition.MoveLeft, async (connId) => {
                 principalProtocol.MoveLeft(connId, true);
             });
-            AddMovementCommandHandler(EGGameProtocolDefinition.MoveRight, async (connId) => {
+            AddAuthThrottledCommandHandler(EGGameProtocolDefinition.MoveRight, async (connId) => {
                 principalProtocol.MoveRight(connId, true);
             });
         }
