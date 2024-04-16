@@ -135,12 +135,12 @@ namespace Server.Authoring.Behaviours.Protocols
                 CharacterServerSide character = principalProtocol.GetPrincipal(connId);
                 character.RotateClothColor();
                 authProtocol.GetCharacter(connId).ClothColor = character.ClothColor;
-            });
+            }, null, ClothThrottle);
             AddAuthThrottledCommandHandler<String>(EGGameProtocolDefinition.Say, async (connId, content) =>
             {
                 CharacterServerSide character = principalProtocol.GetPrincipal(connId);
                 character.Say(content);
-            });
+            }, null, SayThrottle);
         }
         
         private MapObject GetLowestTarget(Map map, ushort x, ushort y)
