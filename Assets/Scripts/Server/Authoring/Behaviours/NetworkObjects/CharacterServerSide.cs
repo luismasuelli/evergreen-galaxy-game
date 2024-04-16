@@ -53,15 +53,10 @@ namespace Server.Authoring.Behaviours.NetworkObjects
         // Updates the proper refresh data of the object.
         private Task RefreshWith(CharacterRefreshData data)
         {
-            Mutex m = new();
-            try
+            lock (this)
             {
                 refreshData = data;
                 return Refresh();
-            }
-            finally
-            {
-                m.ReleaseMutex();
             }
         }
 
