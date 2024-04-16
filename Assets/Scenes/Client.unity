@@ -1536,6 +1536,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   throttleLapses:
   - 750
+  - 900
+  - 900
 --- !u!1 &515459479
 GameObject:
   m_ObjectHideFlags: 0

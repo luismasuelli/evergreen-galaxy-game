@@ -292,6 +292,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   throttleTimes:
   - 500
+  - 600
+  - 600
   consecutiveThrottleInterval: 10
 --- !u!1 &963194225
 GameObject:
