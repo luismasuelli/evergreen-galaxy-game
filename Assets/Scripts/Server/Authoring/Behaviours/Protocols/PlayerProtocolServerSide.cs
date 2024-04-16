@@ -104,8 +104,7 @@ namespace Server.Authoring.Behaviours.Protocols
         ///   model is removed from session.
         /// </summary>
         /// <param name="connId">The connection id</param>
-        /// <param name="model">The model to populate this character into</param>
-        public void RemoveCharacter(ulong connId, Character model)
+        public void RemoveCharacter(ulong connId)
         {
             GetPrincipal(connId).Save();
             RemovePrincipal(connId);
