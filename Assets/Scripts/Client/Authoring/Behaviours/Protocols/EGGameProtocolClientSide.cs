@@ -4,23 +4,18 @@ using UnityEngine;
 using AlephVault.Unity.Meetgard.Authoring.Behaviours.Client;
 using AlephVault.Unity.WindRose.Authoring.Behaviours.World;
 using AlephVault.Unity.NetRose.Authoring.Behaviours.Client;
-using Client.Authoring.Behaviours.NetworkObjects;
 using Protocols;
 using Protocols.Messages;
 
 namespace Client.Authoring.Behaviours.Protocols
 {
-    // Uncomment this line if this class should use throttling.
-    // [RequireComponent(typeof(ClientSideThrottler))]
+    [RequireComponent(typeof(EGAuthProtocolClientSide))]
+    [RequireComponent(typeof(ClientSideThrottler))]
     public class EGGameProtocolClientSide : ProtocolClientSide<EGGameProtocolDefinition>
     {
-        // Uncomment these lines if this class should use throttling.
-        // Also, ensure the throttler has at least 3 throttling indices.
-        //
-        // private ClientSideThrottler throttler;
-        // private const int WalkThrottle = 0;
-        // private const int SimpleCommandThrottle = 1;
-        // private const int AimedCommandThrottle = 2;
+        private ClientSideThrottler throttler;
+        private EGAuthProtocolClientSide authProtocol;
+        private const int WalkThrottle = 0;
 
         // Typically, one of these games involves the ability
         // to move in any of the 4 directions:
@@ -28,19 +23,14 @@ namespace Client.Authoring.Behaviours.Protocols
         private Func<Task> SendMoveLeft;
         private Func<Task> SendMoveRight;
         private Func<Task> SendMoveUp;
-        // It might also involve simple commands:
-        private Func<Task> SendSomeSimpleCommand;
-        // It might also involve commands in certain map & position:
-        private Func<AimType, Task> SendSomeAimedCommand;
         
         /// <summary>
         ///   A Post-Awake hook.
         /// </summary>
         protected override void Setup()
         {
-            // This method is optional. It can be removed.
-            // Uncomment this line if this class should use throttling.
-            // throttler = GetComponent<ClientSideThrottler>();
+            throttler = GetComponent<ClientSideThrottler>();
+            authProtocol = GetComponent<EGAuthProtocolClientSide>();
         }
         
         /// <summary>
@@ -54,23 +44,30 @@ namespace Client.Authoring.Behaviours.Protocols
             SendMoveLeft = MakeSender(EGGameProtocolDefinition.MoveLeft);
             SendMoveRight = MakeSender(EGGameProtocolDefinition.MoveRight);
             SendMoveUp = MakeSender(EGGameProtocolDefinition.MoveUp);
-            // It might also involve simple commands:
-            SendSomeSimpleCommand = MakeSender(EGGameProtocolDefinition.SomeSimpleCommand);
-            // It might also involve commands in certain map & position:
-            SendSomeAimedCommand = MakeSender<AimType>(EGGameProtocolDefinition.SomeAimedCommand);
+            SendMoveDown = throttler.MakeThrottledSender(SendMoveDown);
+            SendMoveLeft = throttler.MakeThrottledSender(SendMoveLeft);
+            SendMoveRight = throttler.MakeThrottledSender(SendMoveRight);
+            SendMoveUp = throttler.MakeThrottledSender(SendMoveUp);
+        }
 
-            // Finally, if using throttler, these lines might be more desirable:
-            //
-            // // Typically, one of these games involves the ability
-            // // to move in any of the 4 directions:
-            // SendMoveDown = throttler.MakeThrottledSender(SendMoveDown);
-            // SendMoveLeft = throttler.MakeThrottledSender(SendMoveLeft);
-            // SendMoveRight = throttler.MakeThrottledSender(SendMoveRight);
-            // SendMoveUp = throttler.MakeThrottledSender(SendMoveUp);
-            // // It might also involve simple commands:
-            // SendSomeSimpleCommand = throttler.MakeThrottledSender(SendSomeSimpleCommand);
-            // // It might also involve commands in certain map & position:
-            // SendSomeAimedCommand = throttler.MakeThrottledSender(SendSomeAimedCommand);
+        private Task DoSendMoveDown()
+        {
+            return authProtocol.LoggedIn ? SendMoveDown() : Task.CompletedTask;
+        }
+        
+        private Task DoSendMoveUp()
+        {
+            return authProtocol.LoggedIn ? SendMoveUp() : Task.CompletedTask;
+        }
+        
+        private Task DoSendMoveLeft()
+        {
+            return authProtocol.LoggedIn ? SendMoveLeft() : Task.CompletedTask;
+        }
+        
+        private Task DoSendMoveRight()
+        {
+            return authProtocol.LoggedIn ? SendMoveRight() : Task.CompletedTask;
         }
         
         /// <summary>
