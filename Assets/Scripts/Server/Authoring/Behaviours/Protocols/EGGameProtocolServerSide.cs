@@ -11,8 +11,8 @@ using Protocols.Messages;
 namespace Server.Authoring.Behaviours.Protocols
 {
     [RequireComponent(typeof(PlayerProtocolServerSide))]
-    // Uncomment this line if this class should use throttling.
-    // [RequireComponent(typeof(ServerSideThrottler))]
+    [RequireComponent(typeof(EGAuthProtocolServerSide))]
+    [RequireComponent(typeof(ServerSideThrottler))]
     public class EGGameProtocolServerSide : ProtocolServerSide<EGGameProtocolDefinition>
     {
         // Define variables to hold senders, one for each defined
@@ -35,11 +35,9 @@ namespace Server.Authoring.Behaviours.Protocols
         // private Func<IEnumerable<ulong>, MyType, Dictionary<ulong, Task>> BroadcastSomeTypedMessage;
 
         private PlayerProtocolServerSide principalProtocol;
-        // Uncomment these lines if this class should use throttling.
-        // Also, ensure the throttler has at least 3 throttling indices.
-        //
-        // private ServerSideThrottler throttler;
-        // private const int WalkThrottle = 0;
+        private EGAuthProtocolServerSide authProtocol;
+        private ServerSideThrottler throttler;
+        private const int WalkThrottle = 0;
         // private const int SimpleCommandThrottle = 1;
         // private const int AimedCommandThrottle = 2;
                 
@@ -49,8 +47,8 @@ namespace Server.Authoring.Behaviours.Protocols
         protected override void Setup()
         {
             principalProtocol = GetComponent<PlayerProtocolServerSide>();
-            // Uncomment this line if this class should use throttling.
-            // throttler = GetComponent<ServerSideThrottler>();
+            authProtocol = GetComponent<EGAuthProtocolServerSide>();
+            throttler = GetComponent<ServerSideThrottler>();
         }
         
         /// <summary>
@@ -77,98 +75,48 @@ namespace Server.Authoring.Behaviours.Protocols
             //
             // Which will capture any error by calling OnSendError(e).
         }
+
+        private void AddAuthenticatedIncomingMessageHandler(
+            string message, Func<ProtocolServerSide<EGGameProtocolDefinition>, ulong, Task> handler
+        )
+        {
+            AddIncomingMessageHandler(message, authProtocol.LoginRequired<EGGameProtocolDefinition>(handler));
+        }
+
+        private void AddMovementCommandHandler(
+            string message, Func<ulong, Task> handler, Func<ulong, DateTime, int, Task> onThrottled = null
+        )
+        {
+            onThrottled ??= (_, _, _) => Task.CompletedTask;
+            AddAuthenticatedIncomingMessageHandler(message, async (proto, connId) =>
+            {
+                await throttler.DoThrottled(connId, async () =>
+                {
+                    try
+                    {
+                        await handler(connId);
+                    }
+                    catch(Exception e) { /* Handle this */ }
+                }, onThrottled);
+            });
+        }
         
         /// <summary>
         ///   Initializes the protocol handlers once the server is ready.
         /// </summary>
         protected override void SetIncomingMessageHandlers()
         {
-            // Typically, one of these games involves the ability
-            // to move in any of the 4 directions:
-            AddIncomingMessageHandler(EGGameProtocolDefinition.MoveDown, async (proto, connId) => {
-                // Uncomment the //-commented lines if using throttle:
-                //
-                // await throttler.DoThrottled(clientId, async () => {
-                    try
-                    {
-                        principalProtocol.MoveDown(connId, true);
-                    }
-                    catch(Exception e) { /* Handle this */ }
-                // }, (ulong clientId, DateTime when, int throttlesCount) => { /* handle this */ }, WalkThrottle);
+            AddMovementCommandHandler(EGGameProtocolDefinition.MoveDown, async (connId) => {
+                principalProtocol.MoveDown(connId, true);
             });
-            AddIncomingMessageHandler(EGGameProtocolDefinition.MoveLeft, async (proto, connId) => {
-                // Uncomment the //-commented lines if using throttle:
-                //
-                // await throttler.DoThrottled(clientId, async () => {
-                    try
-                    {
-                        principalProtocol.MoveLeft(connId, true);
-                    }
-                    catch(Exception e) { /* Handle this */ }
-                // }, (ulong clientId, DateTime when, int throttlesCount) => { /* handle this */ }, WalkThrottle);
+            AddMovementCommandHandler(EGGameProtocolDefinition.MoveUp, async (connId) => {
+                principalProtocol.MoveUp(connId, true);
             });
-            AddIncomingMessageHandler(EGGameProtocolDefinition.MoveRight, async (proto, connId) => {
-                // Uncomment the //-commented lines if using throttle:
-                //
-                // await throttler.DoThrottled(clientId, async () => {
-                    try
-                    {
-                        principalProtocol.MoveRight(connId, true);
-                    }
-                    catch(Exception e) { /* Handle this */ }
-                // }, (ulong clientId, DateTime when, int throttlesCount) => { /* handle this */ }, WalkThrottle);
+            AddMovementCommandHandler(EGGameProtocolDefinition.MoveLeft, async (connId) => {
+                principalProtocol.MoveLeft(connId, true);
             });
-            AddIncomingMessageHandler(EGGameProtocolDefinition.MoveUp, async (proto, connId) => {
-                // Uncomment the //-commented lines if using throttle:
-                //
-                // await throttler.DoThrottled(clientId, async () => {
-                    try
-                    {
-                        principalProtocol.MoveUp(connId, true);
-                    }
-                    catch(Exception e) { /* Handle this */ }
-                // }, (ulong clientId, DateTime when, int throttlesCount) => { /* handle this */ }, WalkThrottle);
-            });
-            AddIncomingMessageHandler(EGGameProtocolDefinition.SomeSimpleCommand, async (proto, connId) => {
-                // Uncomment the //-commented lines if using throttle:
-                //
-                // await throttler.DoThrottled(clientId, async () => {
-                    try
-                    {
-                        Map map = principalProtocol.GetPrincipal(connId).MapObject.ParentMap;
-                        if (!map) return;
-                        /* Do something here */
-
-                        /** Example: compute closest (x, y) for object
-                            according to its orientation and do like
-                            this:
-                        MapObject target = GetExactTarget(map, newX, newY);
-                        if (target) {
-                            // Something else here.
-                        }
-                        */
-                    }
-                    catch(Exception e) { /* Handle this */ }
-                // }, (ulong clientId, DateTime when, int throttlesCount) => { /* handle this */ }, SimpleCommandThrottle);                
-            });
-            AddIncomingMessageHandler<AimType>(EGGameProtocolDefinition.SomeAimedCommand, async (proto, connId, aim) => {
-                // Uncomment the //-commented lines if using throttle:
-                //
-                // await throttler.DoThrottled(clientId, async () => {
-                    try
-                    {
-                        Map map = principalProtocol.GetPrincipal(connId).MapObject.ParentMap;
-                        if (!map) return;
-                        Scope scope = map.ParentScope;
-                        if (!scope) return;
-                        Map newMap = scope[aim.Map];
-                        MapObject target = GetLowestTarget(newMap, aim.X, aim.Y);
-                        if (target) {
-                            /* Do something with the target */
-                        }
-                    }
-                    catch(Exception e) { /* Handle this */ }
-                // }, (ulong clientId, DateTime when, int throttlesCount) => { /* handle this */ }, AimedCommandThrottle);                
+            AddMovementCommandHandler(EGGameProtocolDefinition.MoveRight, async (connId) => {
+                principalProtocol.MoveRight(connId, true);
             });
         }
         
