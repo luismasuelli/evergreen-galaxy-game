@@ -17,6 +17,7 @@ namespace Server.Authoring.Behaviours.Protocols
     using AlephVault.Unity.Binary.Wrappers;
     using AlephVault.Unity.Meetgard.Types;
 
+    [RequireComponent(typeof(PlayerProtocolServerSide))]
     public class EGAuthProtocolServerSide : SimpleAuthProtocolServerSide<
         EGAuthProtocolDefinition, Nothing, LoginFailed, Kicked,
         string, AccountPreviewData, AccountData
@@ -25,6 +26,8 @@ namespace Server.Authoring.Behaviours.Protocols
         private MultiCharAccountAPIClient client = new MultiCharAccountAPIClient(
             "http://localhost:8080"
         );
+
+        private PlayerProtocolServerSide playerProtocol;
         
         // Please note: The Nothing type is used when no data is needed.
         // This means that by default there is no need for any content
@@ -34,6 +37,7 @@ namespace Server.Authoring.Behaviours.Protocols
         protected override void Setup()
         {
             base.Setup();
+            playerProtocol = GetComponent<PlayerProtocolServerSide>();
             OnSessionStarting += HandleSessionStarted;
             OnSessionTerminating += HandleSessionTerminating;
         }
@@ -131,6 +135,7 @@ namespace Server.Authoring.Behaviours.Protocols
         public void SetCharacter(ulong clientId, Character character)
         {
             SetSessionData(clientId, "character", character);
+            playerProtocol.InstantiateCharacter(clientId, character);
         }
 
         /// <summary>
@@ -147,9 +152,27 @@ namespace Server.Authoring.Behaviours.Protocols
         ///   Clears the currently selected character from the session.
         /// </summary>
         /// <param name="clientId">The id of the client to clear the character from</param>
-        public void ClearCharacter(ulong clientId)
+        /// <returns>The result of the post-mortem Save request</returns>
+        public async Task<Result<Character, string>> ClearCharacter(ulong clientId)
         {
-            SetCharacter(clientId, default);
+            if (!SessionExists(clientId)) return null;
+            Character character;
+            try
+            {
+                character = GetCharacter(clientId);
+            }
+            catch
+            {
+                return null;
+            }
+
+            playerProtocol.RemoveCharacter(clientId);
+            RemoveSessionData(clientId, "character");
+
+            return await RunInMainThread(() => client.UpdateCharacter(character.Id, new JObject
+            {
+                { "$set", new JObject(character) }
+            }));
         }
 
         private async Task HandleSessionStarted(ulong clientId, AccountData data)
@@ -160,8 +183,8 @@ namespace Server.Authoring.Behaviours.Protocols
         private async Task HandleSessionTerminating(ulong clientId, Kicked reason)
         {
             AccountData account = (AccountData)GetSessionData(clientId, "account");
-            Result<MultiCharAccount, string> result = await RunInMainThread(() => 
-                client.UpdateAccount(account.GetID(), new JObject
+            Result<MultiCharAccount, string> result = await RunInMainThread(
+                () => client.UpdateAccount(account.GetID(), new JObject
                 {
                     { "$set", new JObject(account) }
                 })
@@ -174,19 +197,13 @@ namespace Server.Authoring.Behaviours.Protocols
                 );
                 return;
             }
-            Character character = (Character)GetSessionData(clientId, "character");
-            if (character == default) return;
-            Result<Character, string> result2 = await RunInMainThread(() => 
-                client.UpdateCharacter(character.Id, new JObject
-                {
-                    { "$set", new JObject(character) }
-                })
-            );
+
+            Result<Character, string> result2 = await ClearCharacter(clientId);
             if (result2.Code != ResultCode.Ok)
             {
                 Debug.LogWarning(
                     $"WARNING: Session for user {account.Account.Login} ({clientId}) " +
-                    $"could not store the character {character.Id} of an error code: {result2.Code}"
+                    $"could not store the character out of an error code: {result2.Code}"
                 );
             }
         }
