@@ -1,3 +1,4 @@
+using AlephVault.Unity.Binary.Wrappers;
 using AlephVault.Unity.Meetgard.Protocols;
 
 namespace Protocols
@@ -6,16 +7,15 @@ namespace Protocols
     
     public class EGGameProtocolDefinition : ProtocolDefinition
     {
-        // Typically, one of these games involves the ability
-        // to move in any of the 4 directions:
+        // Movement in 4 directions.
         public const string MoveDown = "Move:Down";
         public const string MoveLeft = "Move:Left";
         public const string MoveRight = "Move:Right";
         public const string MoveUp = "Move:Up";
-        // It might also involve simple commands:
-        public const string SomeSimpleCommand = "SimpleCommand:Some";
-        // It might also involve commands in certain map & position:
-        public const string SomeAimedCommand = "AimedCommand:Some";
+        // Saying something.
+        public const string Say = "Say";
+        // Rotating the cloth.
+        public const string ClothRotate = "Cloth:Rotate";
 
         /// <summary>
         ///   Defines all the messages that can be sent from a client
@@ -23,16 +23,15 @@ namespace Protocols
         /// </summary>
         protected override void DefineMessages()
         {
-            // Typically, one of these games involves the ability
-            // to move in any of the 4 directions:
+            // Commands to move in any of the 4 directions:
             DefineClientMessage(MoveDown);
             DefineClientMessage(MoveLeft);
             DefineClientMessage(MoveRight);
             DefineClientMessage(MoveUp);
-            // It might also involve simple commands:
-            DefineClientMessage(SomeSimpleCommand);
-            // It might also involve aimed commands:
-            DefineClientMessage<AimType>(SomeAimedCommand);
+            // Command to say something:
+            DefineClientMessage<String>(Say);
+            // Command to rotate the cloth:
+            DefineClientMessage(ClothRotate);
         }
     }
 }
