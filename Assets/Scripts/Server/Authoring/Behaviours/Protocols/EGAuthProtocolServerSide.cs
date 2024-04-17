@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using AlephVault.Unity.Meetgard.Auth.Types;
 using AlephVault.Unity.Meetgard.Auth.Protocols.Simple;
@@ -8,6 +9,7 @@ using Protocols;
 using Protocols.Messages;
 using Server.Authoring.Behaviours.External;
 using Server.Authoring.Behaviours.External.Models;
+using Server.Authoring.Behaviours.NetworkObjects;
 using Server.Authoring.Types;
 using UnityEngine;
 
@@ -23,6 +25,10 @@ namespace Server.Authoring.Behaviours.Protocols
         string, AccountPreviewData, AccountData
     >
     {
+        private const float WorldSaveInterval = 600f;
+        private float worldSavePhase;
+        private HashSet<ulong> activeSessions = new();
+        
         private MultiCharAccountAPIClient client = new MultiCharAccountAPIClient(
             "http://localhost:8080"
         );
@@ -178,10 +184,12 @@ namespace Server.Authoring.Behaviours.Protocols
         private async Task HandleSessionStarted(ulong clientId, AccountData data)
         {
             SetSessionData(clientId, "account", data);
+            activeSessions.Add(clientId);
         }
 
         private async Task HandleSessionTerminating(ulong clientId, Kicked reason)
         {
+            activeSessions.Remove(clientId);
             AccountData account = (AccountData)GetSessionData(clientId, "account");
             Result<MultiCharAccount, string> result = await RunInMainThread(
                 () => client.UpdateAccount(account.GetID(), new JObject
@@ -205,6 +213,46 @@ namespace Server.Authoring.Behaviours.Protocols
                     $"WARNING: Session for user {account.Account.Login} ({clientId}) " +
                     $"could not store the character out of an error code: {result2.Code}"
                 );
+            }
+        }
+
+        protected void Update()
+        {
+            if (!server.IsRunning) return;
+
+            worldSavePhase += Time.deltaTime;
+            if (worldSavePhase > WorldSaveInterval)
+            {
+                worldSavePhase -= WorldSaveInterval;
+
+                foreach (ulong clientId in activeSessions)
+                {
+                    try
+                    {
+                        AccountData account = (AccountData)GetSessionData(clientId, "account");
+                        RunInMainThread(() => client.UpdateAccount(account.GetID(), new JObject
+                        {
+                            { "$set", new JObject(account) }
+                        }));
+                    }
+                    catch (Exception)
+                    {
+                        continue;
+                    }
+                    
+                    try
+                    {
+                        CharacterServerSide character = playerProtocol.GetPrincipal(clientId);
+                        if (!character.NetRoseScopeServerSide) continue;
+                        character.Save();
+                        Character characterModel = GetCharacter(clientId);
+                        RunInMainThread(() => client.UpdateCharacter(characterModel.Id, new JObject
+                        {
+                            { "$set", new JObject(characterModel) }
+                        }));
+                    }
+                    catch (Exception) {}
+                }
             }
         }
 
