@@ -7,6 +7,15 @@ namespace Protocols
     
     public class EGGameProtocolDefinition : ProtocolDefinition
     {
+        // Character management commands.
+
+        // Characters listing.
+        public const string CharacterList = "Character:List";
+        public const string CharacterListOk = "Character:List:OK";
+        public const string CharacterListError = "Character:List:Error";
+        
+        // One-character commands.
+        
         // Movement in 4 directions.
         public const string MoveDown = "Move:Down";
         public const string MoveLeft = "Move:Left";
@@ -24,6 +33,11 @@ namespace Protocols
         /// </summary>
         protected override void DefineMessages()
         {
+            // Characters listing.
+            DefineClientMessage(CharacterList);
+            DefineServerMessage<CharactersNamesList>(CharacterListOk);
+            DefineServerMessage(CharacterListError);
+            
             // Commands to move in any of the 4 directions:
             DefineClientMessage(MoveDown);
             DefineClientMessage(MoveLeft);
