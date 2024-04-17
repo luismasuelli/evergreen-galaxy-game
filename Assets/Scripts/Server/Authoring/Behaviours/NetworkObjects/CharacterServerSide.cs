@@ -18,12 +18,21 @@ namespace Server.Authoring.Behaviours.NetworkObjects
         private OwnedModel<CharacterSpawnData> ownedSpawnData;
         private OwnedModel<CharacterSpawnData> notOwnedSpawnData;
         private CharacterRefreshData refreshData;
+        private bool isSpawned = false;
         
         protected void Awake()
         {
             base.Awake();
             ownedSpawnData = new OwnedModel<CharacterSpawnData>(true, spawnData);
             notOwnedSpawnData = new OwnedModel<CharacterSpawnData>(false, spawnData);
+            OnAfterSpawned += HandleOnAfterSpawned;
+            OnBeforeDespawned += HandleOnBeforeDeSpawned;
+        }
+
+        protected void OnDestroy()
+        {
+            OnAfterSpawned -= HandleOnAfterSpawned;
+            OnBeforeDespawned -= HandleOnBeforeDeSpawned;
         }
         
         protected override OwnedModel<CharacterSpawnData> GetInnerFullData(ulong connectionId)
@@ -34,6 +43,16 @@ namespace Server.Authoring.Behaviours.NetworkObjects
         protected override CharacterRefreshData GetInnerRefreshData(ulong connectionId, string context)
         {
             return refreshData;
+        }
+
+        private async Task HandleOnAfterSpawned()
+        {
+            isSpawned = true;
+        }
+
+        private async Task HandleOnBeforeDeSpawned()
+        {
+            isSpawned = false;
         }
 
         /// <summary>
@@ -72,12 +91,18 @@ namespace Server.Authoring.Behaviours.NetworkObjects
         }
 
         // Updates the proper refresh data of the object.
-        private Task RefreshWith(CharacterRefreshData data)
+        private async Task RefreshWith(CharacterRefreshData data)
         {
-            lock (this)
+            var m = new Mutex();
+            m.WaitOne();
+            try
             {
                 refreshData = data;
-                return Refresh();
+                await Refresh();
+            }
+            finally
+            {
+                m.ReleaseMutex();
             }
         }
 
