@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AlephVault.Unity.Binary;
+using AlephVault.Unity.Binary.Wrappers;
 using UnityEngine;
 using AlephVault.Unity.WindRose.Authoring.Behaviours.Entities.Objects;
 using AlephVault.Unity.Meetgard.Authoring.Behaviours.Server;
@@ -32,6 +33,7 @@ namespace Server.Authoring.Behaviours.Protocols
 
         private Func<ulong, CharactersNamesList, Task> SendCharacterListContent;
         private Func<ulong, Task> SendCharacterListError;
+        private Func<ulong, CharacterPickError, Task> SendCharacterPickError;
                 
         /// <summary>
         ///   A Post-Awake hook.
@@ -68,6 +70,7 @@ namespace Server.Authoring.Behaviours.Protocols
             // Which will capture any error by calling OnSendError(e).
             SendCharacterListContent = MakeSender<CharactersNamesList>(EGGameProtocolDefinition.CharacterListContent);
             SendCharacterListError = MakeSender(EGGameProtocolDefinition.CharacterListError);
+            SendCharacterPickError = MakeSender<CharacterPickError>(EGGameProtocolDefinition.CharacterPickError);
         }
 
         private void AddAuthenticatedIncomingMessageHandler(
@@ -173,6 +176,36 @@ namespace Server.Authoring.Behaviours.Protocols
             {
                 await NotifyCharacterList(connId);
             }, null, CharacterCommandThrottle);
+            AddAuthThrottledCommandHandler<UInt>(EGGameProtocolDefinition.CharacterPick, async (connId, index) =>
+            {
+                try
+                {
+                    authProtocol.GetCharacter(connId);
+                    await SendCharacterPickError(connId, new CharacterPickError {
+                        Code = CharacterPickError.CharacterPickErrorCode.AlreadyPicked
+                    });
+                    return;
+                }
+                catch {}
+                
+                Result<Character[], string> result = await authProtocol.ListCharacters(connId);
+                if (result == null)
+                {
+                    await SendCharacterPickError(connId, new CharacterPickError {
+                        Code = CharacterPickError.CharacterPickErrorCode.UnknownError
+                    });
+                }
+                else if (index < result.Element.Length)
+                {
+                    authProtocol.SetCharacter(connId, result.Element[index]);
+                }
+                else
+                {
+                    await SendCharacterPickError(connId, new CharacterPickError {
+                        Code = CharacterPickError.CharacterPickErrorCode.InvalidIndex
+                    });
+                }
+            });
         }
         
         private MapObject GetLowestTarget(Map map, ushort x, ushort y)
