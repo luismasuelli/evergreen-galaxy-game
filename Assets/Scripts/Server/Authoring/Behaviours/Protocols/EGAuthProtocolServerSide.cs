@@ -195,6 +195,7 @@ namespace Server.Authoring.Behaviours.Protocols
                 return null;
             }
 
+            // It will be removed and saved.
             playerProtocol.RemoveCharacter(clientId);
             RemoveSessionData(clientId, "character");
 
