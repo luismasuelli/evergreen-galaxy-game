@@ -16,9 +16,7 @@ namespace Protocols
         
         // Character picking.
         public const string CharacterPick = "Character:Pick";
-        public const string CharacterPickInvalid = "Character:Pick:Invalid";
         public const string CharacterPickError = "Character:Pick:Error";
-        public const string CharacterPickAlreadyPicked = "Character:Pick:AlreadyPicked";
         
         // One-character commands.
         
@@ -46,9 +44,7 @@ namespace Protocols
             
             // Character picking.
             DefineClientMessage<UInt>(CharacterPick);
-            DefineServerMessage(CharacterPickAlreadyPicked);
-            DefineServerMessage(CharacterPickInvalid);
-            DefineServerMessage(CharacterPickError);
+            DefineServerMessage<CharacterPickError>(CharacterPickError);
             
             // Commands to move in any of the 4 directions:
             DefineClientMessage(MoveDown);
