@@ -11,7 +11,7 @@ namespace Protocols
 
         // Characters listing.
         public const string CharacterList = "Character:List";
-        public const string CharacterListOk = "Character:List:OK";
+        public const string CharacterListContent = "Character:List:Content";
         public const string CharacterListError = "Character:List:Error";
         
         // One-character commands.
@@ -35,7 +35,7 @@ namespace Protocols
         {
             // Characters listing.
             DefineClientMessage(CharacterList);
-            DefineServerMessage<CharactersNamesList>(CharacterListOk);
+            DefineServerMessage<CharactersNamesList>(CharacterListContent);
             DefineServerMessage(CharacterListError);
             
             // Commands to move in any of the 4 directions:

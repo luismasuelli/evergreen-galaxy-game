@@ -4,6 +4,7 @@ using UnityEngine;
 using AlephVault.Unity.Meetgard.Authoring.Behaviours.Client;
 using AlephVault.Unity.WindRose.Authoring.Behaviours.World;
 using AlephVault.Unity.NetRose.Authoring.Behaviours.Client;
+using AlephVault.Unity.Support.Utils;
 using Protocols;
 using Protocols.Messages;
 
@@ -20,6 +21,7 @@ namespace Client.Authoring.Behaviours.Protocols
         private const int WalkThrottle = 0;
         private const int SayThrottle = 1;
         private const int ClothThrottle = 2;
+        private const int CharacterCommandThrottle = 3;
 
         // Typically, one of these games involves the ability
         // to move in any of the 4 directions:
@@ -29,6 +31,7 @@ namespace Client.Authoring.Behaviours.Protocols
         private Func<Task> SendMoveUp;
         private Func<Task> SendClothRotate;
         private Func<String, Task> SendSay;
+        private Func<Task> SendCharacterList;
         
         /// <summary>
         ///   A Post-Awake hook.
@@ -52,12 +55,14 @@ namespace Client.Authoring.Behaviours.Protocols
             SendMoveUp = MakeSender(EGGameProtocolDefinition.MoveUp);
             SendClothRotate = MakeSender(EGGameProtocolDefinition.ClothRotate);
             SendSay = MakeSender<String>(EGGameProtocolDefinition.Say);
-            SendMoveDown = throttler.MakeThrottledSender(SendMoveDown);
-            SendMoveLeft = throttler.MakeThrottledSender(SendMoveLeft);
-            SendMoveRight = throttler.MakeThrottledSender(SendMoveRight);
-            SendMoveUp = throttler.MakeThrottledSender(SendMoveUp);
-            SendClothRotate = throttler.MakeThrottledSender(SendClothRotate);
-            SendSay = throttler.MakeThrottledSender(SendSay);
+            SendCharacterList = MakeSender(EGGameProtocolDefinition.CharacterList);
+            SendMoveDown = throttler.MakeThrottledSender(SendMoveDown, WalkThrottle);
+            SendMoveLeft = throttler.MakeThrottledSender(SendMoveLeft, WalkThrottle);
+            SendMoveRight = throttler.MakeThrottledSender(SendMoveRight, WalkThrottle);
+            SendMoveUp = throttler.MakeThrottledSender(SendMoveUp, WalkThrottle);
+            SendClothRotate = throttler.MakeThrottledSender(SendClothRotate, ClothThrottle);
+            SendSay = throttler.MakeThrottledSender(SendSay, SayThrottle);
+            SendCharacterList = throttler.MakeThrottledSender(SendCharacterList, CharacterCommandThrottle);
         }
 
         public Task MoveDown()
@@ -91,45 +96,30 @@ namespace Client.Authoring.Behaviours.Protocols
         {
             return authProtocol.LoggedIn ? SendClothRotate() : Task.CompletedTask;
         }
+
+        public Task CharacterList()
+        {
+            return authProtocol.LoggedIn ? SendCharacterList() : Task.CompletedTask;
+        }
+
+        public event Func<CharactersNamesList, Task> OnCharacterListContent = null;
+        public event Func<Task> OnCharacterListError = null;
         
         /// <summary>
         ///   Initializes the protocol handlers once the server is ready.
         /// </summary>
         protected override void SetIncomingMessageHandlers()
         {
-            // This is the place to assign handlers to incoming messages.
-            // Since messages can be typed or untyped, as in the examples
-            // that were generated, there are two flavors for the message
-            // handling definition: typed, and untyped.
-            //
-            // AddIncomingMessageHandler("IntroduceYourself", async (proto) => {
-            //     // Notice how this message is not typed. The only argument
-            //     // is the protocol client side object itself.
-            //     //
-            //     // You can do what you want here, including sending messages:
-            //     // _ = SendHello(); // or: await SendHello();
-            //     // The difference is that, by awaiting, we ensure the message
-            //     // was actually sent or an error was triggered.
-            //     //
-            //     // PLEASE NOTE: IF YOUR CODE INVOLVES INTERACTION WITH UNITY
-            //     // COMPONENTS, THIS MUST ONLY OCCUR IN THE MAIN THREAD, and
-            //     // these handlers DO NOT RUN IN THE MAIN THREAD. You can do
-            //     // it by calling:
-            //     //
-            //     // await RunInMainThread(async () { ... the code ... });...
-            //     //
-            //     // Or, if waiting for it is not needed, just:
-            //     //
-            //     // _ = RunInMainThread(async () { ... the code ... });            
-            // });
-            //
-            // AddIncomingMessageHandler<MyType>("SomeTypedServerMessage", async (proto, msg) => {
-            //     // Notice how this message IS typed, as defined in the
-            //     // protocol definition. There is a new `msg` argument.
-            //     // This argument is of type MyType.
-            //     //
-            //     // Otherwise, this is the same as the untyped case.
-            // });
+            AddIncomingMessageHandler<CharactersNamesList>(EGGameProtocolDefinition.CharacterListContent,
+                async (_, content) =>
+                {
+                    await (OnCharacterListContent?.InvokeAsync(content) ?? Task.CompletedTask);
+                });
+            AddIncomingMessageHandler(EGGameProtocolDefinition.CharacterListError,
+                async (_) =>
+                {
+                    await (OnCharacterListError?.InvokeAsync() ?? Task.CompletedTask);
+                });
         }
         
         private AimType GetAimCell(INetRoseModelClientSide obj, Camera camera, Vector3 mousePosition)
