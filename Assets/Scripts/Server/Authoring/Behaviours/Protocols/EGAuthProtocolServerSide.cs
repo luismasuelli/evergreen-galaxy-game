@@ -134,6 +134,29 @@ namespace Server.Authoring.Behaviours.Protocols
         }
 
         /// <summary>
+        ///   Retrieves a list of characters for an account.
+        /// </summary>
+        /// <param name="connId">The connection id</param>
+        /// <returns>The result of the request</returns>
+        public async Task<Result<Character[], string>> ListCharacters(ulong connId)
+        {
+            if (!SessionExists(connId))
+            {
+                return null;
+            }
+
+            if (!TryGetSessionData(connId, "account", out object data))
+            {
+                return null;
+            }
+            else
+            {
+                string id = ((AccountData)data).GetID();
+                return await RunInMainThread(() => client.ListCharacters(id, true));
+            }
+        }
+
+        /// <summary>
         ///   Sets the currently selected character into the session.
         /// </summary>
         /// <param name="clientId">The id of the client to set the character to</param>
