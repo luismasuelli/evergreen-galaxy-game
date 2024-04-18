@@ -1,18 +1,21 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AlephVault.Unity.Binary;
 using UnityEngine;
-using AlephVault.Unity.WindRose.Authoring.Behaviours.World;
 using AlephVault.Unity.WindRose.Authoring.Behaviours.Entities.Objects;
 using AlephVault.Unity.Meetgard.Authoring.Behaviours.Server;
+using AlephVault.Unity.RemoteStorage.Types.Results;
 using Protocols;
 using Protocols.Messages;
+using Server.Authoring.Behaviours.External.Models;
 using Server.Authoring.Behaviours.NetworkObjects;
 
 namespace Server.Authoring.Behaviours.Protocols
 {
     using String = AlephVault.Unity.Binary.Wrappers.String;
+    using Map = AlephVault.Unity.WindRose.Authoring.Behaviours.World.Map;
 
     [RequireComponent(typeof(PlayerProtocolServerSide))]
     [RequireComponent(typeof(EGAuthProtocolServerSide))]
@@ -25,6 +28,10 @@ namespace Server.Authoring.Behaviours.Protocols
         private const int WalkThrottle = 0;
         private const int SayThrottle = 1;
         private const int ClothThrottle = 2;
+        private const int CharacterCommandThrottle = 3;
+
+        private Func<ulong, CharactersNamesList, Task> SendCharacterListContent;
+        private Func<ulong, Task> SendCharacterListError;
                 
         /// <summary>
         ///   A Post-Awake hook.
@@ -59,6 +66,8 @@ namespace Server.Authoring.Behaviours.Protocols
             // await UntilSendIsDone(SendSomeTypedMessage(someClientId, new MyType2(...)));
             //
             // Which will capture any error by calling OnSendError(e).
+            SendCharacterListContent = MakeSender<CharactersNamesList>(EGGameProtocolDefinition.CharacterListContent);
+            SendCharacterListError = MakeSender(EGGameProtocolDefinition.CharacterListError);
         }
 
         private void AddAuthenticatedIncomingMessageHandler(
@@ -113,6 +122,25 @@ namespace Server.Authoring.Behaviours.Protocols
             });
         }
 
+        // Sends a list of their characters to the client.
+        private async Task NotifyCharacterList(ulong connId)
+        {
+            Result<Character[], string> result = await authProtocol.ListCharacters(connId);
+            if (result == null)
+            {
+                await SendCharacterListError(connId);
+            }
+            else
+            {
+                await SendCharacterListContent(
+                    connId, new CharactersNamesList
+                    {
+                        CharacterNames = (from value in result.Element select value.DisplayName).ToArray()
+                    }
+                );
+            }
+        }
+
         /// <summary>
         ///   Initializes the protocol handlers once the server is ready.
         /// </summary>
@@ -141,6 +169,10 @@ namespace Server.Authoring.Behaviours.Protocols
                 CharacterServerSide character = principalProtocol.GetPrincipal(connId);
                 character.Say(content.Wrapped.Substring(0, EGGameProtocolDefinition.MaxSayLength));
             }, null, SayThrottle);
+            AddAuthThrottledCommandHandler(EGGameProtocolDefinition.CharacterList, async (connId) =>
+            {
+                await NotifyCharacterList(connId);
+            }, null, CharacterCommandThrottle);
         }
         
         private MapObject GetLowestTarget(Map map, ushort x, ushort y)

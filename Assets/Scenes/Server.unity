@@ -294,6 +294,7 @@ MonoBehaviour:
   - 500
   - 600
   - 600
+  - 1000
   consecutiveThrottleInterval: 10
 --- !u!1 &963194225
 GameObject:
