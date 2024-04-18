@@ -14,6 +14,12 @@ namespace Protocols
         public const string CharacterListContent = "Character:List:Content";
         public const string CharacterListError = "Character:List:Error";
         
+        // Character picking.
+        public const string CharacterPick = "Character:Pick";
+        public const string CharacterPickInvalid = "Character:Pick:Invalid";
+        public const string CharacterPickError = "Character:Pick:Error";
+        public const string CharacterPickAlreadyPicked = "Character:Pick:AlreadyPicked";
+        
         // One-character commands.
         
         // Movement in 4 directions.
@@ -37,6 +43,12 @@ namespace Protocols
             DefineClientMessage(CharacterList);
             DefineServerMessage<CharactersNamesList>(CharacterListContent);
             DefineServerMessage(CharacterListError);
+            
+            // Character picking.
+            DefineClientMessage<UInt>(CharacterPick);
+            DefineServerMessage(CharacterPickAlreadyPicked);
+            DefineServerMessage(CharacterPickInvalid);
+            DefineServerMessage(CharacterPickError);
             
             // Commands to move in any of the 4 directions:
             DefineClientMessage(MoveDown);
