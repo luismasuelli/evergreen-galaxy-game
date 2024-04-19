@@ -6,6 +6,9 @@ namespace Server.Authoring.Behaviours.Protocols
 {
     public class PlayerProtocolServerSide : PrincipalObjectsNetRoseProtocolServerSide<CharacterServerSide>
     {
+        public const string DefaultScope = "MainScope";
+        public const ushort DefaultMap = 0;
+        
         /**
          * Some method this class provides, and some tips on how to use them.
          *
