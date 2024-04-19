@@ -34,6 +34,7 @@ namespace Server.Authoring.Behaviours.Protocols
         private Func<ulong, CharactersNamesList, Task> SendCharacterListContent;
         private Func<ulong, Task> SendCharacterListError;
         private Func<ulong, CharacterPickError, Task> SendCharacterPickError;
+        private Func<ulong, Bool, Task> SendCharacterReleaseResponse;
                 
         /// <summary>
         ///   A Post-Awake hook.
@@ -71,6 +72,7 @@ namespace Server.Authoring.Behaviours.Protocols
             SendCharacterListContent = MakeSender<CharactersNamesList>(EGGameProtocolDefinition.CharacterListContent);
             SendCharacterListError = MakeSender(EGGameProtocolDefinition.CharacterListError);
             SendCharacterPickError = MakeSender<CharacterPickError>(EGGameProtocolDefinition.CharacterPickError);
+            SendCharacterReleaseResponse = MakeSender<Bool>(EGGameProtocolDefinition.CharacterReleaseResponse);
         }
 
         private void AddAuthenticatedIncomingMessageHandler(
@@ -204,6 +206,26 @@ namespace Server.Authoring.Behaviours.Protocols
                     await SendCharacterPickError(connId, new CharacterPickError {
                         Code = CharacterPickError.CharacterPickErrorCode.InvalidIndex
                     });
+                }
+            });
+            AddAuthThrottledCommandHandler(EGGameProtocolDefinition.CharacterRelease, async (connId) =>
+            {
+                try
+                {
+                    authProtocol.GetCharacter(connId);
+                }
+                catch (Exception e)
+                {
+                    await SendCharacterReleaseResponse(connId, false);
+                }
+
+                try
+                {
+                    await authProtocol.ClearCharacter(connId);
+                }
+                finally
+                {
+                    await SendCharacterReleaseResponse(connId, true);
                 }
             });
         }

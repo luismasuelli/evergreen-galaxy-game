@@ -12,6 +12,7 @@ namespace Client.Authoring.Behaviours.Protocols
 {
     using String = AlephVault.Unity.Binary.Wrappers.String;
     using UInt = AlephVault.Unity.Binary.Wrappers.UInt;
+    using Bool = AlephVault.Unity.Binary.Wrappers.Bool;
 
     [RequireComponent(typeof(EGAuthProtocolClientSide))]
     [RequireComponent(typeof(ClientSideThrottler))]
@@ -34,6 +35,7 @@ namespace Client.Authoring.Behaviours.Protocols
         private Func<String, Task> SendSay;
         private Func<Task> SendCharacterList;
         private Func<UInt, Task> SendCharacterPick;
+        private Func<Task> SendCharacterRelease;
         
         /// <summary>
         ///   A Post-Awake hook.
@@ -59,6 +61,7 @@ namespace Client.Authoring.Behaviours.Protocols
             SendSay = MakeSender<String>(EGGameProtocolDefinition.Say);
             SendCharacterList = MakeSender(EGGameProtocolDefinition.CharacterList);
             SendCharacterPick = MakeSender<UInt>(EGGameProtocolDefinition.CharacterPick);
+            SendCharacterRelease = MakeSender(EGGameProtocolDefinition.CharacterRelease);
             SendMoveDown = throttler.MakeThrottledSender(SendMoveDown, WalkThrottle);
             SendMoveLeft = throttler.MakeThrottledSender(SendMoveLeft, WalkThrottle);
             SendMoveRight = throttler.MakeThrottledSender(SendMoveRight, WalkThrottle);
@@ -67,6 +70,7 @@ namespace Client.Authoring.Behaviours.Protocols
             SendSay = throttler.MakeThrottledSender(SendSay, SayThrottle);
             SendCharacterList = throttler.MakeThrottledSender(SendCharacterList, CharacterCommandThrottle);
             SendCharacterPick = throttler.MakeThrottledSender(SendCharacterPick, CharacterCommandThrottle);
+            SendCharacterRelease = throttler.MakeThrottledSender(SendCharacterRelease, CharacterCommandThrottle);
         }
 
         public Task MoveDown()
@@ -115,6 +119,13 @@ namespace Client.Authoring.Behaviours.Protocols
         }
         
         public event Func<CharacterPickError, Task> OnCharacterPickError = null;
+
+        public Task CharacterRelease(uint index)
+        {
+            return authProtocol.LoggedIn ? SendCharacterRelease() : Task.CompletedTask;
+        }
+
+        public event Func<bool, Task> OnCharacterReleased = null;
         
         /// <summary>
         ///   Initializes the protocol handlers once the server is ready.
@@ -127,6 +138,8 @@ namespace Client.Authoring.Behaviours.Protocols
                 (_) => (OnCharacterListError?.InvokeAsync() ?? Task.CompletedTask));
             AddIncomingMessageHandler<CharacterPickError>(EGGameProtocolDefinition.CharacterPickError,
                 (_, content) => (OnCharacterPickError?.InvokeAsync(content) ?? Task.CompletedTask));
+            AddIncomingMessageHandler<Bool>(EGGameProtocolDefinition.CharacterReleaseResponse,
+                (_, result) => (OnCharacterReleased?.InvokeAsync(result) ?? Task.CompletedTask));
         }
         
         private AimType GetAimCell(INetRoseModelClientSide obj, Camera camera, Vector3 mousePosition)

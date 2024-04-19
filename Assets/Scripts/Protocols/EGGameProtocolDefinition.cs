@@ -17,6 +17,10 @@ namespace Protocols
         // Character picking.
         public const string CharacterPick = "Character:Pick";
         public const string CharacterPickError = "Character:Pick:Error";
+
+        // Character releasing.
+        public const string CharacterRelease = "Character:Release";
+        public const string CharacterReleaseResponse = "Character:Release:Response";
         
         // One-character commands.
         
@@ -45,6 +49,10 @@ namespace Protocols
             // Character picking.
             DefineClientMessage<UInt>(CharacterPick);
             DefineServerMessage<CharacterPickError>(CharacterPickError);
+            
+            // Character releasing.
+            DefineClientMessage(CharacterRelease);
+            DefineServerMessage<Bool>(CharacterReleaseResponse);
             
             // Commands to move in any of the 4 directions:
             DefineClientMessage(MoveDown);
