@@ -22,6 +22,11 @@ namespace Protocols
         public const string CharacterRelease = "Character:Release";
         public const string CharacterReleaseResponse = "Character:Release:Response";
         
+        // Character creation.
+        public const string CharacterCreate = "Character:Create";
+        public const string CharacterCreateOk = "Character:Create:Ok";
+        public const string CharacterCreateError = "Character:Create:Error";
+        
         // One-character commands.
         
         // Movement in 4 directions.
@@ -53,6 +58,11 @@ namespace Protocols
             // Character releasing.
             DefineClientMessage(CharacterRelease);
             DefineServerMessage<Bool>(CharacterReleaseResponse);
+            
+            // Character creation.
+            DefineClientMessage<CharacterCreationData>(CharacterCreate);
+            DefineServerMessage(CharacterCreateOk);
+            DefineServerMessage<CharacterCreateError>(CharacterCreateError);
             
             // Commands to move in any of the 4 directions:
             DefineClientMessage(MoveDown);
