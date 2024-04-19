@@ -47,6 +47,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets/Scripts/Protocols/EGAuthProtocolDefinition.cs" />
+    <Compile Include="Assets/Scripts/Protocols/Messages/CharacterCreationData.cs" />
+    <Compile Include="Assets/Scripts/Protocols/Messages/CharacterCreateError.cs" />
     <Compile Include="Assets/Scripts/Models/CharacterRefreshData.cs" />
     <Compile Include="Assets/Scripts/Client/Authoring/Behaviours/Protocols/EGAuthProtocolClientSide.cs" />
     <Compile Include="Assets/Scripts/Client/Authoring/Behaviours/Protocols/EGRegisterProtocolClientSide.cs" />
@@ -86,8 +88,6 @@
     <Compile Include="Assets/Scripts/Protocols/Messages/RegisterFailed.cs" />
     <Compile Include="Assets/Scripts/Protocols/Messages/Register.cs" />
     <Compile Include="Assets/Scripts/Protocols/Messages/CharactersNamesList.cs" />
-    <Compile Include="Assets\Scripts\Protocols\Messages\CharacterCreateError.cs" />
-    <Compile Include="Assets\Scripts\Protocols\Messages\CharacterCreationData.cs" />
     <None Include="/home/luis/Projects/Mine/Games/unity-boilerplates/package.json" />
     <None Include="/home/luis/Projects/Mine/Games/unity-soundaround/package.json" />
     <None Include="Assets/TextMesh Pro/Shaders/TMPro.cginc" />
