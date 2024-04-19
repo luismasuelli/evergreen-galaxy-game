@@ -23,6 +23,7 @@ namespace Server.Authoring.Behaviours.Protocols
     [RequireComponent(typeof(ServerSideThrottler))]
     public class EGGameProtocolServerSide : ProtocolServerSide<EGGameProtocolDefinition>
     {
+        private const int MaxCharacters = 10;
         private PlayerProtocolServerSide principalProtocol;
         private EGAuthProtocolServerSide authProtocol;
         private ServerSideThrottler throttler;
@@ -35,6 +36,8 @@ namespace Server.Authoring.Behaviours.Protocols
         private Func<ulong, Task> SendCharacterListError;
         private Func<ulong, CharacterPickError, Task> SendCharacterPickError;
         private Func<ulong, Bool, Task> SendCharacterReleaseResponse;
+        private Func<ulong, Task> SendCharacterCreateOk;
+        private Func<ulong, CharacterCreateError, Task> SendCharacterCreateError;
                 
         /// <summary>
         ///   A Post-Awake hook.
@@ -73,6 +76,8 @@ namespace Server.Authoring.Behaviours.Protocols
             SendCharacterListError = MakeSender(EGGameProtocolDefinition.CharacterListError);
             SendCharacterPickError = MakeSender<CharacterPickError>(EGGameProtocolDefinition.CharacterPickError);
             SendCharacterReleaseResponse = MakeSender<Bool>(EGGameProtocolDefinition.CharacterReleaseResponse);
+            SendCharacterCreateOk = MakeSender(EGGameProtocolDefinition.CharacterCreateOk);
+            SendCharacterCreateError = MakeSender<CharacterCreateError>(EGGameProtocolDefinition.CharacterCreateError);
         }
 
         private void AddAuthenticatedIncomingMessageHandler(
@@ -228,6 +233,68 @@ namespace Server.Authoring.Behaviours.Protocols
                     await SendCharacterReleaseResponse(connId, true);
                 }
             });
+            AddAuthThrottledCommandHandler<CharacterCreationData>(EGGameProtocolDefinition.CharacterCreate,
+                async (connId, data) =>
+                {
+                    try
+                    {
+                        authProtocol.GetCharacter(connId);
+                        await SendCharacterCreateError(connId, new CharacterCreateError {
+                            Code = CharacterCreateError.CharacterCreateErrorCode.AlreadyPicked
+                        });
+                        return;
+                    }
+                    catch {}
+                    
+                    try
+                    {
+                        Result<Character[], string> preResult = await authProtocol.ListCharacters(connId);
+                        if (preResult.Code != ResultCode.Ok)
+                        {
+                            await SendCharacterCreateError(connId, new CharacterCreateError {
+                                Code = CharacterCreateError.CharacterCreateErrorCode.UnknownError
+                            });
+                        }
+                        else if (preResult.Element.Length >= MaxCharacters)
+                        {
+                            await SendCharacterCreateError(connId, new CharacterCreateError {
+                                Code = CharacterCreateError.CharacterCreateErrorCode.MaxCharactersReached
+                            });
+                        }
+                        
+                        Result<Character, string> result = await authProtocol.CreateCharacter(connId, data);
+                        switch (result.Code)
+                        {
+                            case ResultCode.Ok:
+                            case ResultCode.Created:
+                                await SendCharacterCreateOk(connId);
+                                authProtocol.SetCharacter(connId, result.Element);
+                                break;
+                            case ResultCode.DuplicateKey:
+                                await SendCharacterCreateError(connId, new CharacterCreateError {
+                                    Code = CharacterCreateError.CharacterCreateErrorCode.DisplayNameInUse
+                                });
+                                break;
+                            case ResultCode.ValidationError:
+                                await SendCharacterCreateError(connId, new CharacterCreateError {
+                                    Code = CharacterCreateError.CharacterCreateErrorCode.InvalidData,
+                                    // Perhaps implement this? Errors = result.ValidationErrors
+                                });
+                                break;
+                            default:
+                                await SendCharacterCreateError(connId, new CharacterCreateError {
+                                    Code = CharacterCreateError.CharacterCreateErrorCode.UnknownError
+                                });
+                                break;
+                        }
+                    }
+                    catch
+                    {
+                        await SendCharacterCreateError(connId, new CharacterCreateError {
+                            Code = CharacterCreateError.CharacterCreateErrorCode.UnknownError
+                        });
+                    }
+                });
         }
         
         private MapObject GetLowestTarget(Map map, ushort x, ushort y)
