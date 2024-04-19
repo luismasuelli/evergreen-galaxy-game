@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using AlephVault.Unity.Meetgard.Auth.Types;
 using AlephVault.Unity.Meetgard.Auth.Protocols.Simple;
 using AlephVault.Unity.RemoteStorage.Types.Results;
+using Core.Types.Characters;
 using Newtonsoft.Json.Linq;
 using Protocols;
 using Protocols.Messages;
@@ -140,11 +141,6 @@ namespace Server.Authoring.Behaviours.Protocols
         /// <returns>The result of the request</returns>
         public async Task<Result<Character[], string>> ListCharacters(ulong connId)
         {
-            if (!SessionExists(connId))
-            {
-                return null;
-            }
-
             if (!TryGetSessionData(connId, "account", out object data))
             {
                 return null;
@@ -184,7 +180,6 @@ namespace Server.Authoring.Behaviours.Protocols
         /// <returns>The result of the post-mortem Save request</returns>
         public async Task<Result<Character, string>> ClearCharacter(ulong clientId)
         {
-            if (!SessionExists(clientId)) return null;
             Character character;
             try
             {
@@ -203,6 +198,35 @@ namespace Server.Authoring.Behaviours.Protocols
             {
                 { "$set", new JObject(character) }
             }));
+        }
+
+        public async Task<Result<Character, string>> CreateCharacter(ulong clientId, CharacterCreationData data)
+        {
+            Character character = new Character
+            {
+                AccountId = ((AccountData)GetSessionData(clientId, "account")).GetID(),
+                DisplayName = data.DisplayName,
+                Sex = data.Sex, Race = data.Race,
+                Hair = data.Hair, HairColor = data.HairColor,
+                ClothColor = ClothColorType.None,
+                Position = new Position
+                {
+                    Scope = PlayerProtocolServerSide.DefaultScope,
+                    Map = PlayerProtocolServerSide.DefaultMap,
+                    X = 50, Y = 50
+                }
+            };
+            Result<Character, string> result = await RunInMainThread(() => client.CreateCharacter(character));
+            if (result.Code != ResultCode.Ok)
+            {
+                return result;
+            }
+
+            character.Id = result.CreatedID;
+            return new Result<Character, string>
+            {
+                Code = ResultCode.Ok, Element = character, CreatedID = character.Id
+            };
         }
 
         private async Task HandleSessionStarted(ulong clientId, AccountData data)
