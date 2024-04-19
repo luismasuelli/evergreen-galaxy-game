@@ -60,7 +60,6 @@
     <Compile Include="Assets/Scripts/Core/Types/Characters/SexType.cs" />
     <Compile Include="Assets/Scripts/Protocols/Messages/AccountPreviewData.cs" />
     <Compile Include="Assets/Scripts/Server/Authoring/Behaviours/Protocols/EGAuthProtocolServerSide.cs" />
-    <Compile Include="Assets/Scripts/Core/Types/Characters/HairColor.cs" />
     <Compile Include="Assets/Scripts/Server/Authoring/Behaviours/Protocols/PlayerProtocolServerSide.cs" />
     <Compile Include="Assets/Scripts/Models/CharacterSpawnData.cs" />
     <Compile Include="Assets/Scripts/Core/Types/Characters/HairType.cs" />
@@ -75,8 +74,10 @@
     <Compile Include="Assets/Scripts/Server/Authoring/Behaviours/NetworkObjects/CharacterServerSide.cs" />
     <Compile Include="Assets/Scripts/Client/Authoring/Behaviours/NetworkObjects/CharacterClientSide.cs" />
     <Compile Include="Assets/Scripts/Server/Authoring/Behaviours/Protocols/EGGameProtocolServerSide.cs" />
+    <Compile Include="Assets/Scripts/Core/Types/Characters/HairColorType.cs" />
     <Compile Include="Assets/Scripts/Protocols/Messages/Kicked.cs" />
     <Compile Include="Assets/Scripts/Server/Authoring/Behaviours/External/Models/Scope.cs" />
+    <Compile Include="Assets/Scripts/Protocols/Messages/CharacterPickError.cs" />
     <Compile Include="Assets/Scripts/Core/Types/Characters/ClothColorType.cs" />
     <Compile Include="Assets/Scripts/Server/Authoring/Behaviours/External/Models/Map.cs" />
     <Compile Include="Assets/Scripts/Core/Authoring/Behaviours/MapObjects/Character.cs" />
@@ -84,6 +85,9 @@
     <Compile Include="Assets/Scripts/Server/Authoring/Behaviours/External/Models/Character.cs" />
     <Compile Include="Assets/Scripts/Protocols/Messages/RegisterFailed.cs" />
     <Compile Include="Assets/Scripts/Protocols/Messages/Register.cs" />
+    <Compile Include="Assets/Scripts/Protocols/Messages/CharactersNamesList.cs" />
+    <Compile Include="Assets\Scripts\Protocols\Messages\CharacterCreateError.cs" />
+    <Compile Include="Assets\Scripts\Protocols\Messages\CharacterCreationData.cs" />
     <None Include="/home/luis/Projects/Mine/Games/unity-boilerplates/package.json" />
     <None Include="/home/luis/Projects/Mine/Games/unity-soundaround/package.json" />
     <None Include="Assets/TextMesh Pro/Shaders/TMPro.cginc" />
