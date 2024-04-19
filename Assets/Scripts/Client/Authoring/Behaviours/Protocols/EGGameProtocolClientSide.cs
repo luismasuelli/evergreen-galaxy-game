@@ -36,6 +36,7 @@ namespace Client.Authoring.Behaviours.Protocols
         private Func<Task> SendCharacterList;
         private Func<UInt, Task> SendCharacterPick;
         private Func<Task> SendCharacterRelease;
+        private Func<CharacterCreationData, Task> SendCharacterCreate;
         
         /// <summary>
         ///   A Post-Awake hook.
@@ -62,6 +63,7 @@ namespace Client.Authoring.Behaviours.Protocols
             SendCharacterList = MakeSender(EGGameProtocolDefinition.CharacterList);
             SendCharacterPick = MakeSender<UInt>(EGGameProtocolDefinition.CharacterPick);
             SendCharacterRelease = MakeSender(EGGameProtocolDefinition.CharacterRelease);
+            SendCharacterCreate = MakeSender<CharacterCreationData>(EGGameProtocolDefinition.CharacterCreate);
             SendMoveDown = throttler.MakeThrottledSender(SendMoveDown, WalkThrottle);
             SendMoveLeft = throttler.MakeThrottledSender(SendMoveLeft, WalkThrottle);
             SendMoveRight = throttler.MakeThrottledSender(SendMoveRight, WalkThrottle);
@@ -71,6 +73,7 @@ namespace Client.Authoring.Behaviours.Protocols
             SendCharacterList = throttler.MakeThrottledSender(SendCharacterList, CharacterCommandThrottle);
             SendCharacterPick = throttler.MakeThrottledSender(SendCharacterPick, CharacterCommandThrottle);
             SendCharacterRelease = throttler.MakeThrottledSender(SendCharacterRelease, CharacterCommandThrottle);
+            SendCharacterCreate = throttler.MakeThrottledSender(SendCharacterCreate, CharacterCommandThrottle);
         }
 
         public Task MoveDown()
@@ -126,6 +129,15 @@ namespace Client.Authoring.Behaviours.Protocols
         }
 
         public event Func<bool, Task> OnCharacterReleased = null;
+
+        public Task CharacterCreate(CharacterCreationData data)
+        {
+            return authProtocol.LoggedIn ? SendCharacterCreate(data) : Task.CompletedTask;
+        }
+
+        public event Func<Task> OnCharacterCreated = null;
+
+        public event Func<CharacterCreateError, Task> OnCharacterCreateError = null;
         
         /// <summary>
         ///   Initializes the protocol handlers once the server is ready.
@@ -140,6 +152,10 @@ namespace Client.Authoring.Behaviours.Protocols
                 (_, content) => (OnCharacterPickError?.InvokeAsync(content) ?? Task.CompletedTask));
             AddIncomingMessageHandler<Bool>(EGGameProtocolDefinition.CharacterReleaseResponse,
                 (_, result) => (OnCharacterReleased?.InvokeAsync(result) ?? Task.CompletedTask));
+            AddIncomingMessageHandler(EGGameProtocolDefinition.CharacterCreateOk, 
+                (_) => (OnCharacterCreated?.InvokeAsync() ?? Task.CompletedTask));
+            AddIncomingMessageHandler<CharacterCreateError>(EGGameProtocolDefinition.CharacterCreateError, 
+                (_, error) => (OnCharacterCreateError?.InvokeAsync(error) ?? Task.CompletedTask));
         }
         
         private AimType GetAimCell(INetRoseModelClientSide obj, Camera camera, Vector3 mousePosition)
