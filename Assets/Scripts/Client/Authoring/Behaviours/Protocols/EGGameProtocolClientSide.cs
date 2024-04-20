@@ -120,7 +120,8 @@ namespace Client.Authoring.Behaviours.Protocols
         {
             return authProtocol.LoggedIn ? SendCharacterPick((UInt)index) : Task.CompletedTask;
         }
-        
+
+        public event Func<Task> OnCharacterPickOk = null;
         public event Func<CharacterPickError, Task> OnCharacterPickError = null;
 
         public Task CharacterRelease()
@@ -149,6 +150,8 @@ namespace Client.Authoring.Behaviours.Protocols
                 (_, content) => (OnCharacterListOk?.InvokeAsync(content) ?? Task.CompletedTask));
             AddIncomingMessageHandler(EGGameProtocolDefinition.CharacterListError,
                 (_) => (OnCharacterListError?.InvokeAsync() ?? Task.CompletedTask));
+            AddIncomingMessageHandler(EGGameProtocolDefinition.CharacterPickOk,
+                (_) => (OnCharacterPickOk?.InvokeAsync() ?? Task.CompletedTask));
             AddIncomingMessageHandler<CharacterPickError>(EGGameProtocolDefinition.CharacterPickError,
                 (_, content) => (OnCharacterPickError?.InvokeAsync(content) ?? Task.CompletedTask));
             AddIncomingMessageHandler(EGGameProtocolDefinition.CharacterReleaseOk,

@@ -34,6 +34,7 @@ namespace Server.Authoring.Behaviours.Protocols
 
         private Func<ulong, CharactersNamesList, Task> SendCharacterListOk;
         private Func<ulong, Task> SendCharacterListError;
+        private Func<ulong, Task> SendCharacterPickOk;
         private Func<ulong, CharacterPickError, Task> SendCharacterPickError;
         private Func<ulong, Task> SendCharacterReleaseOk;
         private Func<ulong, Task> SendCharacterReleaseError;
@@ -75,6 +76,7 @@ namespace Server.Authoring.Behaviours.Protocols
             // Which will capture any error by calling OnSendError(e).
             SendCharacterListOk = MakeSender<CharactersNamesList>(EGGameProtocolDefinition.CharacterListOk);
             SendCharacterListError = MakeSender(EGGameProtocolDefinition.CharacterListError);
+            SendCharacterPickOk = MakeSender(EGGameProtocolDefinition.CharacterPickOk);
             SendCharacterPickError = MakeSender<CharacterPickError>(EGGameProtocolDefinition.CharacterPickError);
             SendCharacterReleaseOk = MakeSender(EGGameProtocolDefinition.CharacterReleaseOk);
             SendCharacterReleaseError = MakeSender(EGGameProtocolDefinition.CharacterReleaseError);
@@ -207,6 +209,7 @@ namespace Server.Authoring.Behaviours.Protocols
                 else if (index < result.Element.Length)
                 {
                     authProtocol.SetCharacter(connId, result.Element[index]);
+                    await SendCharacterPickOk(connId);
                 }
                 else
                 {
