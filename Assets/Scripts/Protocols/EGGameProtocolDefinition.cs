@@ -11,11 +11,12 @@ namespace Protocols
 
         // Characters listing.
         public const string CharacterList = "Character:List";
-        public const string CharacterListContent = "Character:List:Content";
+        public const string CharacterListOk = "Character:List:Ok";
         public const string CharacterListError = "Character:List:Error";
         
         // Character picking.
         public const string CharacterPick = "Character:Pick";
+        public const string CharacterPickOk = "Character:Pick:Ok";
         public const string CharacterPickError = "Character:Pick:Error";
 
         // Character releasing.
@@ -48,11 +49,12 @@ namespace Protocols
         {
             // Characters listing.
             DefineClientMessage(CharacterList);
-            DefineServerMessage<CharactersNamesList>(CharacterListContent);
+            DefineServerMessage<CharactersNamesList>(CharacterListOk);
             DefineServerMessage(CharacterListError);
             
             // Character picking.
             DefineClientMessage<UInt>(CharacterPick);
+            DefineServerMessage(CharacterPickOk);
             DefineServerMessage<CharacterPickError>(CharacterPickError);
             
             // Character releasing.

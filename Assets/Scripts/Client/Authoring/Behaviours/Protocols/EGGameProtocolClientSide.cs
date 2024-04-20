@@ -113,7 +113,7 @@ namespace Client.Authoring.Behaviours.Protocols
             return authProtocol.LoggedIn ? SendCharacterList() : Task.CompletedTask;
         }
 
-        public event Func<CharactersNamesList, Task> OnCharacterListContent = null;
+        public event Func<CharactersNamesList, Task> OnCharacterListOk = null;
         public event Func<Task> OnCharacterListError = null;
 
         public Task CharacterPick(uint index)
@@ -144,8 +144,8 @@ namespace Client.Authoring.Behaviours.Protocols
         /// </summary>
         protected override void SetIncomingMessageHandlers()
         {
-            AddIncomingMessageHandler<CharactersNamesList>(EGGameProtocolDefinition.CharacterListContent, 
-                (_, content) => (OnCharacterListContent?.InvokeAsync(content) ?? Task.CompletedTask));
+            AddIncomingMessageHandler<CharactersNamesList>(EGGameProtocolDefinition.CharacterListOk, 
+                (_, content) => (OnCharacterListOk?.InvokeAsync(content) ?? Task.CompletedTask));
             AddIncomingMessageHandler(EGGameProtocolDefinition.CharacterListError,
                 (_) => (OnCharacterListError?.InvokeAsync() ?? Task.CompletedTask));
             AddIncomingMessageHandler<CharacterPickError>(EGGameProtocolDefinition.CharacterPickError,

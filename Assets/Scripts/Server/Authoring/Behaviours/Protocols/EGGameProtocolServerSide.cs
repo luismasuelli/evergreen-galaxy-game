@@ -32,7 +32,7 @@ namespace Server.Authoring.Behaviours.Protocols
         private const int ClothThrottle = 2;
         private const int CharacterCommandThrottle = 3;
 
-        private Func<ulong, CharactersNamesList, Task> SendCharacterListContent;
+        private Func<ulong, CharactersNamesList, Task> SendCharacterListOk;
         private Func<ulong, Task> SendCharacterListError;
         private Func<ulong, CharacterPickError, Task> SendCharacterPickError;
         private Func<ulong, Bool, Task> SendCharacterReleaseResponse;
@@ -72,7 +72,7 @@ namespace Server.Authoring.Behaviours.Protocols
             // await UntilSendIsDone(SendSomeTypedMessage(someClientId, new MyType2(...)));
             //
             // Which will capture any error by calling OnSendError(e).
-            SendCharacterListContent = MakeSender<CharactersNamesList>(EGGameProtocolDefinition.CharacterListContent);
+            SendCharacterListOk = MakeSender<CharactersNamesList>(EGGameProtocolDefinition.CharacterListOk);
             SendCharacterListError = MakeSender(EGGameProtocolDefinition.CharacterListError);
             SendCharacterPickError = MakeSender<CharacterPickError>(EGGameProtocolDefinition.CharacterPickError);
             SendCharacterReleaseResponse = MakeSender<Bool>(EGGameProtocolDefinition.CharacterReleaseResponse);
@@ -142,7 +142,7 @@ namespace Server.Authoring.Behaviours.Protocols
             }
             else
             {
-                await SendCharacterListContent(
+                await SendCharacterListOk(
                     connId, new CharactersNamesList
                     {
                         CharacterNames = (from value in result.Element select value.DisplayName).ToArray()
