@@ -18,7 +18,7 @@ namespace Server.Authoring.Behaviours.Protocols
         void Start()
         {
             ServerLauncherConfig config = JsonUtility.FromJson<ServerLauncherConfig>("config.json");
-            server.StartServer(config.Port);
+            server.StartServer(config.Port == 0 ? ServerLauncherConfig.DefaultPort : config.Port);
         }
     }
 }
