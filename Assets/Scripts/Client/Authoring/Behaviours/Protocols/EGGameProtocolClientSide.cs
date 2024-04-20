@@ -123,7 +123,7 @@ namespace Client.Authoring.Behaviours.Protocols
         
         public event Func<CharacterPickError, Task> OnCharacterPickError = null;
 
-        public Task CharacterRelease(uint index)
+        public Task CharacterRelease()
         {
             return authProtocol.LoggedIn ? SendCharacterRelease() : Task.CompletedTask;
         }
