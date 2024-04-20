@@ -1,5 +1,5 @@
 using AlephVault.Unity.Meetgard.Authoring.Behaviours.Server;
-using Server.Authoring.Types;
+using Server.Authoring.Behaviours.Types;
 using UnityEngine;
 
 namespace Server.Authoring.Behaviours.Protocols

@@ -1,7 +1,7 @@
 using System;
 using Newtonsoft.Json;
 
-namespace Server.Authoring.Types
+namespace Server.Authoring.Behaviours.Types
 {
     /// <summary>
     ///   The server config.
