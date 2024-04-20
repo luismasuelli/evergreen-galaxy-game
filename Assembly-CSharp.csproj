@@ -50,7 +50,9 @@
     <Compile Include="Assets/Scripts/Protocols/Messages/CharacterCreationData.cs" />
     <Compile Include="Assets/Scripts/Protocols/Messages/CharacterCreateError.cs" />
     <Compile Include="Assets/Scripts/Models/CharacterRefreshData.cs" />
+    <Compile Include="Assets/Scripts/Server/Authoring/Types/ServerLauncherConfig.cs" />
     <Compile Include="Assets/Scripts/Client/Authoring/Behaviours/Protocols/EGAuthProtocolClientSide.cs" />
+    <Compile Include="Assets/Scripts/Server/Authoring/Behaviours/ServerLauncher.cs" />
     <Compile Include="Assets/Scripts/Client/Authoring/Behaviours/Protocols/EGRegisterProtocolClientSide.cs" />
     <Compile Include="Assets/Scripts/Client/Authoring/Behaviours/UI/EGActiveUI.cs" />
     <Compile Include="Assets/Scripts/Models/CharacterCommonData.cs" />
