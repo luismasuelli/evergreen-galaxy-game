@@ -128,7 +128,8 @@ namespace Client.Authoring.Behaviours.Protocols
             return authProtocol.LoggedIn ? SendCharacterRelease() : Task.CompletedTask;
         }
 
-        public event Func<bool, Task> OnCharacterReleased = null;
+        public event Func<Task> OnCharacterReleaseOk = null;
+        public event Func<Task> OnCharacterReleaseError = null;
 
         public Task CharacterCreate(CharacterCreationData data)
         {
@@ -150,8 +151,10 @@ namespace Client.Authoring.Behaviours.Protocols
                 (_) => (OnCharacterListError?.InvokeAsync() ?? Task.CompletedTask));
             AddIncomingMessageHandler<CharacterPickError>(EGGameProtocolDefinition.CharacterPickError,
                 (_, content) => (OnCharacterPickError?.InvokeAsync(content) ?? Task.CompletedTask));
-            AddIncomingMessageHandler<Bool>(EGGameProtocolDefinition.CharacterReleaseResponse,
-                (_, result) => (OnCharacterReleased?.InvokeAsync(result) ?? Task.CompletedTask));
+            AddIncomingMessageHandler(EGGameProtocolDefinition.CharacterReleaseOk,
+                (_) => (OnCharacterReleaseOk?.InvokeAsync() ?? Task.CompletedTask));
+            AddIncomingMessageHandler(EGGameProtocolDefinition.CharacterReleaseError,
+                (_) => (OnCharacterReleaseError?.InvokeAsync() ?? Task.CompletedTask));
             AddIncomingMessageHandler(EGGameProtocolDefinition.CharacterCreateOk, 
                 (_) => (OnCharacterCreated?.InvokeAsync() ?? Task.CompletedTask));
             AddIncomingMessageHandler<CharacterCreateError>(EGGameProtocolDefinition.CharacterCreateError, 

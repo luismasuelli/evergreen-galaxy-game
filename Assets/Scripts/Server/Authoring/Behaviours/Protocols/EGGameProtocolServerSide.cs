@@ -35,7 +35,8 @@ namespace Server.Authoring.Behaviours.Protocols
         private Func<ulong, CharactersNamesList, Task> SendCharacterListOk;
         private Func<ulong, Task> SendCharacterListError;
         private Func<ulong, CharacterPickError, Task> SendCharacterPickError;
-        private Func<ulong, Bool, Task> SendCharacterReleaseResponse;
+        private Func<ulong, Task> SendCharacterReleaseOk;
+        private Func<ulong, Task> SendCharacterReleaseError;
         private Func<ulong, Task> SendCharacterCreateOk;
         private Func<ulong, CharacterCreateError, Task> SendCharacterCreateError;
                 
@@ -75,7 +76,8 @@ namespace Server.Authoring.Behaviours.Protocols
             SendCharacterListOk = MakeSender<CharactersNamesList>(EGGameProtocolDefinition.CharacterListOk);
             SendCharacterListError = MakeSender(EGGameProtocolDefinition.CharacterListError);
             SendCharacterPickError = MakeSender<CharacterPickError>(EGGameProtocolDefinition.CharacterPickError);
-            SendCharacterReleaseResponse = MakeSender<Bool>(EGGameProtocolDefinition.CharacterReleaseResponse);
+            SendCharacterReleaseOk = MakeSender(EGGameProtocolDefinition.CharacterReleaseOk);
+            SendCharacterReleaseError = MakeSender(EGGameProtocolDefinition.CharacterReleaseError);
             SendCharacterCreateOk = MakeSender(EGGameProtocolDefinition.CharacterCreateOk);
             SendCharacterCreateError = MakeSender<CharacterCreateError>(EGGameProtocolDefinition.CharacterCreateError);
         }
@@ -221,7 +223,7 @@ namespace Server.Authoring.Behaviours.Protocols
                 }
                 catch (Exception e)
                 {
-                    await SendCharacterReleaseResponse(connId, false);
+                    await SendCharacterReleaseError(connId);
                 }
 
                 try
@@ -230,7 +232,7 @@ namespace Server.Authoring.Behaviours.Protocols
                 }
                 finally
                 {
-                    await SendCharacterReleaseResponse(connId, true);
+                    await SendCharacterReleaseOk(connId);
                 }
             });
             AddAuthThrottledCommandHandler<CharacterCreationData>(EGGameProtocolDefinition.CharacterCreate,

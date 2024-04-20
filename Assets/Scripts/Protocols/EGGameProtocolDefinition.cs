@@ -21,7 +21,8 @@ namespace Protocols
 
         // Character releasing.
         public const string CharacterRelease = "Character:Release";
-        public const string CharacterReleaseResponse = "Character:Release:Response";
+        public const string CharacterReleaseOk = "Character:Release:Ok";
+        public const string CharacterReleaseError = "Character:Release:Error";
         
         // Character creation.
         public const string CharacterCreate = "Character:Create";
@@ -59,7 +60,8 @@ namespace Protocols
             
             // Character releasing.
             DefineClientMessage(CharacterRelease);
-            DefineServerMessage<Bool>(CharacterReleaseResponse);
+            DefineServerMessage(CharacterReleaseOk);
+            DefineServerMessage(CharacterReleaseError);
             
             // Character creation.
             DefineClientMessage<CharacterCreationData>(CharacterCreate);
