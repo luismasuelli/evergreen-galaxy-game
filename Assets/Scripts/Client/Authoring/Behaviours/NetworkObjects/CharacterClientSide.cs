@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using AlephVault.Unity.NetRose.Authoring.Behaviours.Client;
 using Core.Authoring.Behaviours.MapObjects;
@@ -12,6 +13,16 @@ namespace Client.Authoring.Behaviours.NetworkObjects
         ///   Tracks the current instance.
         /// </summary>
         public static CharacterClientSide Instance { get; private set; } = null;
+
+        /// <summary>
+        ///   An event to attend when the local instance is spawned.
+        /// </summary>
+        public static event Action OnPlayerCharacterSpawned;
+        
+        /// <summary>
+        ///   An event to attend when the local instance is de-spawned.
+        /// </summary>
+        public static event Action OnPlayerCharacterDespawned;
         
         // The main camera.
         private static Camera mainCamera;
@@ -43,12 +54,20 @@ namespace Client.Authoring.Behaviours.NetworkObjects
         private void NetRoseModelClientSide_OnDespawned()
         {
             // Do something on local despawn.
-            if (Instance == this) Instance = null;
+            if (Instance == this)
+            {
+                Instance = null;
+                OnPlayerCharacterDespawned?.Invoke();
+            }
         }
 
         protected override void InflateOwnedFrom(CharacterSpawnData fullData)
         {
-            if (isOwned) Instance = this;
+            if (isOwned)
+            {
+                Instance = this;
+                OnPlayerCharacterSpawned?.Invoke();
+            }
             character.Name = fullData.DisplayName;
             fullData.ApplyInto(MapObject);
         }
