@@ -79,7 +79,7 @@ namespace Client.Authoring.Behaviours.UI
 
             if (!characterCreateUI)
             {
-                throw new Exception("No character UI is set");
+                throw new Exception("No character create UI is set");
             }
             if (!goCharacterCreateButton)
             {
