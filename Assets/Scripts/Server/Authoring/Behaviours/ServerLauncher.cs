@@ -17,7 +17,19 @@ namespace Server.Authoring.Behaviours.Protocols
         // Start is called before the first frame update
         void Start()
         {
-            ServerLauncherConfig config = JsonUtility.FromJson<ServerLauncherConfig>("config.json");
+            ServerLauncherConfig config;
+            try
+            {
+                config = JsonUtility.FromJson<ServerLauncherConfig>("config.json");
+            }
+            catch
+            {
+                Debug.Log("Using the default configuration since no config.json file is present");
+                config = new ServerLauncherConfig
+                {
+                    Port = ServerLauncherConfig.DefaultPort
+                };
+            }
             server.StartServer(config.Port == 0 ? ServerLauncherConfig.DefaultPort : config.Port);
         }
     }
