@@ -15,7 +15,7 @@ namespace Client.Authoring.Behaviours.UI
     ///   A UI to pick a character
     /// </summary>
     [RequireComponent(typeof(Image))]
-    public class EGCharacterPick : MonoBehaviour
+    public class EGCharacterPickUI : MonoBehaviour
     {
         /// <summary>
         ///   The involved network client.
