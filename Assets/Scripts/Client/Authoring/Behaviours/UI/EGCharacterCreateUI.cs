@@ -12,7 +12,7 @@ namespace Client.Authoring.Behaviours.UI
     using UnityEngine.UI;
 
     /// <summary>
-    ///   A UI to pick a character
+    ///   A UI to pick a character.
     /// </summary>
     [RequireComponent(typeof(Image))]
     public class EGCharacterCreateUI : MonoBehaviour
