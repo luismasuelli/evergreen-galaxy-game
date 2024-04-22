@@ -146,9 +146,9 @@ namespace Client.Authoring.Behaviours.UI
             await gameProtocol.CharacterList();
         }
 
-        private async Task OnCharacterReleased()
+        private Task OnCharacterReleased()
         {
-            gameObject.SetActive(true);
+            return gameProtocol.RunInMainThread(() => { gameObject.SetActive(true); });
         }
 
         private Task OnCharacterPickOk()
