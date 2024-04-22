@@ -50,7 +50,6 @@
     <Compile Include="Assets/Scripts/Protocols/Messages/CharacterCreationData.cs" />
     <Compile Include="Assets/Scripts/Protocols/Messages/CharacterCreateError.cs" />
     <Compile Include="Assets/Scripts/Models/CharacterRefreshData.cs" />
-    <Compile Include="Assets/Scripts/Server/Authoring/Types/ServerLauncherConfig.cs" />
     <Compile Include="Assets/Scripts/Client/Authoring/Behaviours/Protocols/EGAuthProtocolClientSide.cs" />
     <Compile Include="Assets/Scripts/Server/Authoring/Behaviours/ServerLauncher.cs" />
     <Compile Include="Assets/Scripts/Client/Authoring/Behaviours/Protocols/EGRegisterProtocolClientSide.cs" />
@@ -58,6 +57,7 @@
     <Compile Include="Assets/Scripts/Models/CharacterCommonData.cs" />
     <Compile Include="Assets/Scripts/Client/Authoring/Behaviours/UI/EGRegisterUI.cs" />
     <Compile Include="Assets/Scripts/Server/Authoring/Behaviours/External/Models/MultiCharAccount.cs" />
+    <Compile Include="Assets/Scripts/Server/Authoring/Behaviours/Types/ServerLauncherConfig.cs" />
     <Compile Include="Assets/Scripts/Protocols/EGGameProtocolDefinition.cs" />
     <Compile Include="Assets/Scripts/Server/Authoring/Behaviours/External/Client/MultiCharAccountAPIClient.cs" />
     <Compile Include="Assets/Scripts/Server/Authoring/Behaviours/External/Models/Position.cs" />
@@ -68,6 +68,7 @@
     <Compile Include="Assets/Scripts/Models/CharacterSpawnData.cs" />
     <Compile Include="Assets/Scripts/Core/Types/Characters/HairType.cs" />
     <Compile Include="Assets/Scripts/Protocols/Messages/AimType.cs" />
+    <Compile Include="Assets/Scripts/Client/Authoring/Behaviours/UI/EGCharacterCreateUI.cs" />
     <Compile Include="Assets/Scripts/Core/Types/Characters/RaceType.cs" />
     <Compile Include="Assets/Scripts/Client/Authoring/Behaviours/UI/EGAuthUI.cs" />
     <Compile Include="Assets/Scripts/Protocols/EGRegisterProtocolDefinition.cs" />
@@ -76,12 +77,14 @@
     <Compile Include="Assets/Scripts/Server/Authoring/Types/AccountData.cs" />
     <Compile Include="Assets/Scripts/Protocols/Messages/LoginFailed.cs" />
     <Compile Include="Assets/Scripts/Server/Authoring/Behaviours/NetworkObjects/CharacterServerSide.cs" />
+    <Compile Include="Assets/Scripts/Client/Authoring/Behaviours/UI/EGCharacterPickUI.cs" />
     <Compile Include="Assets/Scripts/Client/Authoring/Behaviours/NetworkObjects/CharacterClientSide.cs" />
     <Compile Include="Assets/Scripts/Server/Authoring/Behaviours/Protocols/EGGameProtocolServerSide.cs" />
     <Compile Include="Assets/Scripts/Core/Types/Characters/HairColorType.cs" />
     <Compile Include="Assets/Scripts/Protocols/Messages/Kicked.cs" />
     <Compile Include="Assets/Scripts/Server/Authoring/Behaviours/External/Models/Scope.cs" />
     <Compile Include="Assets/Scripts/Protocols/Messages/CharacterPickError.cs" />
+    <Compile Include="Assets/Scripts/Client/Authoring/Behaviours/UI/EGCharacterCloseUI.cs" />
     <Compile Include="Assets/Scripts/Core/Types/Characters/ClothColorType.cs" />
     <Compile Include="Assets/Scripts/Server/Authoring/Behaviours/External/Models/Map.cs" />
     <Compile Include="Assets/Scripts/Core/Authoring/Behaviours/MapObjects/Character.cs" />
