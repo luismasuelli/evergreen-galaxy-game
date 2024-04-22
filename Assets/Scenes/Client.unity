@@ -10370,11 +10370,8 @@ MonoBehaviour:
   client: {fileID: 473662297}
   closeButton: {fileID: 1992080664}
   closeDialog: {fileID: 1224152964}
-  errorDialog: {fileID: 427944772}
-  errorDialogText: {fileID: 511708063}
-  errorOkButton: {fileID: 718471306}
-  selectCharacterDialog: {fileID: 0}
-  createCharacterDialog: {fileID: 0}
+  selectCharacterDialog: {fileID: 100052700}
+  createCharacterDialog: {fileID: 1036595486}
 --- !u!114 &1060402656
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17397,7 +17394,7 @@ GameObject:
   - component: {fileID: 1992080665}
   - component: {fileID: 1992080664}
   m_Layer: 5
-  m_Name: Button
+  m_Name: Close
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
