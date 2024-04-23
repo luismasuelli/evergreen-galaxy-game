@@ -12,7 +12,7 @@ namespace Server.Authoring.Behaviours.Types
         /// <summary>
         ///   The default port, if not specified.
         /// </summary>
-        public const ushort DefaultPort = 7667;
+        public const ushort DefaultPort = 6777;
         
         /// <summary>
         ///   The game port. By default, 7667.
