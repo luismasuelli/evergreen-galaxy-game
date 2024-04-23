@@ -27,10 +27,11 @@ namespace Server.Authoring.Behaviours.Protocols
                 Debug.Log("Using the default configuration since no config.json file is present");
                 config = new ServerLauncherConfig
                 {
-                    Port = ServerLauncherConfig.DefaultPort
+                    // TODO add a default config.
                 };
             }
-            server.StartServer(config.Port == 0 ? ServerLauncherConfig.DefaultPort : config.Port);
+            // TODO use this config later.
+            server.StartServer(6777);
         }
     }
 }
