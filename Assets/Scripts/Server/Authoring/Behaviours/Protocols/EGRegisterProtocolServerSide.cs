@@ -47,7 +47,7 @@ namespace Server.Authoring.Behaviours.Protocols
                         Password = register.Password
                     })
                 );
-                if (result.Code == ResultCode.Ok)
+                if (result.Code == ResultCode.Ok || result.Code == ResultCode.Created)
                 {
                     return AcceptRegister(Nothing.Instance);
                 }
