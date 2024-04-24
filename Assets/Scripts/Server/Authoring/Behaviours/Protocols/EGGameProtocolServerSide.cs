@@ -112,7 +112,11 @@ namespace Server.Authoring.Behaviours.Protocols
                     {
                         await handler(connId);
                     }
-                    catch(Exception e) { /* Handle this */ }
+                    catch (Exception e)
+                    {
+                        /* Handle this */
+                        throw;
+                    }
                 }, onThrottled, index);
             });
         }
@@ -185,7 +189,9 @@ namespace Server.Authoring.Behaviours.Protocols
             }, null, SayThrottle);
             AddAuthThrottledCommandHandler(EGGameProtocolDefinition.CharacterList, async (connId) =>
             {
+                Debug.Log("Character list command received");
                 await NotifyCharacterList(connId);
+                Debug.Log("Character list result sent");
             }, null, CharacterCommandThrottle);
             AddAuthThrottledCommandHandler<UInt>(EGGameProtocolDefinition.CharacterPick, async (connId, index) =>
             {
@@ -342,7 +348,7 @@ namespace Server.Authoring.Behaviours.Protocols
             // handlers.
             
             // Uncomment this line if your class should use throttling.
-            // throttler.TrackConnection(clientId);
+            throttler.TrackConnection(clientId);
         }
 
         /// <summary>
@@ -363,7 +369,7 @@ namespace Server.Authoring.Behaviours.Protocols
             // handlers.
 
             // Uncomment this line if your class should use throttling.
-            // throttler.UntrackConnection(clientId);
+            throttler.UntrackConnection(clientId);
         }
         
         /// <summary>
@@ -381,7 +387,7 @@ namespace Server.Authoring.Behaviours.Protocols
             // handlers.
 
             // Uncomment this line if your class should use throttling.
-            // throttler.Startup();
+            throttler.Startup();
         }
 
         /// <summary>
@@ -404,7 +410,7 @@ namespace Server.Authoring.Behaviours.Protocols
             // handlers.
 
             // Uncomment this line if your class should use throttling.
-            // throttler.Teardown();
+            throttler.Teardown();
         }
     }
 }
