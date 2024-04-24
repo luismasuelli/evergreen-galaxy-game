@@ -115,7 +115,7 @@ namespace Server.Authoring.Behaviours.External
         /// <returns>A storage characters-related result</returns>
         public Task<Result<Character[], string>> ListCharacters(string lookup, bool useId = false)
         {
-            return Accounts.ViewTo<Character[]>("by-account", new Dictionary<string, string>
+            return Characters.ViewTo<Character[]>("by-account", new Dictionary<string, string>
             {
                 {useId ? "id" : "login", lookup}
             });
