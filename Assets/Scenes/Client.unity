@@ -10334,7 +10334,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1060402654
 RectTransform:
   m_ObjectHideFlags: 0
@@ -14257,7 +14257,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1497379000
 RectTransform:
   m_ObjectHideFlags: 0
@@ -16523,7 +16523,7 @@ MonoBehaviour:
   username: {fileID: 595421565}
   password: {fileID: 1927360515}
   passwordConfirm: {fileID: 208463275}
-  statusLabel: {fileID: 0}
+  statusLabel: {fileID: 908222471}
   submit: {fileID: 79929517}
   buttonToAuthenticate: {fileID: 320727544}
   authenticateUI: {fileID: 1497378999}
