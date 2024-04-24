@@ -55,7 +55,7 @@ namespace Client.Authoring.Behaviours.UI
                 throw new Exception("No network client is referenced in this object!");
             }
             
-            playerProtocol = GetComponent<NetRoseProtocolClientSide>();
+            playerProtocol = client.GetComponent<NetRoseProtocolClientSide>();
             if (!playerProtocol)
             {
                 throw new Exception("The client does not have a NetRose protocol");
