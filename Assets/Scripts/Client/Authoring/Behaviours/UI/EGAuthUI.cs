@@ -74,6 +74,10 @@ namespace Client.Authoring.Behaviours.UI
         /// </summary>
         [SerializeField]
         private GameObject registerUI;
+
+        // Whether the user is either logged in or in the
+        // login screen.
+        private bool inLoginCycle = false;
         
         // The client's register protocol.
         private EGAuthProtocolClientSide protocol;
@@ -115,6 +119,7 @@ namespace Client.Authoring.Behaviours.UI
         {
             if (buttonToRegister && registerUI) {
                 buttonToRegister.onClick.AddListener(() => {
+                    inLoginCycle = false;
                     gameObject.SetActive(false);
                     registerUI.SetActive(true);
                 });
@@ -129,6 +134,7 @@ namespace Client.Authoring.Behaviours.UI
         private void OnEnable()
         {
             SetStatus("Press \"Sign In\" to continue...");
+            inLoginCycle = true;
         }
 
         private void OnDestroy()
@@ -157,7 +163,7 @@ namespace Client.Authoring.Behaviours.UI
                 protocol.Handshake.OnTimeout -= OnTimeout;
                 submit.interactable = true;
                 buttonToRegister.interactable = true;
-                UseCanvas(false);
+                if (inLoginCycle) UseCanvas(false);
             });
         }
         
