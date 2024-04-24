@@ -189,9 +189,7 @@ namespace Server.Authoring.Behaviours.Protocols
             }, null, SayThrottle);
             AddAuthThrottledCommandHandler(EGGameProtocolDefinition.CharacterList, async (connId) =>
             {
-                Debug.Log("Character list command received");
                 await NotifyCharacterList(connId);
-                Debug.Log("Character list result sent");
             }, null, CharacterCommandThrottle);
             AddAuthThrottledCommandHandler<UInt>(EGGameProtocolDefinition.CharacterPick, async (connId, index) =>
             {
