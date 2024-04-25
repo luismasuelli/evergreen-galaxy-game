@@ -206,7 +206,7 @@ namespace Client.Authoring.Behaviours.UI
                             int idx2 = idx;
                             button.onClick.RemoveAllListeners();
                             button.onClick.AddListener(() => { PickCharacter(idx2); });
-                            button.GetComponent<TMP_Text>().text = list.CharacterNames[idx];
+                            button.GetComponentInChildren<TMP_Text>().text = list.CharacterNames[idx];
                             button.gameObject.SetActive(true);
                         }
                         else
