@@ -4190,10 +4190,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   throttleLapses:
-  - 750
-  - 900
-  - 900
-  - 1500
+  - 0.75
+  - 0.9
+  - 0.9
+  - 1.5
 --- !u!114 &473662307
 MonoBehaviour:
   m_ObjectHideFlags: 0
