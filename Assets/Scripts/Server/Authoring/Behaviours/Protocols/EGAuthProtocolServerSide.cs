@@ -82,6 +82,12 @@ namespace Server.Authoring.Behaviours.Protocols
                     // when moving this to a production environment.
                     return RejectLogin(new LoginFailed { Reason = "mismatch" });
                 }
+                if (result.Code == ResultCode.BadRequest)
+                {
+                    // The name was not provided
+                    return RejectLogin(new LoginFailed() { Reason = "missing_username" });
+                }
+                Debug.Log($"Result: {result.Code}");
                 return RejectLogin(new LoginFailed() { Reason = "server_error" });
             });
         }
