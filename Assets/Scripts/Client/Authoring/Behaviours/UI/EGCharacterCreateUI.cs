@@ -209,7 +209,7 @@ namespace Client.Authoring.Behaviours.UI
                         text = "Unknown error";
                         break;
                 }
-                statusText.text = "Error picking character: " + text;
+                statusText.text = "Error creating character: " + text;
             });
         }
     }
