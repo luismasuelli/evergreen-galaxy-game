@@ -138,6 +138,8 @@ namespace Server.Authoring.Behaviours.Protocols
             // WARNING: EVERY CALL TO AN EXTERNAL API OR USING A GAME OBJECT
             //          OR BEHAVIOUR MUST BE DONE IN THE CONTEXT OF A CALL TO
             //          RunInMainThread OR IT WILL SILENTLY FAIL.
+            Debug.Log($">>> OnSessionError {clientId} {stage}");
+            Debug.LogException(error);
         }
 
         /// <summary>
@@ -202,7 +204,7 @@ namespace Server.Authoring.Behaviours.Protocols
 
             return await RunInMainThread(() => client.UpdateCharacter(character.Id, new JObject
             {
-                { "$set", new JObject(character) }
+                { "$set", JObject.FromObject(character) }
             }));
         }
 
@@ -248,7 +250,7 @@ namespace Server.Authoring.Behaviours.Protocols
             Result<MultiCharAccount, string> result = await RunInMainThread(
                 () => client.UpdateAccount(account.GetID(), new JObject
                 {
-                    { "$set", new JObject(account) }
+                    { "$set", JObject.FromObject(account.Account) }
                 })
             );
             if (result.Code != ResultCode.Ok)
@@ -286,7 +288,7 @@ namespace Server.Authoring.Behaviours.Protocols
                         AccountData account = (AccountData)GetSessionData(clientId, "account");
                         RunInMainThread(() => client.UpdateAccount(account.GetID(), new JObject
                         {
-                            { "$set", new JObject(account) }
+                            { "$set", JObject.FromObject(account) }
                         }));
                     }
                     catch (Exception)
@@ -302,7 +304,7 @@ namespace Server.Authoring.Behaviours.Protocols
                         Character characterModel = GetCharacter(clientId);
                         RunInMainThread(() => client.UpdateCharacter(characterModel.Id, new JObject
                         {
-                            { "$set", new JObject(characterModel) }
+                            { "$set", JObject.FromObject(characterModel) }
                         }));
                     }
                     catch (Exception) {}
