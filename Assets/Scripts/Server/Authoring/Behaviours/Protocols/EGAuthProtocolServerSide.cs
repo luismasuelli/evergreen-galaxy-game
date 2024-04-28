@@ -195,7 +195,7 @@ namespace Server.Authoring.Behaviours.Protocols
             }
             catch
             {
-                return null;
+                return new Result<Character, string> { Code = ResultCode.Ok };
             }
 
             // It will be removed and saved.
@@ -268,6 +268,10 @@ namespace Server.Authoring.Behaviours.Protocols
             Result<Character, string> result2 = await ClearCharacter(clientId);
             if (result2.Code != ResultCode.Ok)
             {
+                Debug.Log($"Account: {account}");
+                Debug.Log($"Account's model: {account?.Account}");
+                Debug.Log($"Account's model's login: {account?.Account?.Login}");
+                Debug.Log($"Result2: {result2}");
                 Debug.LogWarning(
                     $"WARNING: Session for user {account.Account.Login} ({clientId}) " +
                     $"could not store the character out of an error code: {result2.Code}"
