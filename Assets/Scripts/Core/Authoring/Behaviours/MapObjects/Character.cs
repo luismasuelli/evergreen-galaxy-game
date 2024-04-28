@@ -79,7 +79,7 @@ namespace Core.Authoring.Behaviours.MapObjects
 
         private void OnDestroy()
         {
-            if (visual) Destroy(visual);
+            if (visual) Destroy(visual.gameObject);
         }
     }
 }
