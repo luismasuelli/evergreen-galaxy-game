@@ -228,7 +228,7 @@ namespace Client.Authoring.Behaviours.UI
 
         private async void PickCharacter(int index)
         {
-            statusText.text = "Piking character...";
+            statusText.text = "Picking character...";
             await gameProtocol.CharacterPick((uint)index);
         }
     }
