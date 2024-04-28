@@ -14,6 +14,8 @@ namespace Core.Authoring.Behaviours.MapObjects
     [RequireComponent(typeof(MapObject))]
     public class Character : MonoBehaviour
     {
+        private Visual visual;
+        
         // Used to match spaces.
         private static Regex rxSpaces = new(@"[\s+]{2,}", RegexOptions.None);
         private const float TextTimeout = 10f;
@@ -27,7 +29,7 @@ namespace Core.Authoring.Behaviours.MapObjects
 
         private void Awake()
         {
-            Visual visual = GetComponent<MapObject>().MainVisual;
+            visual = GetComponent<MapObject>().MainVisual;
             if (visual)
             {
                 nameObj = visual.transform.Find("Name").GetComponent<TMP_Text>();
@@ -73,6 +75,11 @@ namespace Core.Authoring.Behaviours.MapObjects
                 textTimeout -= Time.deltaTime;
                 if (textTimeout <= 0) textObj.text = "";
             }
+        }
+
+        private void OnDestroy()
+        {
+            if (visual) Destroy(visual);
         }
     }
 }
