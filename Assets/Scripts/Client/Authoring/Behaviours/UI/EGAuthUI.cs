@@ -75,6 +75,18 @@ namespace Client.Authoring.Behaviours.UI
         [SerializeField]
         private GameObject registerUI;
 
+        /// <summary>
+        ///   The character pick UI.
+        /// </summary>
+        [SerializeField]
+        private GameObject characterPickUI;
+
+        /// <summary>
+        ///   The character create UI.
+        /// </summary>
+        [SerializeField]
+        private GameObject characterCreateUI;
+
         // Whether the user is either logged in or in the
         // login screen.
         private bool inLoginCycle = false;
@@ -112,6 +124,11 @@ namespace Client.Authoring.Behaviours.UI
                 onlineUI.SetActive(online);
                 // Please note: I changed the offlineUI for this same object.
                 gameObject.SetActive(!online);
+                if (!online)
+                {
+                    characterPickUI.SetActive(false);
+                    characterCreateUI.SetActive(false);
+                }
             });
         }
         
@@ -203,10 +220,12 @@ namespace Client.Authoring.Behaviours.UI
         {
             SetStatus("Logging in...");
             protocol.Handshake.OnWelcome -= OnWelcome;
+            Debug.Log("Pre-login-send");
             await protocol.DefaultLoginSender(new Login() {
                 Username = username.text,
                 Password = password.text
             });
+            Debug.Log("Post-login-send");
         }
         
         private async Task OnTimeout()
