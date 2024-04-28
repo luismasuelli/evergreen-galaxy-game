@@ -199,13 +199,9 @@ namespace Server.Authoring.Behaviours.Protocols
             }
 
             // It will be removed and saved.
-            playerProtocol.RemoveCharacter(clientId);
+            await RunInMainThread(() => playerProtocol.RemoveCharacter(clientId));
             RemoveSessionData(clientId, "character");
-
-            return await RunInMainThread(() => client.UpdateCharacter(character.Id, new JObject
-            {
-                { "$set", JObject.FromObject(character) }
-            }));
+            return await RunInMainThread(() => client.UpdateCharacter(character.Id, ToUpdateObject(character)));
         }
 
         public async Task<Result<Character, string>> CreateCharacter(ulong clientId, CharacterCreationData data)
@@ -236,6 +232,16 @@ namespace Server.Authoring.Behaviours.Protocols
                 Code = ResultCode.Ok, Element = character, CreatedID = character.Id
             };
         }
+        
+        private JObject ToUpdateObject(object obj)
+        {
+            JObject jobj = JObject.FromObject(obj);
+            jobj.Remove("_id");
+            return new JObject
+            {
+                {"$set", jobj}
+            };
+        }
 
         private async Task HandleSessionStarted(ulong clientId, AccountData data)
         {
@@ -248,10 +254,7 @@ namespace Server.Authoring.Behaviours.Protocols
             activeSessions.Remove(clientId);
             AccountData account = (AccountData)GetSessionData(clientId, "account");
             Result<MultiCharAccount, string> result = await RunInMainThread(
-                () => client.UpdateAccount(account.GetID(), new JObject
-                {
-                    { "$set", JObject.FromObject(account.Account) }
-                })
+                () => client.UpdateAccount(account.GetID(), ToUpdateObject(account.Account))
             );
             if (result.Code != ResultCode.Ok)
             {
@@ -286,10 +289,7 @@ namespace Server.Authoring.Behaviours.Protocols
                     try
                     {
                         AccountData account = (AccountData)GetSessionData(clientId, "account");
-                        RunInMainThread(() => client.UpdateAccount(account.GetID(), new JObject
-                        {
-                            { "$set", JObject.FromObject(account) }
-                        }));
+                        RunInMainThread(() => client.UpdateAccount(account.GetID(), ToUpdateObject(account)));
                     }
                     catch (Exception)
                     {
@@ -302,10 +302,7 @@ namespace Server.Authoring.Behaviours.Protocols
                         if (!character.NetRoseScopeServerSide) continue;
                         character.Save();
                         Character characterModel = GetCharacter(clientId);
-                        RunInMainThread(() => client.UpdateCharacter(characterModel.Id, new JObject
-                        {
-                            { "$set", JObject.FromObject(characterModel) }
-                        }));
+                        RunInMainThread(() => client.UpdateCharacter(characterModel.Id, ToUpdateObject(characterModel)));
                     }
                     catch (Exception) {}
                 }
