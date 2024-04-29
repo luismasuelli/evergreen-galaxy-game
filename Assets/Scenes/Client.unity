@@ -14320,6 +14320,8 @@ MonoBehaviour:
   onlineUI: {fileID: 1060402653}
   buttonToRegister: {fileID: 1617329004}
   registerUI: {fileID: 1797620821}
+  characterPickUI: {fileID: 100052700}
+  characterCreateUI: {fileID: 1036595486}
 --- !u!114 &1497379002
 MonoBehaviour:
   m_ObjectHideFlags: 0
